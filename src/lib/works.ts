@@ -20,6 +20,30 @@ export type Work = {
 
 export const WORKS: Work[] = [
   {
+    slug:     'santiago-and-luna',
+    title:    'Santiago & Luna',
+    category: 'Private Wedding',
+    location: 'Tulum, Mexico',
+    season:   'Winter',
+    year:     '2027',
+    cover:    '/assets/sl/sl-la-ceremonia.png',
+    images:   [],
+    tagline:  'A luxury Mexican heirloom. A scratch-revealed love story, four chapters, one celebration.',
+    intro:
+      'They met in a classroom. A warm afternoon, somewhere in Mexico, long before either of them understood what they had found. Years later, a question on the Tulum coastline changed everything.',
+    body: [
+      'The brief asked for something that had never existed before in our studio: a digital heirloom, not a wedding website. The experience opens on a scratch-reveal interaction — guests uncover a hand-rendered talavera motif beneath their own touch before the story begins.',
+      'Four chapters carry the couple from their first glance to their wedding day, each with its own palette drawn from Mexican craft traditions — warm terracotta, deep emerald, aged gold, talavera blue — never tourist, never cliché.',
+      'The RSVP was renamed "Your Reply Is Awaited," and a Memory Vault invites guests to leave photographs, voice messages, and written notes — becoming part of the archive rather than simply attending it.',
+    ],
+    details: {
+      guests:    '120',
+      countries: '9',
+      duration:  '5 months',
+      format:    'Full immersive digital heirloom + scratch-reveal opening',
+    },
+  },
+  {
     slug:     'the-crossing',
     title:    'The Crossing',
     category: 'Private Wedding',
