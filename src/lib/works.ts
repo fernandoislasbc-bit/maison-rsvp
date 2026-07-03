@@ -20,6 +20,30 @@ export type Work = {
 
 export const WORKS: Work[] = [
   {
+    slug:     'oliver-and-daniela',
+    title:    'Oliver & Daniela',
+    category: 'Private Wedding',
+    location: 'Kelowna, Canada',
+    season:   'Summer',
+    year:     '2026',
+    cover:    '/assets/od/couple-painting.png',
+    images:   ['/assets/od/venue.png'],
+    tagline:  'A Van Gogh love story. Swirling brush strokes, a winery at golden hour, and a proposal painted in starlight.',
+    intro:
+      'Oliver and Daniela wanted something that felt like a painting — not a website. An experience built in the visual language of Van Gogh: impasto texture, swirling night skies, and golden light across Kelowna vineyards.',
+    body: [
+      'The brief was immediate: it had to feel like art. Not inspired by art. Not referencing art. Actually painted. The entire visual system — backgrounds, transitions, borders, particles — was built from Post-Impressionist principles.',
+      'The invitation opens with a cinematic book-opening video. No names. No text. Only movement and golden light — so that when Oliver and Daniela\'s names finally appear, they emerge like paint drying on canvas.',
+      'A Van Gogh Starry Night proposal scene was painted for the hero. The venue — a greenhouse winery among Kelowna vines — was rendered in the same impasto style. Oil paint dab particles drift across every section. The RSVP section sits against a deep navy swirling sky.',
+    ],
+    details: {
+      guests:    '80',
+      countries: '5',
+      duration:  '3 months',
+      format:    'Full cinematic digital invitation + RSVP',
+    },
+  },
+  {
     slug:     'neil-and-riley',
     title:    'Neil & Riley',
     category: 'Private Wedding',
