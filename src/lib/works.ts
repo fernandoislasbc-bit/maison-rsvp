@@ -20,6 +20,30 @@ export type Work = {
 
 export const WORKS: Work[] = [
   {
+    slug:     'neil-and-riley',
+    title:    'Neil & Riley',
+    category: 'Private Wedding',
+    location: 'Vancouver, Canada',
+    season:   'Autumn',
+    year:     '2026',
+    cover:    '/assets/nr/newspaper-invitation.png',
+    images:   [],
+    tagline:  'A cinematic heirloom invitation. Burgundy velvet, a letter that opens, and a story told in gold.',
+    intro:
+      'Neil and Riley asked for something that felt like receiving a physical luxury invitation — but in digital form. The experience opens with a cinematic video of an envelope being opened, dissolving into a full immersive story.',
+    body: [
+      'The brief was deceptively simple: make it feel like an object, not a website. An envelope. A letter. Something that a guest receives, holds, and opens.',
+      'We built the entire experience around the moment of opening — a full-screen cinematic video of a burgundy velvet envelope, a gloved hand holding an ivory box stamped "you are invited," and a newspaper-style invitation that reveals itself on scroll.',
+      'Gold sparkle particles drift across every video section, activated by scroll. The ring photographs animate in from opposite sides of the screen and float past each other on parallax as the guest scrolls. The RSVP section is called "Your Reply Is Awaited."',
+    ],
+    details: {
+      guests:    '120',
+      countries: '8',
+      duration:  '4 months',
+      format:    'Full cinematic digital invitation + RSVP',
+    },
+  },
+  {
     slug:     'santiago-and-luna',
     title:    'Santiago & Luna',
     category: 'Private Wedding',
