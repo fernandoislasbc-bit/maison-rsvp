@@ -16,32 +16,89 @@ export type Work = {
     duration?:  string;
     format?:    string;
   };
+  /** URL of the live invitation experience (internal or external). When set,
+      the story page shows an "Enter Invitation" button linking to it. */
+  experienceUrl?: string;
 };
 
 export const WORKS: Work[] = [
   {
+    slug:     'oliver-and-charlotte',
+    title:    'Oliver & Charlotte',
+    category: 'Private Wedding',
+    location: 'Vaughan, Canada',
+    season:   'Autumn',
+    year:     '2027',
+    cover:    '/assets/oc/oc-proposal-cover.png',
+    images:   ['/assets/oc/couple.png'],
+    tagline:  'The Secret Garden of Toronto. Botanical romance at The Arlington Estate, painted in blush, sage, and gold.',
+    intro:
+      'Oliver Bennett and Charlotte Sinclair wanted their invitation to feel like stepping into a secret garden — an English botanical dream transplanted to The Arlington Estate in Vaughan, Ontario.',
+    body: [
+      'The brief called for softness: blush petals, sage leaves, warm golds — a palette drawn from the estate gardens in September light.',
+      'The experience unfolds like a garden walk. Botanical illustrations bloom as the guest scrolls, the venue reveals itself through layered parallax, and the couple\'s story is told in hand-set serif type between the flowers.',
+      'The RSVP arrives at the end of the path — a quiet clearing after the garden, where guests leave their reply among the petals.',
+    ],
+    details: {
+      guests:   '150',
+      duration: '3 months',
+      format:   'Full cinematic digital invitation + RSVP',
+    },
+    experienceUrl: '/experiences/oliver-and-charlotte/index.html',
+  },
+  {
+    slug:     'thomas-and-grace',
+    title:    'Thomas & Grace',
+    category: 'Private Wedding',
+    location: 'Côte d\'Azur, France',
+    season:   'Summer',
+    year:     '2027',
+    cover:    '/assets/tg/tg-couple.png',
+    images:   [
+      '/assets/tg/tg-proposal.png',
+      '/assets/tg/tg-vineyard.png',
+      '/assets/tg/tg-birds.png',
+    ],
+    tagline:  'Cobalt florals, lemon groves, hummingbirds in flight — a Mediterranean toile de Jouy invitation.',
+    intro:
+      'Thomas and Grace wanted their invitation to feel like a piece of Delft porcelain come to life — cobalt blue botanical illustrations, lemons heavy with summer, and hummingbirds in perpetual flight across a cream canvas.',
+    body: [
+      'The visual world was drawn from the toile de Jouy tradition — a style born in the French countryside for rendering pastoral scenes in a single ink colour on ivory ground. We translated it into motion.',
+      'The experience opens on a garden of animated birds. Guests enter through a veil of cobalt hummingbirds that part to reveal the invitation — their names in script, the date in Roman numerals, and a vineyard table set for a summer night.',
+      'An animated "Save the Date" plays as a cinematic moment. The proposal scene, painted in blue and gold, carries their story. The editorial couple portrait — sunglasses, wedding rings forward — announces their personality.',
+    ],
+    details: {
+      guests:    '120',
+      countries: '9',
+      duration:  '4 months',
+      format:    'Full immersive digital invitation + animated save the date + RSVP',
+    },
+    experienceUrl: '/work/thomas-and-grace',
+  },
+  {
     slug:     'oliver-and-daniela',
-    title:    'Oliver & Daniela',
+    title:    'Oliver & Daniella',
     category: 'Private Wedding',
     location: 'Kelowna, Canada',
     season:   'Summer',
     year:     '2026',
-    cover:    '/assets/od/couple-painting.png',
-    images:   ['/assets/od/venue.png'],
-    tagline:  'A Van Gogh love story. Swirling brush strokes, a winery at golden hour, and a proposal painted in starlight.',
+    cover:    '/assets/od/od-proposal.png',
+    images:   ['/assets/od/od-proposal.png', '/assets/od/od-greenhouse.png', '/assets/od/od-couple.png'],
+    tagline:  'An embossed tropical garden. Blush palms, rose parrots in flight, and a Positano proposal carved in ivory and rose quartz.',
     intro:
-      'Oliver and Daniela wanted something that felt like a painting — not a website. An experience built in the visual language of Van Gogh: impasto texture, swirling night skies, and golden light across Kelowna vineyards.',
+      'Oliver and Daniella wanted their invitation to feel like holding a carved relief — an embossed world of blush palms, tropical birds, and a crescent moon suspended in a garden of roses.',
     body: [
-      'The brief was immediate: it had to feel like art. Not inspired by art. Not referencing art. Actually painted. The entire visual system — backgrounds, transitions, borders, particles — was built from Post-Impressionist principles.',
-      'The invitation opens with a cinematic book-opening video. No names. No text. Only movement and golden light — so that when Oliver and Daniela\'s names finally appear, they emerge like paint drying on canvas.',
-      'A Van Gogh Starry Night proposal scene was painted for the hero. The venue — a greenhouse winery among Kelowna vines — was rendered in the same impasto style. Oil paint dab particles drift across every section. The RSVP section sits against a deep navy swirling sky.',
+      'The entire visual language was built from a single aesthetic: the three-dimensional embossed bas-relief. Every image feels sculpted — as if pressed from soft plaster or ivory — with botanical palms, parrots, hibiscus, and dates rendered in tones of blush, rose, mauve, and sage.',
+      'The experience opens on a cinematic video entrance. Guests arrive through motion and stillness, then step into a world where rose petals fall across every chapter. The proposal — on a Positano balcony at golden hour — is rendered in the same embossed style, all cream and lavender and candlelight.',
+      'The venue: a glass greenhouse draped in climbing roses in Kelowna. The RSVP opens against an ambient video of the botanical world in motion. The invitation card itself is the embossed frame — palm trees, birds, a crescent moon — waiting for the guests\' names in its centre.',
     ],
     details: {
       guests:    '80',
       countries: '5',
       duration:  '3 months',
-      format:    'Full cinematic digital invitation + RSVP',
+      format:    'Full immersive digital invitation + RSVP',
     },
+    experienceUrl: '/work/oliver-and-daniela',
   },
   {
     slug:     'neil-and-riley',

@@ -6,6 +6,10 @@ import Link from 'next/link';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
 import ScrollExpandMedia from '@/components/ui/scroll-expansion-hero';
+import SilkHero from '@/components/ui/silk-background-animation';
+import GrainHeroSection from '@/components/ui/grain-gradient-hero-section';
+import WorksCinematicCarousel from '@/components/ui/works-cinematic-carousel';
+import { WORKS as ALL_WORKS } from '@/lib/works';
 
 /* ─── Data ─────────────────────────────────────────── */
 const TESTIMONIALS = [
@@ -13,51 +17,48 @@ const TESTIMONIALS = [
     text:  'We had seen every wedding website. Every template. What Maison RSVP created felt like nothing we had ever encountered. Our guests called to tell us they had held their breath.',
     by:    'C. & A. Worthington',
     when:  'Château de la Marquise, Bordeaux — 2024',
+    short: 'Our guests called to tell us they had held their breath.',
   },
   {
-    text:  'Our members expect a certain quality of experience. The invitation Maison RSVP built for our founders’ evening was the finest piece of digital design our club has ever presented.',
+    text:  "Our members expect a certain quality of experience. The invitation Maison RSVP built for our founders' evening was the finest piece of digital design our club has ever presented.",
     by:    'E. Laroche',
     when:  'The Corinthian Club, London — 2024',
+    short: 'The finest piece of digital design our club has ever presented.',
   },
   {
     text:  'We brief the finest hotels, the finest florists. The invitation is the first impression. Working with Maison RSVP is simply the correct choice for events at this level.',
     by:    'I. Fontaine',
     when:  'Private Client Services, Geneva — 2023',
+    short: 'Simply the correct choice for events at this level.',
   },
   {
-    text:  "My mother’s eighty-fifth birthday. My father’s gift to her was commissioning this. She has never stopped speaking about it. Neither has anyone who received it.",
+    text:  "My mother's eighty-fifth birthday. My father's gift to her was commissioning this. She has never stopped speaking about it. Neither has anyone who received it.",
     by:    'T. Blackwood',
     when:  'Private — 2023',
+    short: 'She has never stopped speaking about it.',
   },
 ];
 
-const WORKS = [
-  {
-    img:      '/assets/editorial-1.jpg',
-    date:     'Bordeaux — Autumn 2024',
-    title:    'The Bellmont',
-    note:     'A wedding invitation composed as a nocturne. Candlelight on stone. The sound of quiet ceremony. Received in forty-two countries.',
-    location: 'Private Wedding',
-  },
-  {
-    img:      '/assets/editorial-2.jpg',
-    date:     'Paris — Spring 2024',
-    title:    'Hôtel Particulier',
-    note:     "An annual founders’ dinner for a private members’ house. The invitation arrived as a document of silence. Three hundred guests. One evening. No second commission.",
-    location: "Private Members’ Club",
-  },
-  {
-    img:      '/assets/editorial-3.jpg',
-    date:     'Geneva — Winter 2023',
-    title:    'A Golden Anniversary',
-    note:     'Fifty years. A gift from a husband to his wife. Built to feel like the memory of their first morning together.',
-    location: 'Private Anniversary',
-  },
-];
+const FEATURED_SLUGS = ['thomas-and-grace', 'oliver-and-daniela', 'neil-and-riley', 'santiago-and-luna'] as const;
+const FEATURED_WORKS = FEATURED_SLUGS.map(s => ALL_WORKS.find(w => w.slug === s)!);
+
+// Archive: only show works with a real built experience page
+const REAL_ARCHIVE_SLUGS = new Set(['oliver-and-charlotte']);
+const OTHER_WORKS = ALL_WORKS.filter(w =>
+  !(FEATURED_SLUGS as readonly string[]).includes(w.slug) &&
+  (REAL_ARCHIVE_SLUGS.has(w.slug) || !!w.experienceUrl)
+);
 
 /* ═══════════════════════════════════════════════════ */
 export default function Home() {
   const [celIdx, setCelIdx] = useState(0);
+  const [stickyVisible, setStickyVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setStickyVisible(window.scrollY > window.innerHeight * 0.8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <>
@@ -73,8 +74,51 @@ export default function Home() {
         }}
       />
 
+      {/* Sticky bottom CTA — appears after hero scroll */}
+      <div
+        aria-hidden={!stickyVisible}
+        style={{
+          position: 'fixed', bottom: 0, left: 0, right: 0,
+          zIndex: 800,
+          background: 'var(--deep)',
+          borderTop: '1px solid rgba(162,129,90,.2)',
+          padding: 'clamp(.75rem,1.5vw,1rem) clamp(2rem,5vw,5rem)',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          gap: '1.5rem', flexWrap: 'wrap',
+          transform: stickyVisible ? 'translateY(0)' : 'translateY(100%)',
+          transition: 'transform .5s cubic-bezier(0.16,1,0.3,1)',
+          pointerEvents: stickyVisible ? 'auto' : 'none',
+        }}
+      >
+        <p style={{
+          fontFamily: 'var(--font-garamond), Georgia, serif',
+          fontStyle: 'italic', fontSize: 'clamp(.82rem,1vw,.95rem)',
+          color: 'rgba(248,245,240,.55)',
+        }}>
+          Three commissions remain this season.
+        </p>
+        <Link
+          href="/contact"
+          style={{
+            fontFamily: 'var(--font-manrope), sans-serif',
+            fontSize: '.58rem', letterSpacing: '.3em', textTransform: 'uppercase',
+            color: 'var(--gold)',
+            borderBottom: '1px solid rgba(162,129,90,.4)',
+            paddingBottom: '.15em',
+            textDecoration: 'none',
+            whiteSpace: 'nowrap',
+            minHeight: 44, display: 'inline-flex', alignItems: 'center',
+          }}
+        >
+          Begin a commission &rarr;
+        </Link>
+      </div>
+
       {/* Shared navigation — fades in after hero loads */}
       <Nav />
+
+      {/* OPENING — MAISON RSVP silk hero */}
+      <SilkHero />
 
       {/* CHAPTER I — THE INVITATION */}
       <ScrollExpandMedia
@@ -99,6 +143,56 @@ function PostHeroContent({
 }) {
   return (
     <div style={{ background: 'var(--ivory)', color: 'var(--ink)' }}>
+
+      {/* TRUST STRIP — social proof above the story */}
+      <section aria-label="Client proof" style={{
+        background: 'var(--deep)',
+        borderTop: '1px solid rgba(162,129,90,.15)',
+        borderBottom: '1px solid rgba(162,129,90,.15)',
+        padding: 'clamp(1.25rem,2.5vw,2rem) clamp(2rem,5vw,5rem)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        gap: 'clamp(2rem,5vw,6rem)', flexWrap: 'wrap',
+      }}>
+        {[
+          { stat: '5 seasons', label: 'of private commissions' },
+          { stat: '14 countries', label: 'reached by a single invitation' },
+          { stat: '800+ guests', label: 'who held their breath' },
+        ].map(item => (
+          <div key={item.stat} style={{ textAlign: 'center' }}>
+            <p style={{
+              fontFamily: 'var(--font-prata), Georgia, serif',
+              fontSize: 'clamp(1.2rem,2vw,1.8rem)',
+              color: 'var(--ivory)', lineHeight: 1,
+              marginBottom: '.4rem',
+            }}>{item.stat}</p>
+            <p style={{
+              fontFamily: 'var(--font-manrope), sans-serif',
+              fontSize: '.52rem', letterSpacing: '.28em', textTransform: 'uppercase',
+              color: 'rgba(201,168,130,.55)',
+            }}>{item.label}</p>
+          </div>
+        ))}
+        <div style={{
+          borderLeft: '1px solid rgba(162,129,90,.2)',
+          paddingLeft: 'clamp(2rem,4vw,4rem)',
+          maxWidth: '34ch',
+        }}>
+          <p style={{
+            fontFamily: 'var(--font-garamond), Georgia, serif',
+            fontStyle: 'italic', fontSize: 'clamp(.9rem,1.1vw,1rem)',
+            color: 'rgba(248,245,240,.5)', lineHeight: 1.65,
+          }}>
+            &ldquo;The finest piece of digital design our club has ever presented.&rdquo;
+          </p>
+          <p style={{
+            fontFamily: 'var(--font-manrope), sans-serif',
+            fontSize: '.5rem', letterSpacing: '.25em', textTransform: 'uppercase',
+            color: 'rgba(201,168,130,.45)', marginTop: '.6rem',
+          }}>
+            E. Laroche &mdash; The Corinthian Club, London
+          </p>
+        </div>
+      </section>
 
       <GoldRule />
 
@@ -147,10 +241,10 @@ function PostHeroContent({
           </span>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'clamp(3rem,8vw,8rem)', flexWrap: 'wrap' }}>
           <p style={{
             fontFamily: 'var(--font-garamond), Georgia, serif',
-            fontSize: 'clamp(1.1rem,1.5vw,1.35rem)',
+            fontSize: 'clamp(1.05rem,1.4vw,1.3rem)',
             lineHeight: 1.85, color: 'var(--mist)', maxWidth: '42ch',
           }}>
             Maison RSVP was founded on a singular belief: that the digital
@@ -160,10 +254,36 @@ function PostHeroContent({
             formality. It is the first chapter of the story they are asking
             their guests to enter.
           </p>
+          {/* Studio signal */}
+          <div style={{
+            borderLeft: '1px solid rgba(162,129,90,.2)',
+            paddingLeft: 'clamp(1.5rem,3vw,2.5rem)',
+            flexShrink: 0, maxWidth: '22ch',
+          }}>
+            <p style={{
+              fontFamily: 'var(--font-manrope), sans-serif',
+              fontSize: '.5rem', letterSpacing: '.35em', textTransform: 'uppercase',
+              color: 'var(--gold)', marginBottom: '.8rem',
+            }}>Studio</p>
+            <p style={{
+              fontFamily: 'var(--font-garamond), Georgia, serif',
+              fontStyle: 'italic', fontSize: '.95rem',
+              color: 'var(--mist)', lineHeight: 1.7,
+            }}>
+              A boutique creative studio specialising in bespoke digital invitation experiences for private clients worldwide.
+            </p>
+            <p style={{
+              fontFamily: 'var(--font-manrope), sans-serif',
+              fontSize: '.5rem', letterSpacing: '.25em', textTransform: 'uppercase',
+              color: 'rgba(14,13,11,.35)', marginTop: '1rem',
+            }}>
+              Vancouver &middot; London &middot; Lake Como
+            </p>
+          </div>
         </div>
         <div style={{ marginTop: 'clamp(2.5rem,5vw,4.5rem)', display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <Link href="/collection" style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.58rem', letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--ink)', textDecoration: 'none', borderBottom: '1px solid rgba(14,13,11,.2)', paddingBottom: '.15em' }}>The Collection →</Link>
-          <Link href="/about" style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: '.88rem', color: 'var(--mist)', textDecoration: 'none' }}>Our story</Link>
+          <Link href="/collection" style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.58rem', letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--ink)', textDecoration: 'none', borderBottom: '1px solid rgba(14,13,11,.2)', paddingBottom: '.15em' }}>View Pricing &rarr;</Link>
+          <Link href="/about" style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: '.95rem', color: 'var(--mist)', textDecoration: 'none' }}>Our story</Link>
         </div>
         <p style={{
           marginTop: 'clamp(2rem,4vw,4rem)',
@@ -177,6 +297,13 @@ function PostHeroContent({
 
       <GoldRule />
 
+      {/* II.5a — NOT A WEDDING WEBSITE (grain-gradient statement) */}
+      <GrainHeroSection
+        eyebrow="What You Receive"
+        title="Not a wedding website."
+        subtitle="A living invitation."
+      />
+
       {/* II.5 — WHAT YOU RECEIVE */}
       <section
         id="what-you-receive"
@@ -185,19 +312,6 @@ function PostHeroContent({
           padding: 'clamp(6rem,12vw,12rem) clamp(2rem,5vw,5rem)',
         }}
       >
-        <ChapterLabel>What You Receive</ChapterLabel>
-        <h2 style={{
-          fontFamily: 'var(--font-prata), Georgia, serif',
-          fontSize: 'clamp(2.6rem,6vw,6.5rem)',
-          lineHeight: .98, letterSpacing: '-.025em',
-          maxWidth: '20ch', marginBottom: 'clamp(3rem,6vw,5rem)',
-        }}>
-          Not a wedding website.<br />
-          <em style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', color: 'var(--gold)' }}>
-            A living invitation.
-          </em>
-        </h2>
-
         {/* Deliverables grid */}
         <div style={{
           display: 'grid',
@@ -207,10 +321,10 @@ function PostHeroContent({
           maxWidth: 1100,
         }}>
           {[
-            { n: '01', title: 'A cinematic scroll story', desc: 'Built once, for your event — motion, narrative, and pacing designed around your story, not a drag-and-drop template.' },
-            { n: '02', title: 'RSVP & guest management', desc: 'Guests respond directly inside the experience. You see replies, meal choices, and details in one private dashboard.' },
+            { n: '01', title: 'A cinematic scroll story', desc: 'Built once, for your event — motion, narrative, and pacing designed around your story, never from a template.' },
+            { n: '02', title: 'RSVP & guest management', desc: 'Guests respond directly inside the experience. You see replies, meal choices, and every detail in one private dashboard.' },
             { n: '03', title: 'One link, every device', desc: 'Sent by text, email, or printed card. Opens flawlessly on a phone in a taxi or a desktop at home.' },
-            { n: '04', title: 'Sound, motion, and detail', desc: 'Original music or atmosphere, GSAP-driven animation, and typography composed specifically for your occasion.' },
+            { n: '04', title: 'Sound, motion, and detail', desc: 'Original music or atmosphere, cinematic animation, and typography composed specifically for your occasion.' },
           ].map(item => (
             <div key={item.n}>
               <span style={{
@@ -229,8 +343,8 @@ function PostHeroContent({
               </h3>
               <p style={{
                 fontFamily: 'var(--font-garamond), Georgia, serif',
-                fontStyle: 'italic', fontSize: '.92rem',
-                color: 'var(--mist)', lineHeight: 1.7,
+                fontStyle: 'italic', fontSize: '1rem',
+                color: 'var(--mist)', lineHeight: 1.75,
               }}>
                 {item.desc}
               </p>
@@ -257,9 +371,9 @@ function PostHeroContent({
             marginBottom: 'clamp(3rem,5vw,4rem)',
           }}>
             {[
-              { name: 'Prelude',   price: 'From $2,400',    desc: 'Intimate weddings & private dinners.' },
-              { name: 'Signature', price: 'From $5,800',    desc: 'Destination weddings, 100–300 guests.' },
-              { name: 'Maison',    price: 'By consultation', desc: 'Ultra-luxury, 300+ guests, full creative direction.' },
+              { name: 'Prelude',   price: 'From $2,400',    desc: 'Intimate weddings, private dinners, and milestone celebrations up to 100 guests. A complete cinematic invitation with RSVP.' },
+              { name: 'Signature', price: 'From $5,800',    desc: 'Destination weddings with 100–300 guests. Full narrative experience, custom animation, sound, and guest management dashboard.' },
+              { name: 'Maison',    price: 'By consultation', desc: 'Ultra-luxury events, 300+ guests, full creative direction, bespoke musical composition, and white-glove delivery.' },
             ].map(tier => (
               <div key={tier.name} style={{ borderLeft: '1px solid rgba(162,129,90,.25)', paddingLeft: '1.5rem' }}>
                 <h4 style={{
@@ -277,22 +391,40 @@ function PostHeroContent({
                 </p>
                 <p style={{
                   fontFamily: 'var(--font-garamond), Georgia, serif',
-                  fontStyle: 'italic', fontSize: '.85rem',
-                  color: 'var(--mist)', lineHeight: 1.6,
+                  fontStyle: 'italic', fontSize: '.95rem',
+                  color: 'var(--mist)', lineHeight: 1.7,
                 }}>
                   {tier.desc}
                 </p>
               </div>
             ))}
           </div>
-          <Link href="/collection" style={{
-            fontFamily: 'var(--font-manrope), sans-serif',
-            fontSize: '.6rem', letterSpacing: '.3em', textTransform: 'uppercase',
-            color: 'var(--ink)', textDecoration: 'none',
-            borderBottom: '1px solid rgba(14,13,11,.2)', paddingBottom: '.15em',
-          }}>
-            See full collection & pricing →
-          </Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(2rem,4vw,4rem)', flexWrap: 'wrap' }}>
+            <Link href="/collection" style={{
+              fontFamily: 'var(--font-manrope), sans-serif',
+              fontSize: '.6rem', letterSpacing: '.3em', textTransform: 'uppercase',
+              color: 'var(--ink)', textDecoration: 'none',
+              borderBottom: '1px solid rgba(14,13,11,.2)', paddingBottom: '.15em',
+            }}>
+              See full collection &amp; pricing &rarr;
+            </Link>
+            <Link
+              href="/contact"
+              style={{
+                fontFamily: 'var(--font-garamond), Georgia, serif',
+                fontStyle: 'italic',
+                fontSize: 'clamp(.95rem,1.2vw,1.1rem)',
+                color: 'var(--gold)',
+                borderBottom: '1px solid rgba(162,129,90,.3)',
+                paddingBottom: '.2em',
+                textDecoration: 'none',
+                display: 'inline-flex', alignItems: 'center',
+                minHeight: 44,
+              }}
+            >
+              Begin a commission &rarr;
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -323,7 +455,7 @@ function PostHeroContent({
             {[
               { n: '01', title: 'Weddings',            desc: 'A digital experience as singular as your union — motion, narrative, and music woven into one extraordinary moment.' },
               { n: '02', title: 'Private Celebrations', desc: 'The anniversary, the milestone, the gathering of those who matter most. Intimate. Considered. Yours alone.' },
-              { n: '03', title: 'Luxury Hospitality',   desc: "For hotels, private members’ clubs, and destination events that require an invitation worthy of the address." },
+              { n: '03', title: 'Luxury Hospitality',   desc: "For hotels, private members' clubs, and destination events that require an invitation worthy of the address." },
               { n: '04', title: 'Brand Moments',        desc: 'For maisons and ateliers for whom even the invitation must carry the full weight of house values.' },
               { n: '05', title: 'Legacy Events',        desc: 'Once-in-a-generation occasions treated with the gravity and tenderness they deserve.' },
               { n: '06', title: 'Curated Gatherings',   desc: 'Art openings, cultural evenings, intimate suppers. When the invitation must announce: this evening will be unlike any other.' },
@@ -340,6 +472,7 @@ function PostHeroContent({
         style={{
           background: `radial-gradient(ellipse 60% 20% at 50% 0%, #F2EBE0 0%, transparent 50%), #F8F5F0`,
           paddingTop: 'clamp(6rem,12vw,12rem)',
+          paddingBottom: 0,
         }}
       >
         <div style={{
@@ -354,7 +487,7 @@ function PostHeroContent({
               fontSize: 'clamp(2.8rem,6vw,7rem)',
               lineHeight: .95, letterSpacing: '-.02em',
             }}>
-              Three<br />works.
+              The<br />Commissions.
             </h2>
           </div>
           <div style={{ textAlign: 'right' }}>
@@ -363,7 +496,7 @@ function PostHeroContent({
               fontStyle: 'italic', fontSize: 'clamp(.9rem,1.1vw,1rem)',
               color: 'var(--mist)', maxWidth: '28ch', lineHeight: 1.7, marginBottom: '1.25rem',
             }}>
-              Each one existed once.<br />None were made again.
+              Four worlds. Four invitations.<br />Each one existed once.
             </p>
             <Link href="/work" style={{
               fontFamily: 'var(--font-manrope), sans-serif',
@@ -375,9 +508,74 @@ function PostHeroContent({
             </Link>
           </div>
         </div>
-        {WORKS.map((work, i) => (
-          <WorkSpread key={work.title} work={work} flip={i % 2 === 1} />
-        ))}
+      </section>
+
+      {/* 3D carousel — 4 featured couples */}
+      <WorksCinematicCarousel works={FEATURED_WORKS} />
+
+      {/* Archive — all other commissions */}
+      <section
+        id="archive"
+        style={{
+          background: '#F8F5F0',
+          padding: 'clamp(5rem,9vw,9rem) clamp(2rem,5vw,5rem)',
+          borderTop: '1px solid rgba(162,129,90,.12)',
+        }}
+      >
+        <div style={{ marginBottom: 'clamp(3rem,5vw,5rem)' }}>
+          <ChapterLabel muted>Further Commissions</ChapterLabel>
+          <p style={{
+            fontFamily: 'var(--font-garamond), Georgia, serif',
+            fontStyle: 'italic', fontSize: 'clamp(.9rem,1.1vw,1rem)',
+            color: 'var(--mist)', maxWidth: '38ch', lineHeight: 1.7,
+          }}>
+            A selection of commissions from our archive — private, bespoke, and each made only once.
+          </p>
+        </div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))',
+          gap: '1px',
+          background: 'rgba(162,129,90,.12)',
+          border: '1px solid rgba(162,129,90,.12)',
+        }}>
+          {OTHER_WORKS.map(w => (
+            <Link
+              key={w.slug}
+              href={`/work/${w.slug}`}
+              style={{
+                display: 'block', textDecoration: 'none',
+                background: '#F8F5F0',
+                padding: 'clamp(1.5rem,3vw,2.5rem)',
+                transition: 'background .4s ease',
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#F2EBE0'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#F8F5F0'; }}
+            >
+              <p style={{
+                fontFamily: 'var(--font-manrope), sans-serif',
+                fontSize: '.52rem', letterSpacing: '.3em', textTransform: 'uppercase',
+                color: 'var(--gold)', marginBottom: '.75rem',
+              }}>
+                {w.category}
+              </p>
+              <h3 style={{
+                fontFamily: 'var(--font-prata), Georgia, serif',
+                fontSize: 'clamp(1.1rem,1.6vw,1.4rem)',
+                color: 'var(--ink)', lineHeight: 1.2, marginBottom: '.6rem',
+              }}>
+                {w.title}
+              </h3>
+              <p style={{
+                fontFamily: 'var(--font-garamond), Georgia, serif',
+                fontStyle: 'italic', fontSize: '.88rem',
+                color: 'var(--mist)', lineHeight: 1.6,
+              }}>
+                {w.location} · {w.season} {w.year}
+              </p>
+            </Link>
+          ))}
+        </div>
       </section>
 
       {/* V — THE PHILOSOPHY */}
@@ -538,9 +736,12 @@ function PostHeroContent({
             0%   { transform: translate(-50%,-50%) scale(.85); opacity: .7; }
             100% { transform: translate(-50%,-50%) scale(1.1); opacity: 0; }
           }
+          @media (prefers-reduced-motion: reduce) {
+            .ring-pulse-el { animation: none !important; opacity: .05 !important; }
+          }
         `}</style>
         {([420, 620, 820] as number[]).map((s, i) => (
-          <div key={s} aria-hidden style={{
+          <div key={s} aria-hidden className="ring-pulse-el" style={{
             position: 'absolute', top: '50%', left: '50%',
             width: `min(${s}px, ${55 + i * 20}vw)`, height: `min(${s}px, ${55 + i * 20}vw)`,
             borderRadius: '50%',
@@ -566,24 +767,24 @@ function PostHeroContent({
         <p style={{
           position: 'relative', zIndex: 1,
           fontFamily: 'var(--font-garamond), Georgia, serif',
-          fontStyle: 'italic', fontSize: 'clamp(1rem,1.5vw,1.2rem)',
-          color: 'var(--mist)', lineHeight: 1.6,
+          fontStyle: 'italic', fontSize: 'clamp(1rem,1.4vw,1.15rem)',
+          color: 'var(--mist)', lineHeight: 1.65,
           marginBottom: 'clamp(2.5rem,5vw,4rem)',
         }}>
-          We accept a limited number of commissions each season.<br />
-          <strong style={{ fontStyle: 'normal', color: 'var(--ink)', fontWeight: 400 }}>
-            Three remain.
-          </strong>
+          We accept a limited number of commissions each season.
         </p>
+
+        {/* Primary CTA — button-sized tap target */}
         <Link
           href="/contact"
           style={{
             position: 'relative', zIndex: 1,
             fontFamily: 'var(--font-garamond), Georgia, serif',
-            fontSize: 'clamp(1rem,1.8vw,1.35rem)', letterSpacing: '.04em',
-            color: 'var(--gold)', borderBottom: '1px solid rgba(162,129,90,.3)',
-            paddingBottom: '.2em', transition: 'color .4s, border-color .4s',
-            display: 'inline-block', textDecoration: 'none',
+            fontSize: 'clamp(1.05rem,1.8vw,1.4rem)', letterSpacing: '.03em',
+            color: 'var(--gold)', borderBottom: '1px solid rgba(162,129,90,.35)',
+            paddingBottom: '.25em', transition: 'color .4s, border-color .4s',
+            display: 'inline-flex', alignItems: 'center',
+            minHeight: 48, textDecoration: 'none',
           }}
           onMouseEnter={e => {
             e.currentTarget.style.color = 'var(--ink)';
@@ -591,28 +792,40 @@ function PostHeroContent({
           }}
           onMouseLeave={e => {
             e.currentTarget.style.color = 'var(--gold)';
-            e.currentTarget.style.borderBottomColor = 'rgba(162,129,90,.3)';
+            e.currentTarget.style.borderBottomColor = 'rgba(162,129,90,.35)';
           }}
         >
-          Begin a commission →
+          Begin a commission &rarr;
         </Link>
+
         <p style={{
           position: 'relative', zIndex: 1,
-          marginTop: '1rem',
+          marginTop: 'clamp(1rem,2vw,1.5rem)',
+          fontFamily: 'var(--font-manrope), sans-serif',
+          fontSize: '.52rem', letterSpacing: '.3em', textTransform: 'uppercase',
+          color: 'rgba(162,129,90,.6)',
+        }}>
+          Three commissions remain this season
+        </p>
+
+        <p style={{
+          position: 'relative', zIndex: 1,
+          marginTop: 'clamp(.75rem,1.5vw,1rem)',
           fontFamily: 'var(--font-garamond), Georgia, serif',
-          fontStyle: 'italic', fontSize: '.85rem', color: 'var(--mist)',
+          fontStyle: 'italic', fontSize: '.95rem', color: 'var(--mist)',
         }}>
           or write to us at{' '}
           <a href="mailto:commissions@maisonrsvp.com" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
             commissions@maisonrsvp.com
           </a>
         </p>
+
         <p style={{
           position: 'absolute', bottom: 'clamp(2rem,4vw,3.5rem)',
           left: 0, right: 0, textAlign: 'center', zIndex: 1,
           fontFamily: 'var(--font-manrope), sans-serif',
-          fontSize: '.58rem', letterSpacing: '.4em', textTransform: 'uppercase',
-          color: 'rgba(14,13,11,0.28)',
+          fontSize: '.6rem', letterSpacing: '.4em', textTransform: 'uppercase',
+          color: 'rgba(14,13,11,0.45)',
         }}>
           Vancouver &nbsp;&middot;&nbsp; London &nbsp;&middot;&nbsp; Lake Como
         </p>
@@ -683,9 +896,9 @@ function ExpPanel({ num, title, desc }: { num: string; title: string; desc: stri
       </h3>
       <p style={{
         fontFamily: 'var(--font-garamond), Georgia, serif',
-        fontStyle: 'italic', fontSize: 'clamp(.85rem,1.1vw,1rem)',
-        color: 'rgba(248,245,240,.35)',
-        lineHeight: 1.75, maxWidth: '26ch',
+        fontStyle: 'italic', fontSize: 'clamp(.92rem,1.1vw,1rem)',
+        color: 'rgba(248,245,240,.45)',
+        lineHeight: 1.8, maxWidth: '26ch',
         position: 'relative', zIndex: 1,
       }}>
         {desc}
@@ -694,74 +907,3 @@ function ExpPanel({ num, title, desc }: { num: string; title: string; desc: stri
   );
 }
 
-function WorkSpread({ work, flip }: { work: typeof WORKS[0]; flip: boolean }) {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check, { passive: true });
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <article style={{ position: 'relative', overflow: 'hidden' }}>
-      <div style={{
-        display: 'flex',
-        flexDirection: isMobile ? 'column' : flip ? 'row-reverse' : 'row',
-        minHeight: isMobile ? 'auto' : '85vh',
-      }}>
-        <div
-          style={{ flex: isMobile ? 'none' : '0 0 62%', position: 'relative', overflow: 'hidden', height: isMobile ? '56vw' : undefined }}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          <Image
-            src={work.img}
-            alt={`${work.title} — ${work.location}, ${work.date}`}
-            fill style={{
-              objectFit: 'cover',
-              transform: hovered ? 'scale(1.07)' : 'scale(1.04)',
-              transition: 'transform 1.2s cubic-bezier(0.16,1,0.3,1)',
-            }}
-            sizes={isMobile ? '100vw' : '62vw'}
-          />
-          <div aria-hidden style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none', opacity: .04,
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-            backgroundSize: '160px', mixBlendMode: 'multiply',
-          }} />
-        </div>
-        <div style={{
-          flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-          padding: isMobile
-            ? 'clamp(2.5rem,7vw,4rem) clamp(2rem,5vw,5rem)'
-            : 'clamp(5rem,9vw,9rem) clamp(2rem,5vw,5rem)',
-        }}>
-          <p style={{
-            fontFamily: 'var(--font-manrope), sans-serif',
-            fontSize: '.58rem', letterSpacing: '.35em', textTransform: 'uppercase',
-            color: 'var(--gold)', marginBottom: '1.5rem',
-          }}>{work.date}</p>
-          <h3 style={{
-            fontFamily: 'var(--font-prata), Georgia, serif',
-            fontSize: 'clamp(1.6rem,3vw,2.8rem)',
-            lineHeight: 1.1, letterSpacing: '-.01em', marginBottom: '1.5rem',
-          }}>{work.title}</h3>
-          <p style={{
-            fontFamily: 'var(--font-garamond), Georgia, serif',
-            fontStyle: 'italic', fontSize: 'clamp(.9rem,1.2vw,1.05rem)',
-            color: 'var(--mist)', lineHeight: 1.75, maxWidth: '26ch',
-          }}>{work.note}</p>
-          <p style={{
-            marginTop: '2.5rem',
-            fontFamily: 'var(--font-manrope), sans-serif',
-            fontSize: '.58rem', letterSpacing: '.25em', textTransform: 'uppercase',
-            color: 'rgba(14,13,11,0.28)',
-          }}>{work.location}</p>
-        </div>
-      </div>
-    </article>
-  );
-}

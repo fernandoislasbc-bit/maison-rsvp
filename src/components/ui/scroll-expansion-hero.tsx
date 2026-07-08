@@ -53,13 +53,28 @@ const ScrollExpandMedia = ({
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  /* Wheel + touch scroll hijack */
+  /* Wheel + touch scroll hijack.
+     The hijack only engages once this section has reached the top of the
+     viewport, so other sections (e.g. an opening hero) can sit above it
+     and scroll natively. */
   useEffect(() => {
+    const getSectionTop = () => {
+      const el = sectionRef.current;
+      if (!el) return 0;
+      return el.getBoundingClientRect().top + window.scrollY;
+    };
+
     const handleWheel = (e: WheelEvent) => {
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
+      const sectionTop = getSectionTop();
+      const atSection = window.scrollY >= sectionTop - 2;
+
+      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= sectionTop + 5) {
         setMediaFullyExpanded(false);
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
+        if (!atSection) return; // native scroll above the section
+        // release back to native scroll when fully collapsed and scrolling up
+        if (e.deltaY < 0 && scrollProgress <= 0) return;
         e.preventDefault();
         const delta = e.deltaY * 0.0009;
         const next  = Math.min(Math.max(scrollProgress + delta, 0), 1);
@@ -74,10 +89,15 @@ const ScrollExpandMedia = ({
     const handleTouchMove = (e: TouchEvent) => {
       if (!touchStartY) return;
       const deltaY = touchStartY - e.touches[0].clientY;
-      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 5) {
+      const sectionTop = getSectionTop();
+      const atSection = window.scrollY >= sectionTop - 2;
+
+      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= sectionTop + 5) {
         setMediaFullyExpanded(false);
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
+        if (!atSection) return; // native scroll above the section
+        if (deltaY < 0 && scrollProgress <= 0) return;
         e.preventDefault();
         const factor = deltaY < 0 ? 0.008 : 0.005;
         const next = Math.min(Math.max(scrollProgress + deltaY * factor, 0), 1);
@@ -89,7 +109,16 @@ const ScrollExpandMedia = ({
     };
 
     const handleTouchEnd = () => setTouchStartY(0);
-    const handleScroll   = () => { if (!mediaFullyExpanded) window.scrollTo(0, 0); };
+    const handleScroll   = () => {
+      // scrollProgress < 1 guards against the expanded flag lagging a
+      // render behind the progress value (effect re-subscribe race)
+      if (!mediaFullyExpanded && scrollProgress < 1) {
+        const sectionTop = getSectionTop();
+        // clamp overshoot so native scroll parks the section at the top,
+        // where the expansion hijack takes over
+        if (window.scrollY > sectionTop) window.scrollTo(0, sectionTop);
+      }
+    };
 
     window.addEventListener('wheel',      handleWheel      as EventListener, { passive: false });
     window.addEventListener('scroll',     handleScroll);

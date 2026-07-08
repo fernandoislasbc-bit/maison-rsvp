@@ -181,6 +181,33 @@ export default function WorkStory() {
             }}>
               {work.tagline}
             </p>
+            {work.experienceUrl && (
+              <a
+                href={work.experienceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block',
+                  marginTop: 'clamp(1.5rem,3vw,2.5rem)',
+                  fontFamily: 'var(--font-manrope), sans-serif',
+                  fontSize: '.6rem', letterSpacing: '.3em', textTransform: 'uppercase',
+                  color: 'var(--ivory)', textDecoration: 'none',
+                  border: '1px solid rgba(201,168,130,.45)',
+                  padding: '1em 2.4em',
+                  transition: 'background .35s ease, color .35s ease',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = 'rgba(201,168,130,.9)';
+                  e.currentTarget.style.color = 'var(--deep)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = 'var(--ivory)';
+                }}
+              >
+                Enter Invitation
+              </a>
+            )}
           </div>
 
           {/* Scroll hint */}

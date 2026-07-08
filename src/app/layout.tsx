@@ -54,7 +54,7 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema()) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema()) }} />
       </head>
-      <body className="min-h-full" style={{ fontFamily: 'var(--font-manrope), system-ui, sans-serif' }}>
+      <body className="min-h-full">
         <Cursor />
         {children}
       </body>

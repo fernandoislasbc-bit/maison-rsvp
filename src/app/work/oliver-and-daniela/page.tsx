@@ -1,541 +1,1356 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { Cormorant_Garamond, Playfair_Display, Montserrat } from 'next/font/google';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  style: ['normal', 'italic'],
-  display: 'swap',
-});
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  style: ['normal', 'italic'],
-  display: 'swap',
-});
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['300', '400', '500'],
-  display: 'swap',
-});
+/* ═══════════════════════════════════════════════════════
+   OLIVER & DANIELLA — AN EMBOSSED TROPICAL GARDEN
+   Blush · Rose · Mauve · Ivory Cream · Sage Green
+   Cormorant Garamond · Pinyon Script · Jost
+═══════════════════════════════════════════════════════ */
 
 const C = {
-  cream:   '#FAF3E0',
-  gold:    '#C8A84B',
-  goldLt:  '#E8C96A',
-  goldDk:  '#9A7A2E',
-  navy:    '#1A2744',
-  blue:    '#6B9EC9',
-  blueLt:  '#A8CCE8',
-  ink:     '#0D1520',
+  cream:      '#FBF4EE',
+  ivory:      '#F7EAE0',
+  blush:      '#F0C2CC',
+  rose:       '#C8708A',
+  roseDark:   '#9E4F6A',
+  mauve:      '#BFA8B8',
+  mauveLight: '#E0D4E0',
+  sage:       '#ACBCA0',
+  sageDark:   '#7E8E72',
+  peach:      '#F2C0A2',
+  ink:        '#3A2530',
+  inkSoft:    '#6A4555',
+  gold:       '#C49040',
+  goldLight:  '#DDAD60',
 };
 
-/* ══════════════════════════════════════
-   OIL PAINT DAB ENGINE
-══════════════════════════════════════ */
-class PaintDabEngine {
-  canvas: HTMLCanvasElement;
-  ctx: CanvasRenderingContext2D;
-  particles: {
-    x:number; y:number; w:number; h:number; angle:number;
-    alpha:number; vx:number; vy:number; life:number; decay:number; color:string;
-  }[] = [];
-  intensity = 0;
-  running = false;
-  _rafId = 0;
-  _palette = [
-    'rgba(200,168,75,',  'rgba(232,201,106,',
-    'rgba(107,158,201,', 'rgba(168,204,232,',
-    'rgba(250,243,224,', 'rgba(154,122,46,',
-  ];
-
-  constructor(canvas: HTMLCanvasElement) {
-    this.canvas = canvas;
-    this.ctx = canvas.getContext('2d')!;
-    this._resize();
-    window.addEventListener('resize', () => this._resize());
-  }
-
-  _resize() {
-    const r = this.canvas.parentElement?.getBoundingClientRect();
-    this.canvas.width  = r?.width  ?? window.innerWidth;
-    this.canvas.height = r?.height ?? window.innerHeight;
-  }
-
-  _spawn() {
-    const w = this.canvas.width, h = this.canvas.height;
-    const color = this._palette[Math.floor(Math.random() * this._palette.length)];
-    this.particles.push({
-      x: Math.random() * w, y: Math.random() * h,
-      w: Math.random() * 14 + 4,
-      h: Math.random() * 5 + 2,
-      angle: Math.random() * Math.PI,
-      alpha: Math.random() * 0.7 + 0.1,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: -(Math.random() * 0.6 + 0.2),
-      life: 1, decay: Math.random() * 0.01 + 0.005,
-      color,
-    });
-  }
-
-  _tick() {
-    if (!this.running) return;
-    const ctx = this.ctx;
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    const count = Math.floor(this.intensity * 15);
-    for (let i = 0; i < count; i++) this._spawn();
-    this.particles = this.particles.filter(p => p.life > 0);
-    for (const p of this.particles) {
-      const al = p.life * p.alpha;
-      ctx.save();
-      ctx.globalAlpha = al;
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.angle);
-      ctx.fillStyle = p.color + al + ')';
-      ctx.beginPath();
-      ctx.ellipse(0, 0, p.w, p.h, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-      p.x += p.vx; p.y += p.vy; p.life -= p.decay;
-    }
-    this._rafId = requestAnimationFrame(() => this._tick());
-  }
-
-  start()  { if (!this.running) { this.running = true; this._tick(); } }
-  stop()   { this.running = false; cancelAnimationFrame(this._rafId); }
-  setIntensity(v: number) { this.intensity = Math.max(0, Math.min(1, v)); }
+// ── Google Fonts ──────────────────────────────────────
+function FontLoader() {
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href =
+      'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Pinyon+Script&family=Jost:wght@200;300;400&display=swap';
+    document.head.appendChild(link);
+  }, []);
+  return null;
 }
 
-/* ══════════════════════════════════════
-   PAGE
-══════════════════════════════════════ */
-export default function OliverAndDanielaPage() {
-  const [introDone, setIntroDone] = useState(false);
-  const [rsvpSent,  setRsvpSent]  = useState(false);
+// ── Film grain ────────────────────────────────────────
+function Grain() {
+  return (
+    <div aria-hidden style={{
+      position: 'fixed', inset: 0, zIndex: 9990, pointerEvents: 'none', opacity: 0.016,
+      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+      backgroundSize: '180px',
+    }} />
+  );
+}
 
-  const introVideoRef  = useRef<HTMLVideoElement>(null);
-  const introCanvasRef = useRef<HTMLCanvasElement>(null);
-  const heroCanvasRef  = useRef<HTMLCanvasElement>(null);
-  const closingCanvasRef = useRef<HTMLCanvasElement>(null);
-  const introEngineRef = useRef<PaintDabEngine | null>(null);
-
-  /* Intro dabs start immediately */
+// ══════════════════════════════════════════════════════
+// ROSE PETAL PARTICLE CANVAS
+// Gentle falling petals in blush, rose & mauve
+// ══════════════════════════════════════════════════════
+function PetalCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
-    if (!introCanvasRef.current) return;
-    const eng = new PaintDabEngine(introCanvasRef.current);
-    introEngineRef.current = eng;
-    eng.start();
-    eng.setIntensity(0.15);
-    const t = setTimeout(() => eng.setIntensity(0.4), 2000);
-    return () => { clearTimeout(t); eng.stop(); };
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+    resize();
+    window.addEventListener('resize', resize);
+
+    type Petal = {
+      x: number; y: number; rx: number; ry: number; opacity: number;
+      vy: number; vx: number; angle: number; vAngle: number;
+      sOff: number; sFreq: number; sAmp: number; color: string; t: number;
+    };
+
+    const COLORS = [C.blush, C.rose, C.mauve, C.peach, C.mauveLight, C.blush];
+    const petals: Petal[] = Array.from({ length: 58 }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      rx: Math.random() * 2.2 + 0.8,
+      ry: Math.random() * 1.2 + 0.4,
+      opacity: Math.random() * 0.10 + 0.03,
+      vy: Math.random() * 0.28 + 0.08,
+      vx: (Math.random() - 0.5) * 0.06,
+      angle: Math.random() * Math.PI * 2,
+      vAngle: (Math.random() - 0.5) * 0.012,
+      sOff: Math.random() * Math.PI * 2,
+      sFreq: Math.random() * 0.005 + 0.002,
+      sAmp: Math.random() * 0.45 + 0.15,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      t: Math.random() * 800,
+    }));
+
+    let id: number;
+    const tick = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const p of petals) {
+        p.t++;
+        p.y += p.vy;
+        p.angle += p.vAngle;
+        p.x += p.vx + Math.sin(p.t * p.sFreq + p.sOff) * p.sAmp * 0.022;
+        if (p.y > canvas.height + 10) { p.y = -10; p.x = Math.random() * canvas.width; }
+        ctx.save();
+        ctx.globalAlpha = p.opacity;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.rx, p.ry, 0, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.globalAlpha = 1;
+      id = requestAnimationFrame(tick);
+    };
+    tick();
+
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize); };
   }, []);
 
-  /* GSAP after intro */
+  return <canvas ref={canvasRef} style={{ position: 'fixed', inset: 0, zIndex: 3, pointerEvents: 'none' }} />;
+}
+
+// ── Ornamental crescent divider ───────────────────────
+function CrescentDivider({ light = false }: { light?: boolean }) {
+  const lineColor = light ? 'rgba(255,255,255,0.15)' : `${C.rose}33`;
+  const fill      = light ? 'rgba(255,255,255,0.5)' : C.mauve;
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 14, margin: '26px 0' }}>
+      <div style={{ flex: 1, height: '0.5px', background: `linear-gradient(to right, transparent, ${lineColor})` }} />
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
+        <path d="M14 9A6.5 6.5 0 1 1 5.2 4.2a5 5 0 0 0 8.8 4.8z" fill={fill} opacity="0.6" />
+        <circle cx="12.5" cy="5" r="1" fill={fill} opacity="0.4" />
+      </svg>
+      <div style={{ flex: 1, height: '0.5px', background: `linear-gradient(to left, transparent, ${lineColor})` }} />
+    </div>
+  );
+}
+
+// ── Thin rule ─────────────────────────────────────────
+function Rule({ color = C.rose, opacity = 0.18 }: { color?: string; opacity?: number }) {
+  return <div style={{ width: '100%', height: '0.5px', background: color, opacity, margin: '0' }} />;
+}
+
+// ── Corner marks ──────────────────────────────────────
+function CornerMarks({ color = C.rose, size = 14 }: { color?: string; size?: number }) {
+  const s = { position: 'absolute' as const };
+  const l = { position: 'absolute' as const, background: color, opacity: 0.28 };
+  return (
+    <>
+      <div style={{ ...s, top: 0, left: 0, width: size, height: size }}>
+        <div style={{ ...l, top: 0, left: 0, width: size, height: 0.5 }} />
+        <div style={{ ...l, top: 0, left: 0, width: 0.5, height: size }} />
+      </div>
+      <div style={{ ...s, top: 0, right: 0, width: size, height: size }}>
+        <div style={{ ...l, top: 0, right: 0, width: size, height: 0.5 }} />
+        <div style={{ ...l, top: 0, right: 0, width: 0.5, height: size }} />
+      </div>
+      <div style={{ ...s, bottom: 0, left: 0, width: size, height: size }}>
+        <div style={{ ...l, bottom: 0, left: 0, width: size, height: 0.5 }} />
+        <div style={{ ...l, bottom: 0, left: 0, width: 0.5, height: size }} />
+      </div>
+      <div style={{ ...s, bottom: 0, right: 0, width: size, height: size }}>
+        <div style={{ ...l, bottom: 0, right: 0, width: size, height: 0.5 }} />
+        <div style={{ ...l, bottom: 0, right: 0, width: 0.5, height: size }} />
+      </div>
+    </>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// VIDEO ENTRANCE
+// ══════════════════════════════════════════════════════
+function VideoEntrance({ onComplete }: { onComplete: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [fading, setFading]   = useState(false);
+  const [showHint, setShowHint] = useState(false);
+  const doneRef = useRef(false);
+
+  const complete = useCallback(() => {
+    if (doneRef.current) return;
+    doneRef.current = true;
+    setFading(true);
+    setTimeout(onComplete, 1400);
+  }, [onComplete]);
+
   useEffect(() => {
-    if (!introDone) return;
-
-    import('gsap').then(({ gsap: g }) => {
-      import('gsap/ScrollTrigger').then(({ ScrollTrigger: ST }) => {
-        g.registerPlugin(ST);
-
-        /* Hero entrance */
-        g.timeline({ defaults: { ease: 'power3.out' } })
-          .to('.od-hero-eyebrow', { opacity: 1, y: 0, duration: 1.2 })
-          .to('.od-hero-names',   { opacity: 1, y: 0, duration: 1.5 }, '-=0.8')
-          .to('.od-hero-sub',     { opacity: 1, y: 0, duration: 1.2 }, '-=0.9')
-          .to('.od-hero-divider', { width: 80, opacity: 1, duration: 1 }, '-=0.7')
-          .to('#od-open-btn',     { opacity: 1, duration: 0.8 }, '-=0.4')
-          .to('#od-scroll-hint',  { opacity: 1, duration: 0.8 }, '-=0.4');
-
-        g.to('#od-hero-overlay', {
-          opacity: 0.92,
-          scrollTrigger: { trigger: '#od-hero', start: 'top top', end: 'bottom top', scrub: true }
-        });
-        g.to('#od-hero-content', {
-          opacity: 0, y: -40,
-          scrollTrigger: { trigger: '#od-hero', start: '20% top', end: '60% top', scrub: true }
-        });
-
-        /* Paint dab engines */
-        if (heroCanvasRef.current) {
-          const hEng = new PaintDabEngine(heroCanvasRef.current);
-          hEng.start(); hEng.setIntensity(0);
-          ST.create({
-            trigger: '#od-hero', start: 'top top', end: 'bottom top',
-            onUpdate: (s) => hEng.setIntensity(s.progress * 0.5),
-          });
-        }
-        if (closingCanvasRef.current) {
-          const cEng = new PaintDabEngine(closingCanvasRef.current);
-          cEng.start(); cEng.setIntensity(0);
-          ST.create({
-            trigger: '#od-closing', start: 'top 80%', end: 'bottom top',
-            onUpdate: (s) => cEng.setIntensity(s.progress * 0.6),
-          });
-        }
-
-        /* Gold lines */
-        ['#od-story','#od-details','#od-venue','#od-timeline','#od-rsvp','#od-closing'].forEach(sel => {
-          ST.create({
-            trigger: sel, start: 'top 70%',
-            onEnter: () => g.to(`${sel} .od-gold-line`, { width: 80, duration: 1.2, ease: 'power2.out' }),
-          });
-        });
-
-        /* Story painting */
-        g.to('.od-painting', {
-          opacity: 1, scale: 1,
-          scrollTrigger: { trigger: '.od-painting', start: 'top 85%', end: 'top 40%', scrub: 0.8 }
-        });
-
-        /* Venue image */
-        g.to('.od-venue-box', {
-          clipPath: 'inset(0% 0% 0% 0%)', duration: 1.4, ease: 'power3.out',
-          scrollTrigger: { trigger: '.od-venue-box', start: 'top 80%', toggleActions: 'play none none none' }
-        });
-
-        /* Detail rows */
-        g.utils.toArray<HTMLElement>('.od-detail-row').forEach((row, i) => {
-          g.to(row, { opacity: 1, y: 0, duration: 0.8, delay: i * 0.08, scrollTrigger: { trigger: row, start: 'top 85%', toggleActions: 'play none none none' } });
-        });
-
-        /* Timeline */
-        ST.create({
-          trigger: '#od-timeline', start: 'top 80%', end: 'bottom 20%', scrub: 0.8,
-          onUpdate: (s) => {
-            const fill  = document.getElementById('od-rail-fill');
-            const track = document.querySelector('.od-timeline-track') as HTMLElement;
-            if (fill && track) fill.style.height = (s.progress * track.offsetHeight) + 'px';
-          }
-        });
-        g.utils.toArray<HTMLElement>('.od-timeline-event').forEach((ev, i) => {
-          g.to(ev, { opacity: 1, x: 0, duration: 0.8, delay: i * 0.1, scrollTrigger: { trigger: ev, start: 'top 85%', toggleActions: 'play none none none' } });
-        });
-
-        /* RSVP form */
-        g.utils.toArray<HTMLElement>('.od-form-group').forEach((grp, i) => {
-          g.to(grp, { opacity: 1, y: 0, duration: 0.7, delay: i * 0.07, scrollTrigger: { trigger: grp, start: 'top 90%', toggleActions: 'play none none none' } });
-        });
-        g.to('#od-rsvp-btn', { opacity: 1, duration: 0.8, scrollTrigger: { trigger: '#od-rsvp-btn', start: 'top 90%', toggleActions: 'play none none none' } });
-
-        /* Closing */
-        g.to('.od-closing-content', { opacity: 1, duration: 1.4, ease: 'power2.out', scrollTrigger: { trigger: '#od-closing', start: 'top 70%', toggleActions: 'play none none none' } });
-
-        /* Story text */
-        g.utils.toArray<HTMLElement>('.od-story-para').forEach((p, i) => {
-          g.to(p, { opacity: 1, y: 0, duration: 0.9, delay: i * 0.1, scrollTrigger: { trigger: p, start: 'top 90%', toggleActions: 'play none none none' } });
-        });
-      });
-    });
-
-    return () => {
-      import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => ScrollTrigger.killAll());
-    };
-  }, [introDone]);
-
-  function revealPage() {
-    introEngineRef.current?.stop();
-    setIntroDone(true);
-  }
-
-  function submitRSVP(e: React.FormEvent) {
-    e.preventDefault();
-    setTimeout(() => setRsvpSent(true), 1200);
-  }
+    const t1 = setTimeout(() => setShowHint(true), 1800);
+    const t2 = setTimeout(complete, 12000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [complete]);
 
   return (
-    <div style={{ background: C.ink, color: C.cream, overflowX: 'hidden', fontFamily: cormorant.style.fontFamily }}>
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 200,
+      background: C.ivory,
+      opacity: fading ? 0 : 1,
+      transition: 'opacity 1.4s cubic-bezier(0.4,0,0.2,1)',
+      overflow: 'hidden',
+    }}>
+      <video
+        ref={videoRef}
+        autoPlay muted playsInline
+        onEnded={complete}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+        src="/assets/od/od-video-entrance.mp4"
+      />
+      <div style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        background: `radial-gradient(ellipse 80% 80% at 50% 50%, transparent 35%, ${C.ivory}60 100%)`,
+      }} />
 
-      {/* ══ CINEMATIC BOOK INTRO ══ */}
-      {!introDone && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: C.navy, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <video
-            ref={introVideoRef}
-            autoPlay muted playsInline
-            onEnded={revealPage}
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-          >
-            <source src="/assets/od/intro.mp4" type="video/mp4" />
-          </video>
-
-          <canvas ref={introCanvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 2 }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, transparent 30%, rgba(13,21,32,0.65) 100%)', pointerEvents: 'none', zIndex: 1 }} />
-
-          {/* Names reveal at end of video */}
-          <div style={{ position: 'absolute', zIndex: 3, textAlign: 'center', pointerEvents: 'none' }}>
-            <span style={{ fontFamily: montserrat.style.fontFamily, fontSize: 'clamp(0.55rem,1.5vw,0.65rem)', letterSpacing: '0.5em', textTransform: 'uppercase', color: C.gold, display: 'block', marginBottom: 16 }}>
-              You Are Invited
-            </span>
-            <div style={{ fontFamily: playfair.style.fontFamily, fontSize: 'clamp(3rem,10vw,7rem)', fontWeight: 400, color: C.cream, lineHeight: 0.88 }}>
-              Oliver
-              <span style={{ display: 'block', fontStyle: 'italic', color: C.gold, fontSize: '0.55em' }}>&amp;</span>
-              Daniela
-            </div>
-          </div>
-
-          <button onClick={revealPage} style={{
-            position: 'absolute', top: 28, right: 28, zIndex: 4,
-            fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.3em',
-            textTransform: 'uppercase', color: 'rgba(250,243,224,0.5)',
-            background: 'transparent', border: 'none', cursor: 'pointer',
-          }}>Skip →</button>
-        </div>
-      )}
-
-      {/* ══ MAIN PAGE ══ */}
-      <div style={{ opacity: introDone ? 1 : 0, transition: 'opacity 0.8s ease', pointerEvents: introDone ? 'auto' : 'none' }}>
-
-        {/* Back link */}
-        <div style={{ position: 'fixed', top: 28, left: 28, zIndex: 100 }}>
-          <Link href="/collection" style={{
-            fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem',
-            letterSpacing: '0.35em', textTransform: 'uppercase',
-            color: 'rgba(250,243,224,0.6)', textDecoration: 'none',
-          }}>← Collection</Link>
-        </div>
-
-        {/* ── HERO ── */}
-        <section id="od-hero" style={{ position: 'relative', width: '100%', height: '100svh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/assets/od/couple-painting.png" alt="Oliver & Daniela — Van Gogh Starry Night Proposal" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-          <video autoPlay muted playsInline loop style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.18, mixBlendMode: 'screen' }}>
-            <source src="/assets/od/swirl.mp4" type="video/mp4" />
-          </video>
-          <canvas ref={heroCanvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 2 }} />
-          <div id="od-hero-overlay" style={{ position: 'absolute', inset: 0, zIndex: 1, background: `linear-gradient(to bottom, rgba(13,21,32,0.5) 0%, rgba(26,39,68,0.4) 50%, rgba(13,21,32,0.92) 100%)` }} />
-          <div id="od-hero-content" style={{ position: 'relative', zIndex: 3, textAlign: 'center', padding: '0 24px' }}>
-            <p className="od-hero-eyebrow" style={{ fontFamily: montserrat.style.fontFamily, fontSize: 'clamp(0.6rem,1.5vw,0.7rem)', letterSpacing: '0.5em', color: C.gold, textTransform: 'uppercase', opacity: 0, transform: 'translateY(12px)' }}>You Are Invited</p>
-            <h1 className="od-hero-names" style={{ fontFamily: playfair.style.fontFamily, fontSize: 'clamp(4rem,14vw,9rem)', fontWeight: 400, color: C.cream, lineHeight: 0.85, opacity: 0, transform: 'translateY(24px)', margin: '20px 0 24px' }}>
-              Oliver
-              <span style={{ color: C.gold, fontStyle: 'italic', display: 'block', fontSize: '0.6em' }}>&amp;</span>
-              Daniela
-            </h1>
-            <p className="od-hero-sub" style={{ fontSize: 'clamp(0.85rem,2vw,1rem)', letterSpacing: '0.2em', color: C.blueLt, fontWeight: 300, opacity: 0, transform: 'translateY(12px)', fontFamily: cormorant.style.fontFamily }}>
-              A Wedding in the Vines &nbsp;·&nbsp; Kelowna, British Columbia
-            </p>
-            <div className="od-hero-divider" style={{ width: 0, height: 1, background: C.gold, margin: '32px auto', opacity: 0 }} />
-            <button id="od-open-btn"
-              onClick={() => document.getElementById('od-story')?.scrollIntoView({ behavior: 'smooth' })}
-              style={{ opacity: 0, border: `1px solid ${C.gold}`, color: C.cream, fontFamily: montserrat.style.fontFamily, fontSize: '0.65rem', letterSpacing: '0.4em', textTransform: 'uppercase', padding: '16px 40px', background: 'transparent', cursor: 'pointer', marginTop: 32 }}>
-              Enter Invitation
-            </button>
-          </div>
-          <div id="od-scroll-hint" style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', zIndex: 3, opacity: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-            <div style={{ width: 1, height: 48, background: `linear-gradient(to bottom, ${C.gold}, transparent)`, animation: 'odPulse 2s ease-in-out infinite' }} />
-            <span style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.35em', color: C.blueLt, textTransform: 'uppercase' }}>Scroll</span>
-          </div>
-        </section>
-
-        {/* ── OUR STORY ── */}
-        <section id="od-story" style={{ position: 'relative', padding: '120px 24px', background: C.cream }}>
-          {/* SVG impasto texture overlay */}
-          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.06, pointerEvents: 'none' }} xmlns="http://www.w3.org/2000/svg">
-            <filter id="od-paint">
-              <feTurbulence type="turbulence" baseFrequency="0.65" numOctaves="3" result="noise" />
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-            <rect width="100%" height="100%" fill={C.navy} filter="url(#od-paint)" />
-          </svg>
-
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 64, alignItems: 'center' }}>
-            {/* Van Gogh painting portrait */}
-            <div className="od-painting" style={{ width: '100%', maxWidth: 380, opacity: 0, transform: 'scale(0.92)', border: `3px solid ${C.gold}`, boxShadow: `0 24px 80px rgba(200,168,75,0.25)` }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/od/couple-painting.png" alt="Oliver & Daniela — The Proposal" style={{ width: '100%', display: 'block' }} />
-            </div>
-            <div style={{ textAlign: 'center', maxWidth: 680 }}>
-              <p style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.5em', textTransform: 'uppercase', color: C.goldDk }}>Our Story</p>
-              <div className="od-gold-line" style={{ width: 0, height: 1, background: C.gold, margin: '16px auto' }} />
-              <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: 'clamp(2.2rem,5vw,3.8rem)', fontWeight: 400, color: C.navy, lineHeight: 1.1, marginBottom: 32 }}>
-                A Love Story<br /><em style={{ color: C.goldDk }}>Painted in Golden Light</em>
-              </h2>
-              {[
-                'A love story painted in golden light, quiet moments, and memories that feel timeless. Oliver and Daniela invite you to celebrate the beginning of their forever surrounded by vineyards, family, and the beauty of Kelowna.',
-                'Like brush strokes on a canvas, their story was written in layers — each day adding depth, colour, and warmth to something already beautiful. Now, beneath a Kelowna sky, they invite you to witness the masterpiece become complete.',
-              ].map((p, i) => (
-                <p key={i} className="od-story-para" style={{ fontSize: 'clamp(0.95rem,2vw,1.1rem)', lineHeight: 1.9, color: C.navy, fontWeight: 300, marginBottom: 20, opacity: 0, transform: 'translateY(16px)' }}>{p}</p>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── WEDDING DETAILS ── */}
-        <section id="od-details" style={{ padding: '120px 24px', background: C.ink }}>
-          <div style={{ maxWidth: 900, margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: 80 }}>
-              <p style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.5em', textTransform: 'uppercase', color: C.gold }}>The Celebration</p>
-              <div className="od-gold-line" style={{ width: 0, height: 1, background: C.gold, margin: '16px auto', maxWidth: 80 }} />
-              <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 400, fontStyle: 'italic', color: C.cream, marginTop: 16 }}>Wedding Details</h2>
-            </div>
-            {[
-              { label: 'Date',       value: 'Saturday, August 15', sub: '2026' },
-              { label: 'Ceremony',   value: '4:30 PM',             sub: 'Reception to follow' },
-              { label: 'Location',   value: 'A Winery in Kelowna', sub: 'British Columbia, Canada' },
-              { label: 'Dress Code', value: 'Elegant Garden Formal', sub: 'Black tie welcome' },
-              { label: 'RSVP By',   value: 'July 1, 2026',         sub: 'Your presence would be our greatest gift' },
-            ].map((row, i) => (
-              <div key={i} className="od-detail-row" style={{ display: 'flex', alignItems: 'flex-start', gap: 32, padding: '40px 0', borderBottom: i < 4 ? `1px solid rgba(200,168,75,0.12)` : 'none', opacity: 0, transform: 'translateY(24px)' }}>
-                <span style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.45em', textTransform: 'uppercase', color: C.gold, flex: '0 0 120px', paddingTop: 4 }}>{row.label}</span>
-                <div style={{ flex: '0 0 1px', background: C.gold, alignSelf: 'stretch', opacity: 0.3 }} />
-                <div style={{ fontSize: 'clamp(1.4rem,3vw,2rem)', fontWeight: 300, color: C.cream, lineHeight: 1.3, fontFamily: cormorant.style.fontFamily }}>
-                  {row.value}
-                  <small style={{ display: 'block', fontSize: '0.65em', color: C.blueLt, letterSpacing: '0.1em', marginTop: 4, fontFamily: montserrat.style.fontFamily, fontWeight: 300 }}>{row.sub}</small>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── THE VENUE ── */}
-        <section id="od-venue" style={{ position: 'relative', padding: '120px 24px', background: C.navy }}>
-          <div style={{ position: 'absolute', inset: 0, opacity: 0.08 }}>
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <filter id="od-swirl">
-                <feTurbulence type="turbulence" baseFrequency="0.35" numOctaves="4" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" xChannelSelector="R" yChannelSelector="G" />
-              </filter>
-              <rect width="100%" height="100%" fill={C.blue} filter="url(#od-swirl)" />
-            </svg>
-          </div>
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: 1000, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 64, alignItems: 'center' }}>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.5em', textTransform: 'uppercase', color: C.goldLt }}>The Venue</p>
-              <div className="od-gold-line" style={{ width: 0, height: 1, background: C.gold, margin: '16px auto', maxWidth: 80 }} />
-              <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 400, color: C.cream, marginTop: 16, lineHeight: 1.1 }}>
-                Among the<br /><em style={{ color: C.gold }}>Kelowna Vineyards</em>
-              </h2>
-              <p style={{ fontSize: 'clamp(0.9rem,1.8vw,1rem)', lineHeight: 1.9, color: C.blueLt, fontWeight: 300, maxWidth: 540, margin: '24px auto 0', fontFamily: cormorant.style.fontFamily }}>
-                Set among the vineyards of Kelowna, our celebration will unfold in a romantic winery surrounded by golden light, rolling hills, and unforgettable views.
-              </p>
-            </div>
-            <div className="od-venue-box" style={{ width: '100%', maxWidth: 560, clipPath: 'inset(0 100% 0 0)', border: `2px solid rgba(200,168,75,0.4)`, boxShadow: `0 32px 100px rgba(0,0,0,0.5)` }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/od/venue.png" alt="Kelowna Winery Venue" style={{ width: '100%', display: 'block' }} />
-            </div>
-          </div>
-        </section>
-
-        {/* ── TIMELINE ── */}
-        <section id="od-timeline" style={{ position: 'relative', padding: '120px 24px', background: C.cream }}>
-          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.05, pointerEvents: 'none' }} xmlns="http://www.w3.org/2000/svg">
-            <filter id="od-paint2">
-              <feTurbulence type="turbulence" baseFrequency="0.5" numOctaves="3" result="noise" />
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-            <rect width="100%" height="100%" fill={C.blue} filter="url(#od-paint2)" />
-          </svg>
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: 700, margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: 80 }}>
-              <p style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.5em', textTransform: 'uppercase', color: C.goldDk }}>The Day</p>
-              <div className="od-gold-line" style={{ width: 0, height: 1, background: C.gold, margin: '16px auto', maxWidth: 80 }} />
-              <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 400, fontStyle: 'italic', color: C.navy, marginTop: 16 }}>August 15, 2026</h2>
-            </div>
-            <div className="od-timeline-track" style={{ position: 'relative', paddingLeft: 40 }}>
-              <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 1, background: 'rgba(200,168,75,0.2)' }}>
-                <div id="od-rail-fill" style={{ position: 'absolute', top: 0, width: 1, background: C.gold, height: 0 }} />
-              </div>
-              {[
-                { time: '4:30 pm', name: 'Ceremony',      desc: 'The vows that begin forever', first: true },
-                { time: '5:15 pm', name: 'Cocktail Hour', desc: 'Wine, canapés & golden hour' },
-                { time: '6:30 pm', name: 'Dinner',        desc: 'A harvest feast in the vineyard' },
-                { time: '8:00 pm', name: 'First Dance',   desc: 'Beneath the Kelowna stars' },
-                { time: '9:00 pm', name: 'Celebration',   desc: 'Dance, joy & memories forever' },
-              ].map((ev, i) => (
-                <div key={i} className="od-timeline-event" style={{ display: 'flex', alignItems: 'flex-start', gap: 24, marginBottom: i < 4 ? 56 : 0, opacity: 0, transform: 'translateX(-16px)', position: 'relative' }}>
-                  <div style={{ position: 'absolute', left: -45, top: 6, width: 10, height: 10, borderRadius: '50%', border: `1px solid ${C.gold}`, background: ev.first ? C.gold : C.cream }} />
-                  <div style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.6rem', letterSpacing: '0.3em', color: C.goldDk, textTransform: 'uppercase', flex: '0 0 80px', paddingTop: 4 }}>{ev.time}</div>
-                  <div>
-                    <div style={{ fontFamily: playfair.style.fontFamily, fontSize: 'clamp(1.2rem,3vw,1.6rem)', fontStyle: 'italic', fontWeight: 400, color: C.navy, lineHeight: 1.3 }}>{ev.name}</div>
-                    <div style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.65rem', letterSpacing: '0.1em', color: C.blue, marginTop: 6, fontWeight: 300 }}>{ev.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── RSVP ── */}
-        <section id="od-rsvp" style={{ position: 'relative', padding: '120px 24px', background: C.navy, overflow: 'hidden' }}>
-          <video autoPlay muted playsInline loop style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.22 }}>
-            <source src="/assets/od/swirl.mp4" type="video/mp4" />
-          </video>
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(13,21,32,0.55)' }} />
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: 640, margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: 64 }}>
-              <p style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.5em', textTransform: 'uppercase', color: C.gold }}>Your Reply</p>
-              <div className="od-gold-line" style={{ width: 0, height: 1, background: C.gold, margin: '16px auto', maxWidth: 80 }} />
-              <h2 style={{ fontFamily: playfair.style.fontFamily, fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 400, color: C.cream, margin: '16px 0 12px' }}>Will You Join Us?</h2>
-              <p style={{ fontSize: 'clamp(0.85rem,1.8vw,0.95rem)', color: C.blueLt, fontWeight: 300, lineHeight: 1.8, fontFamily: cormorant.style.fontFamily, fontStyle: 'italic' }}>Kindly reply by July 1, 2026.<br />Your presence would be our greatest gift.</p>
-            </div>
-            {rsvpSent ? (
-              <div style={{ textAlign: 'center', padding: 40, border: `1px solid rgba(200,168,75,0.3)` }}>
-                <h3 style={{ fontFamily: playfair.style.fontFamily, fontSize: '2rem', fontStyle: 'italic', color: C.cream, marginBottom: 12 }}>Thank You</h3>
-                <p style={{ color: C.blueLt, fontWeight: 300, lineHeight: 1.8, fontFamily: cormorant.style.fontFamily }}>We have received your reply and cannot wait to celebrate with you.<br />Oliver &amp; Daniela</p>
-              </div>
-            ) : (
-              <form onSubmit={submitRSVP} style={{ background: 'rgba(250,243,224,0.06)', backdropFilter: 'blur(8px)', padding: '48px 32px', border: `1px solid rgba(200,168,75,0.2)` }}>
-                {[
-                  { label: 'Full Name', id: 'od-name',  type: 'text',  placeholder: 'Your name' },
-                  { label: 'Email',     id: 'od-email', type: 'email', placeholder: 'your@email.com' },
-                ].map((f) => (
-                  <div key={f.id} className="od-form-group" style={{ marginBottom: 32, opacity: 0, transform: 'translateY(16px)' }}>
-                    <label style={{ display: 'block', fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.4em', textTransform: 'uppercase', color: C.gold, marginBottom: 12 }}>{f.label}</label>
-                    <input type={f.type} placeholder={f.placeholder} required
-                      style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: `1px solid rgba(200,168,75,0.4)`, color: C.cream, fontFamily: cormorant.style.fontFamily, fontSize: '1.1rem', padding: '12px 0', outline: 'none' }} />
-                  </div>
-                ))}
-                <div className="od-form-group" style={{ marginBottom: 32, opacity: 0, transform: 'translateY(16px)' }}>
-                  <label style={{ display: 'block', fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.4em', textTransform: 'uppercase', color: C.gold, marginBottom: 12 }}>Will You Attend?</label>
-                  <select style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: `1px solid rgba(200,168,75,0.4)`, color: C.cream, fontFamily: cormorant.style.fontFamily, fontSize: '1.1rem', padding: '12px 0', outline: 'none', cursor: 'pointer' }}>
-                    <option value="yes" style={{ background: C.navy }}>Joyfully accepts</option>
-                    <option value="no"  style={{ background: C.navy }}>Regretfully declines</option>
-                  </select>
-                </div>
-                <div className="od-form-group" style={{ marginBottom: 32, opacity: 0, transform: 'translateY(16px)' }}>
-                  <label style={{ display: 'block', fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.4em', textTransform: 'uppercase', color: C.gold, marginBottom: 12 }}>A Message for Oliver &amp; Daniela</label>
-                  <textarea placeholder="Share your warmth, your wishes, your love…" rows={4}
-                    style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: `1px solid rgba(200,168,75,0.4)`, color: C.cream, fontFamily: cormorant.style.fontFamily, fontSize: '1.1rem', padding: '12px 0', outline: 'none', resize: 'none' }} />
-                </div>
-                <button id="od-rsvp-btn" type="submit" style={{ width: '100%', background: C.gold, border: 'none', color: C.ink, fontFamily: montserrat.style.fontFamily, fontSize: '0.65rem', letterSpacing: '0.4em', textTransform: 'uppercase', padding: 20, cursor: 'pointer', marginTop: 8, opacity: 0, fontWeight: 500 }}>
-                  Send RSVP
-                </button>
-              </form>
-            )}
-          </div>
-        </section>
-
-        {/* ── CLOSING ── */}
-        <section id="od-closing" style={{ position: 'relative', height: '100svh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/assets/od/couple-painting.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.2 }} />
-          <canvas ref={closingCanvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 2 }} />
-          <div style={{ position: 'absolute', inset: 0, zIndex: 1, background: `linear-gradient(to bottom, ${C.ink} 0%, rgba(13,21,32,0.6) 50%, ${C.ink} 100%)` }} />
-          <div className="od-closing-content" style={{ position: 'relative', zIndex: 3, textAlign: 'center', padding: '0 24px', opacity: 0 }}>
-            <p style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.5em', textTransform: 'uppercase', color: C.gold }}>August 15, 2026</p>
-            <div className="od-gold-line" style={{ width: 0, height: 1, background: C.gold, margin: '16px auto', maxWidth: 80 }} />
-            <h2 style={{ fontFamily: playfair.style.fontFamily, fontStyle: 'italic', fontSize: 'clamp(1.8rem,5vw,3rem)', fontWeight: 400, color: C.cream, lineHeight: 1.4, marginBottom: 48 }}>
-              &ldquo;Paint the world the colour of love,<br />and every moment becomes a masterpiece.&rdquo;
-            </h2>
-            <span style={{ fontFamily: playfair.style.fontFamily, fontSize: 'clamp(3rem,10vw,7rem)', fontWeight: 400, color: C.cream, lineHeight: 0.9, display: 'block' }}>
-              Oliver <span style={{ color: C.gold, fontStyle: 'italic', fontSize: '0.6em' }}>&amp;</span> Daniela
-            </span>
-            <p style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.65rem', letterSpacing: '0.5em', textTransform: 'uppercase', color: C.blueLt, marginTop: 40 }}>Saturday, August 15, 2026 · Kelowna, British Columbia</p>
-          </div>
-        </section>
-
-        <footer style={{ padding: '48px 24px', background: C.ink, textAlign: 'center', borderTop: `1px solid rgba(200,168,75,0.1)` }}>
-          <p style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(250,243,224,0.3)' }}>Oliver &amp; Daniela &nbsp;·&nbsp; August 15, 2026 &nbsp;·&nbsp; Kelowna, British Columbia</p>
-          <p style={{ fontFamily: montserrat.style.fontFamily, fontSize: '0.55rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(250,243,224,0.2)', marginTop: 12 }}>#OliverandDaniela2026</p>
-        </footer>
+      <div style={{
+        position: 'absolute', bottom: 52, left: 0, right: 0, textAlign: 'center',
+        opacity: showHint ? 0.4 : 0, transition: 'opacity 2s ease', pointerEvents: 'none',
+      }}>
+        <p style={{
+          fontFamily: "'Jost', sans-serif", fontWeight: 200,
+          fontSize: 9, letterSpacing: '0.55em', textTransform: 'uppercase',
+          color: C.ink, margin: 0,
+        }}>
+          Oliver &amp; Daniella · August 15, 2026
+        </p>
       </div>
 
-      <style>{`
-        @keyframes odPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
-        #od-open-btn:hover { background: ${C.gold} !important; color: ${C.ink} !important; }
-      `}</style>
+      <button
+        onClick={complete}
+        style={{
+          position: 'absolute', bottom: 28, right: 28,
+          background: 'none', border: `1px solid ${C.rose}44`,
+          color: `${C.ink}66`, padding: '7px 16px',
+          fontFamily: "'Jost', sans-serif", fontWeight: 200,
+          fontSize: 9, letterSpacing: '0.35em', textTransform: 'uppercase',
+          cursor: 'pointer', opacity: showHint ? 1 : 0, transition: 'opacity 1.5s ease',
+        }}
+      >
+        Skip
+      </button>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// CHAPTER I — THE INVITATION
+// ══════════════════════════════════════════════════════
+function ChapterInvitation() {
+  return (
+    <section style={{
+      position: 'relative', minHeight: '100vh',
+      background: C.cream,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: '100px 24px', overflow: 'hidden',
+    }}>
+      {/* Frame watermark */}
+      <div style={{ position: 'absolute', inset: 0 }}>
+        <Image src="/assets/od/od-frame-landscape.png" alt="" fill
+          style={{ objectFit: 'cover', opacity: 0.07 }} />
+      </div>
+
+      <div style={{
+        position: 'relative', maxWidth: 520, width: '100%', textAlign: 'center',
+        padding: '64px 48px', border: `0.5px solid ${C.rose}28`,
+        background: `${C.ivory}EE`, backdropFilter: 'blur(6px)',
+      }}>
+        <CornerMarks color={C.rose} size={18} />
+
+        <p style={{
+          fontFamily: "'Jost', sans-serif", fontWeight: 200,
+          fontSize: 9, letterSpacing: '0.55em', textTransform: 'uppercase',
+          color: C.inkSoft, margin: '0 0 18px', opacity: 0.55,
+        }}>
+          Together With Their Families
+        </p>
+
+        <CrescentDivider />
+
+        <h1 style={{
+          fontFamily: "'Pinyon Script', cursive",
+          fontSize: 'clamp(52px, 8vw, 80px)',
+          fontWeight: 400, color: C.roseDark,
+          margin: '0 0 12px', lineHeight: 1.1,
+        }}>
+          Oliver
+        </h1>
+        <p style={{
+          fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+          fontSize: 20, fontWeight: 300, color: C.mauve, margin: '0 0 12px',
+          letterSpacing: '0.15em',
+        }}>
+          &amp;
+        </p>
+        <h1 style={{
+          fontFamily: "'Pinyon Script', cursive",
+          fontSize: 'clamp(52px, 8vw, 80px)',
+          fontWeight: 400, color: C.roseDark,
+          margin: '0 0 32px', lineHeight: 1.1,
+        }}>
+          Daniella
+        </h1>
+
+        <Rule color={C.rose} opacity={0.2} />
+
+        <div style={{ margin: '28px 0' }}>
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: 15, fontWeight: 300, color: C.ink,
+            lineHeight: 1.85, opacity: 0.78, margin: '0 0 18px',
+          }}>
+            Request the honour of your presence<br />at the celebration of their marriage
+          </p>
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+            fontSize: 22, fontWeight: 300, color: C.roseDark,
+            margin: '0 0 10px',
+          }}>
+            Saturday, August 15, 2026
+          </p>
+          <p style={{
+            fontFamily: "'Jost', sans-serif", fontWeight: 200,
+            fontSize: 9, letterSpacing: '0.42em', textTransform: 'uppercase',
+            color: C.inkSoft, opacity: 0.5, margin: 0,
+          }}>
+            Kelowna · British Columbia
+          </p>
+        </div>
+
+        <CrescentDivider />
+
+        <p style={{
+          fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+          fontSize: 13, color: C.sage, opacity: 0.7, margin: 0,
+          letterSpacing: '0.08em',
+        }}>
+          Scroll to begin
+        </p>
+      </div>
+    </section>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// CHAPTER II — OUR STORY
+// ══════════════════════════════════════════════════════
+function ChapterStory() {
+  return (
+    <section style={{
+      position: 'relative',
+      background: C.ivory,
+      overflow: 'hidden',
+      padding: '120px 24px',
+    }}>
+      <div style={{ position: 'absolute', inset: 0, opacity: 0.05 }}>
+        <Image src="/assets/od/od-frame-portrait.png" alt="" fill style={{ objectFit: 'cover', objectPosition: 'center' }} />
+      </div>
+
+      <div style={{
+        position: 'relative', maxWidth: 980, margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+        gap: 80, alignItems: 'center',
+      }}>
+        {/* Portrait */}
+        <div style={{
+          position: 'relative',
+          border: `0.5px solid ${C.rose}30`,
+          boxShadow: `0 24px 80px ${C.rose}18`,
+          overflow: 'hidden',
+        }}>
+          <CornerMarks color={C.rose} size={14} />
+          <Image src="/assets/od/od-couple.png" alt="Oliver & Daniella"
+            width={480} height={640} style={{ width: '100%', height: 'auto', display: 'block' }} />
+        </div>
+
+        {/* Text */}
+        <div>
+          <p style={{
+            fontFamily: "'Jost', sans-serif", fontWeight: 200,
+            fontSize: 9, letterSpacing: '0.55em', textTransform: 'uppercase',
+            color: C.rose, margin: '0 0 20px', opacity: 0.65,
+          }}>
+            Chapter II &nbsp;·&nbsp; How It Began
+          </p>
+
+          <h2 style={{
+            fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+            fontSize: 'clamp(36px, 4.5vw, 52px)', fontWeight: 300,
+            color: C.roseDark, margin: '0 0 22px', lineHeight: 1.18,
+          }}>
+            A Love Story<br />Written in Bloom
+          </h2>
+
+          <CrescentDivider />
+
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+            fontSize: 18, lineHeight: 1.9, color: C.ink, opacity: 0.76,
+            margin: '0 0 18px',
+          }}>
+            They found each other in the way that only the best stories begin —
+            quietly, unexpectedly, in a moment that neither of them would
+            have thought to describe as extraordinary.
+          </p>
+
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+            fontSize: 15, lineHeight: 1.85, color: C.ink, opacity: 0.5,
+            margin: '0 0 32px',
+          }}>
+            Years later, beneath a Positano sunset, surrounded by roses and
+            the soft light of the sea, Oliver asked the only question that
+            has ever mattered. Daniella said yes among the flowers.
+          </p>
+
+          <Rule color={C.rose} opacity={0.15} />
+
+          <div style={{ marginTop: 28 }}>
+            <p style={{
+              fontFamily: "'Pinyon Script', cursive",
+              fontSize: 42, color: C.roseDark, margin: 0, lineHeight: 1.2,
+            }}>
+              Oliver &amp; Daniella
+            </p>
+            <p style={{
+              fontFamily: "'Jost', sans-serif", fontWeight: 200,
+              fontSize: 9, letterSpacing: '0.38em', textTransform: 'uppercase',
+              color: C.sage, opacity: 0.55, margin: '6px 0 0',
+            }}>
+              Engaged · Positano · 2025
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// CHAPTER III — THE PROPOSAL
+// ══════════════════════════════════════════════════════
+function ChapterProposal() {
+  return (
+    <section style={{ position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '100%', height: '80vh', overflow: 'hidden' }}>
+        <Image src="/assets/od/od-proposal.png" alt="The Proposal — Positano" fill
+          style={{ objectFit: 'cover', objectPosition: 'center 30%' }} />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: `linear-gradient(to bottom, transparent 20%, ${C.cream}E8 100%)`,
+        }} />
+
+        <div style={{
+          position: 'absolute', bottom: 44, left: '50%',
+          transform: 'translateX(-50%)', textAlign: 'center', whiteSpace: 'nowrap',
+        }}>
+          <div style={{
+            display: 'inline-block',
+            background: `${C.ivory}EE`, backdropFilter: 'blur(12px)',
+            padding: '18px 52px', border: `0.5px solid ${C.rose}22`,
+            position: 'relative',
+          }}>
+            <CornerMarks color={C.rose} size={10} />
+            <p style={{
+              fontFamily: "'Jost', sans-serif", fontWeight: 200,
+              fontSize: 9, letterSpacing: '0.45em', textTransform: 'uppercase',
+              color: C.rose, opacity: 0.55, margin: '0 0 6px',
+            }}>The Proposal</p>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 24, fontWeight: 300, color: C.roseDark, margin: 0,
+            }}>
+              Positano, Italy · Summer 2025
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ background: C.cream, padding: '72px 24px' }}>
+        <div style={{ maxWidth: 580, margin: '0 auto', textAlign: 'center' }}>
+          <p style={{
+            fontFamily: "'Jost', sans-serif", fontWeight: 200,
+            fontSize: 9, letterSpacing: '0.55em', textTransform: 'uppercase',
+            color: C.rose, margin: '0 0 18px', opacity: 0.55,
+          }}>
+            Chapter III &nbsp;·&nbsp; The Question
+          </p>
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+            fontSize: 20, lineHeight: 1.88, color: C.ink, opacity: 0.72,
+            margin: '0 0 16px',
+          }}>
+            &ldquo;He had planned it for months. Roses, candles, the sea below —
+            and still, when the moment arrived, he forgot every word he had rehearsed.
+            She said yes before he could find them.&rdquo;
+          </p>
+          <div style={{ width: 40, height: '0.5px', background: C.rose, opacity: 0.3, margin: '0 auto' }} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// CHAPTER IV — THE BOTANICAL WORLD
+// ══════════════════════════════════════════════════════
+function ChapterBotanical() {
+  return (
+    <section style={{
+      position: 'relative',
+      minHeight: '100vh',
+      background: C.ink,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      overflow: 'hidden', padding: '100px 24px',
+    }}>
+      <div style={{ position: 'absolute', inset: 0 }}>
+        <Image src="/assets/od/od-frame-portrait.png" alt="" fill
+          style={{ objectFit: 'cover', objectPosition: 'center', opacity: 0.3 }} />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: `linear-gradient(135deg, ${C.ink}F0 0%, ${C.roseDark}60 50%, ${C.ink}EE 100%)`,
+        }} />
+      </div>
+
+      {/* Ambient video */}
+      <div style={{ position: 'absolute', inset: 0, opacity: 0.08 }}>
+        <video autoPlay muted loop playsInline
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          src="/assets/od/od-video-ambient.mp4"
+        />
+      </div>
+
+      <div style={{
+        position: 'absolute', top: 80, left: 0, right: 0,
+        height: '0.5px', background: `${C.blush}18`,
+      }} />
+      <div style={{
+        position: 'absolute', bottom: 80, left: 0, right: 0,
+        height: '0.5px', background: `${C.blush}18`,
+      }} />
+
+      <div style={{ position: 'relative', maxWidth: 640, textAlign: 'center' }}>
+        <p style={{
+          fontFamily: "'Jost', sans-serif", fontWeight: 200,
+          fontSize: 9, letterSpacing: '0.55em', textTransform: 'uppercase',
+          color: C.blush, margin: '0 0 20px', opacity: 0.55,
+        }}>
+          Chapter IV &nbsp;·&nbsp; A World in Blush &amp; Rose
+        </p>
+
+        <h2 style={{
+          fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+          fontSize: 'clamp(42px, 6vw, 62px)', fontWeight: 300,
+          color: C.ivory, margin: '0 0 20px', lineHeight: 1.15,
+        }}>
+          The Tropical<br />Garden Made Visible
+        </h2>
+
+        <div style={{
+          width: '0.5px', height: 56,
+          background: `linear-gradient(to bottom, ${C.blush}AA, transparent)`,
+          margin: '0 auto 28px',
+        }} />
+
+        <p style={{
+          fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+          fontSize: 19, lineHeight: 1.85, color: C.ivory, opacity: 0.68,
+          margin: '0 0 18px',
+        }}>
+          Their invitation was carved in the colours of a garden at golden hour —
+          blush palms, rose parrots in flight, and butterflies above a crescent moon.
+        </p>
+
+        <p style={{
+          fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+          fontSize: 15, lineHeight: 1.8, color: C.ivory, opacity: 0.38,
+          margin: '0 0 48px',
+        }}>
+          An embossed world that feels carved from ivory and rose quartz.
+        </p>
+
+        <div style={{
+          display: 'flex', justifyContent: 'center', gap: 0,
+          borderTop: `0.5px solid ${C.blush}22`,
+          borderBottom: `0.5px solid ${C.blush}22`,
+          padding: '32px 0',
+        }}>
+          {[
+            { number: '80',  label: 'Guests' },
+            { number: '5',   label: 'Countries' },
+            { number: '3',   label: 'Months' },
+          ].map((stat, i) => (
+            <div key={i} style={{
+              flex: 1, textAlign: 'center',
+              borderRight: i < 2 ? `0.5px solid ${C.blush}18` : 'none',
+              padding: '0 16px',
+            }}>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 48, fontWeight: 300, color: C.blush,
+                margin: '0 0 4px', lineHeight: 1,
+              }}>{stat.number}</p>
+              <p style={{
+                fontFamily: "'Jost', sans-serif", fontWeight: 200,
+                fontSize: 9, letterSpacing: '0.4em', textTransform: 'uppercase',
+                color: C.ivory, opacity: 0.35, margin: 0,
+              }}>{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// CHAPTER V — THE VENUE
+// ══════════════════════════════════════════════════════
+function ChapterVenue() {
+  return (
+    <section style={{ position: 'relative', background: C.cream, overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '100%', height: '72vh', overflow: 'hidden' }}>
+        <Image src="/assets/od/od-greenhouse.png" alt="The venue — botanical greenhouse"
+          fill style={{ objectFit: 'cover', objectPosition: 'center 25%' }} />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: `linear-gradient(to bottom, transparent 28%, ${C.cream}E8 100%)`,
+        }} />
+        <div style={{
+          position: 'absolute', bottom: 44, left: '50%',
+          transform: 'translateX(-50%)', textAlign: 'center', whiteSpace: 'nowrap',
+        }}>
+          <div style={{
+            display: 'inline-block',
+            background: `${C.ivory}EE`, backdropFilter: 'blur(12px)',
+            padding: '18px 52px', border: `0.5px solid ${C.rose}22`,
+            position: 'relative',
+          }}>
+            <CornerMarks color={C.rose} size={10} />
+            <p style={{
+              fontFamily: "'Jost', sans-serif", fontWeight: 200,
+              fontSize: 9, letterSpacing: '0.45em', textTransform: 'uppercase',
+              color: C.rose, opacity: 0.55, margin: '0 0 6px',
+            }}>The Venue</p>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 24, fontWeight: 300, color: C.roseDark, margin: 0,
+            }}>
+              A Botanical Garden, Kelowna
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ position: 'relative', maxWidth: 800, margin: '0 auto', padding: '60px 40px' }}>
+        <p style={{
+          fontFamily: "'Jost', sans-serif", fontWeight: 200,
+          fontSize: 9, letterSpacing: '0.55em', textTransform: 'uppercase',
+          color: C.rose, margin: '0 0 14px', opacity: 0.5,
+        }}>Chapter V &nbsp;·&nbsp; Where We Celebrate</p>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gap: 40, marginTop: 24,
+        }}>
+          <div>
+            <h2 style={{
+              fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+              fontSize: 'clamp(30px, 4vw, 44px)', fontWeight: 300,
+              color: C.roseDark, margin: '0 0 20px', lineHeight: 1.2,
+            }}>
+              A Glass Garden<br />Among the Vines
+            </h2>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+              fontSize: 16, lineHeight: 1.85, color: C.ink, opacity: 0.7, margin: 0,
+            }}>
+              Set within a sun-filled botanical greenhouse draped in climbing roses,
+              our celebration will unfold in a space that feels like stepping inside
+              a living, breathing garden.
+            </p>
+          </div>
+          <div style={{ borderLeft: `0.5px solid ${C.rose}20`, paddingLeft: 40 }}>
+            <div style={{ marginBottom: 28 }}>
+              <p style={{
+                fontFamily: "'Jost', sans-serif", fontWeight: 200,
+                fontSize: 9, letterSpacing: '0.42em', textTransform: 'uppercase',
+                color: C.rose, opacity: 0.5, margin: '0 0 6px',
+              }}>Ceremony</p>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, color: C.ink, margin: 0 }}>
+                4:30 PM · August 15, 2026
+              </p>
+            </div>
+            <div>
+              <p style={{
+                fontFamily: "'Jost', sans-serif", fontWeight: 200,
+                fontSize: 9, letterSpacing: '0.42em', textTransform: 'uppercase',
+                color: C.rose, opacity: 0.5, margin: '0 0 6px',
+              }}>Location</p>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, color: C.ink, margin: '0 0 4px' }}>
+                Kelowna, British Columbia
+              </p>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+                fontSize: 14, color: C.inkSoft, opacity: 0.55, margin: 0,
+              }}>
+                Details enclosed with your invitation
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// CHAPTER VI — LE PROGRAMME
+// ══════════════════════════════════════════════════════
+function ChapterProgramme() {
+  const events = [
+    { time: '4:30 PM', name: 'Ceremony',      note: 'Beneath the rose arch of the greenhouse garden' },
+    { time: '5:30 PM', name: 'Garden Hour',   note: 'Champagne & florals under the afternoon sky' },
+    { time: '7:00 PM', name: 'Dinner',        note: 'A harvest table lit by candlelight and roses' },
+    { time: '9:00 PM', name: 'First Dance',   note: 'The moment the garden holds its breath' },
+    { time: '10:00 PM', name: 'Celebration',  note: 'Dancing until the stars say goodnight' },
+  ];
+
+  return (
+    <section style={{
+      position: 'relative',
+      background: C.rose,
+      padding: '100px 24px', overflow: 'hidden',
+    }}>
+      <div style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
+        <Image src="/assets/od/od-frame-landscape.png" alt="" fill style={{ objectFit: 'cover' }} />
+        <div style={{ position: 'absolute', inset: 0, background: C.rose, opacity: 0.9 }} />
+      </div>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '0.5px', background: `${C.ivory}20` }} />
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '0.5px', background: `${C.ivory}20` }} />
+
+      <div style={{ position: 'relative', maxWidth: 560, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <p style={{
+            fontFamily: "'Jost', sans-serif", fontWeight: 200,
+            fontSize: 9, letterSpacing: '0.55em', textTransform: 'uppercase',
+            color: C.ivory, margin: '0 0 18px', opacity: 0.55,
+          }}>Chapter VI &nbsp;·&nbsp; The Programme</p>
+          <h2 style={{
+            fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+            fontSize: 'clamp(42px, 6vw, 58px)', fontWeight: 300,
+            color: C.ivory, margin: 0,
+          }}>The Day</h2>
+          <div style={{
+            width: '0.5px', height: 48,
+            background: `linear-gradient(to bottom, ${C.ivory}66, transparent)`,
+            margin: '22px auto 0',
+          }} />
+        </div>
+
+        <div style={{ borderLeft: `0.5px solid ${C.ivory}28`, paddingLeft: 36 }}>
+          {events.map((e, i) => (
+            <div key={i} style={{
+              position: 'relative',
+              marginBottom: i < events.length - 1 ? 44 : 0,
+              paddingBottom: i < events.length - 1 ? 44 : 0,
+              borderBottom: i < events.length - 1 ? `0.5px solid ${C.ivory}12` : 'none',
+            }}>
+              <div style={{
+                position: 'absolute', left: -41, top: 9,
+                width: 8, height: 8, borderRadius: '50%',
+                background: C.ivory,
+                boxShadow: `0 0 0 3px ${C.rose}, 0 0 0 4.5px ${C.ivory}44`,
+              }} />
+              <p style={{
+                fontFamily: "'Jost', sans-serif", fontWeight: 200,
+                fontSize: 9, letterSpacing: '0.38em', textTransform: 'uppercase',
+                color: C.ivory, opacity: 0.62, margin: '0 0 6px',
+              }}>{e.time}</p>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 26, fontWeight: 300, color: C.ivory, margin: '0 0 5px',
+              }}>{e.name}</p>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+                fontSize: 14, color: C.ivory, opacity: 0.42, margin: 0, lineHeight: 1.6,
+              }}>{e.note}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// CHAPTER VII — THE DETAILS
+// ══════════════════════════════════════════════════════
+function ChapterDetails() {
+  const details = [
+    {
+      label: 'Dress Code',
+      detail: 'Romantic Garden Formal',
+      note: 'Florals, blush, and cream are welcome and encouraged. Linen for gentlemen in the summer warmth.',
+    },
+    {
+      label: 'Accommodation',
+      detail: 'The Cove Lakeside Resort',
+      note: 'A block of rooms has been reserved for guests. Please mention "Oliver & Daniella" when booking.',
+    },
+    {
+      label: 'Gifts',
+      detail: 'Your presence is our gift',
+      note: 'If you wish to contribute, a honeymoon fund has been created for our travels through Italy.',
+    },
+    {
+      label: 'RSVP By',
+      detail: 'July 1, 2026',
+      note: 'Please reply via this invitation so we can prepare a place especially for you.',
+    },
+  ];
+
+  return (
+    <section style={{
+      position: 'relative', background: C.ivory, padding: '100px 24px', overflow: 'hidden',
+    }}>
+      <div style={{ position: 'absolute', inset: 0, opacity: 0.04 }}>
+        <Image src="/assets/od/od-frame-portrait.png" alt="" fill style={{ objectFit: 'cover' }} />
+      </div>
+
+      <div style={{ position: 'relative', maxWidth: 760, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 60 }}>
+          <p style={{
+            fontFamily: "'Jost', sans-serif", fontWeight: 200,
+            fontSize: 9, letterSpacing: '0.55em', textTransform: 'uppercase',
+            color: C.rose, margin: '0 0 16px', opacity: 0.5,
+          }}>Chapter VII &nbsp;·&nbsp; The Details</p>
+          <h2 style={{
+            fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+            fontSize: 'clamp(40px, 5.5vw, 54px)', fontWeight: 300,
+            color: C.roseDark, margin: 0,
+          }}>
+            Everything You Need
+          </h2>
+          <div style={{ width: 40, height: '0.5px', background: C.rose, opacity: 0.25, margin: '22px auto 0' }} />
+        </div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: 44,
+        }}>
+          {details.map((item, i) => (
+            <div key={i} style={{
+              borderTop: `0.5px solid ${C.rose}28`, paddingTop: 24, position: 'relative',
+            }}>
+              <div style={{
+                position: 'absolute', top: 0, left: 0,
+                width: 24, height: '0.5px', background: C.rose, opacity: 0.5,
+              }} />
+              <p style={{
+                fontFamily: "'Jost', sans-serif", fontWeight: 200,
+                fontSize: 9, letterSpacing: '0.4em', textTransform: 'uppercase',
+                color: C.rose, opacity: 0.55, margin: '0 0 8px',
+              }}>{item.label}</p>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: 22, fontWeight: 400, color: C.roseDark, margin: '0 0 10px',
+              }}>{item.detail}</p>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+                fontSize: 14, color: C.ink, opacity: 0.62, lineHeight: 1.7, margin: 0,
+              }}>{item.note}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Floating RSVP Button ──────────────────────────────
+function FloatingRSVP() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 1400);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <button
+      onClick={() => document.getElementById('od-rsvp')?.scrollIntoView({ behavior: 'smooth' })}
+      aria-label="RSVP"
+      style={{
+        position: 'fixed', bottom: 32, right: 32, zIndex: 9000,
+        display: 'flex', alignItems: 'center', gap: 10,
+        padding: '13px 24px',
+        background: C.rose,
+        color: C.ivory,
+        border: 'none',
+        fontFamily: "'Jost', sans-serif", fontWeight: 200,
+        fontSize: 10, letterSpacing: '0.38em', textTransform: 'uppercase',
+        cursor: 'pointer',
+        boxShadow: `0 8px 36px ${C.rose}55`,
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(14px)',
+        transition: 'opacity 0.7s ease, transform 0.7s ease, background 0.3s ease',
+      }}
+      onMouseEnter={e => { e.currentTarget.style.background = C.roseDark; }}
+      onMouseLeave={e => { e.currentTarget.style.background = C.rose; }}
+    >
+      <span style={{ fontSize: 11 }}>✦</span>
+      RSVP
+    </button>
+  );
+}
+
+// ── Shared form input styles ──────────────────────────
+const inputSx: React.CSSProperties = {
+  width: '100%', background: 'transparent', border: 'none',
+  borderBottom: `0.5px solid ${C.rose}44`, padding: '10px 0',
+  fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+  fontSize: 17, color: C.ink, outline: 'none', boxSizing: 'border-box',
+};
+const labelSx: React.CSSProperties = {
+  fontFamily: "'Jost', sans-serif", fontWeight: 200,
+  fontSize: 9, letterSpacing: '0.42em', textTransform: 'uppercase' as const,
+  color: C.rose, display: 'block', marginBottom: 4, opacity: 0.65,
+};
+
+const COUPLE_SLUG = 'oliver-and-daniela';
+type RSVPStep = 'lookup' | 'form' | 'done';
+
+// ══════════════════════════════════════════════════════
+// CHAPTER VIII — RSVP
+// ══════════════════════════════════════════════════════
+function ChapterRSVP() {
+  const [step, setStep]                   = useState<RSVPStep>('lookup');
+  const [lookupData, setLookupData]       = useState<Record<string, unknown> | null>(null);
+  const [code, setCode]                   = useState('');
+  const [lookupName, setLookupName]       = useState('');
+  const [lookupLoading, setLookupLoading] = useState(false);
+  const [lookupError, setLookupError]     = useState('');
+  const [guestName, setGuestName]         = useState('');
+  const [email, setEmail]                 = useState('');
+  const [attending, setAttending]         = useState<'attending' | 'declined' | null>(null);
+  const [mealChoiceId, setMealChoiceId]   = useState('');
+  const [dietary, setDietary]             = useState('');
+  const [message, setMessage]             = useState('');
+  const [hasPlusOne, setHasPlusOne]       = useState(false);
+  const [plusOneName, setPlusOneName]     = useState('');
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [submitError, setSubmitError]     = useState('');
+
+  const handleLookup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!code.trim() && !lookupName.trim()) { setLookupError('Please enter your invitation code or full name.'); return; }
+    setLookupLoading(true); setLookupError('');
+    try {
+      const res = await fetch('/api/rsvp/lookup', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ coupleSlug: COUPLE_SLUG, invitationCode: code.trim() || undefined, guestName: !code.trim() ? lookupName.trim() : undefined }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Not found');
+      if (!data.couple) throw new Error('Event not found. Please contact the couple.');
+      setLookupData(data);
+      const g = data.guest as Record<string, string> | undefined;
+      const r = data.existingRsvp as Record<string, string> | undefined;
+      if (g) { setGuestName(`${g.first_name ?? ''} ${g.last_name ?? ''}`.trim()); if (g.email) setEmail(g.email); }
+      else if (lookupName.trim()) setGuestName(lookupName.trim());
+      if (r) { setAttending(r.status === 'attending' ? 'attending' : 'declined'); setDietary(r.dietary_notes ?? ''); setMessage(r.message ?? ''); if (r.meal_choice_id) setMealChoiceId(r.meal_choice_id); }
+      setStep('form');
+    } catch (err) { setLookupError(err instanceof Error ? err.message : 'Something went wrong.'); }
+    finally { setLookupLoading(false); }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!attending) { setSubmitError('Please select whether you will attend.'); return; }
+    setSubmitLoading(true); setSubmitError('');
+    try {
+      const plusOneParts = plusOneName.trim().split(' ');
+      const res = await fetch('/api/rsvp/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          coupleSlug: COUPLE_SLUG,
+          guestName, email,
+          invitationCode: code.trim() || undefined,
+          status: attending,
+          dietaryNotes: dietary,
+          message,
+          mealChoiceId: mealChoiceId || undefined,
+          plusOne: hasPlusOne && plusOneName.trim() ? {
+            firstName: plusOneParts[0] ?? '',
+            lastName: plusOneParts.slice(1).join(' ') || '',
+          } : undefined,
+          coupleId: (lookupData?.couple as Record<string, string>)?.id,
+          guestId: (lookupData?.guest as Record<string, string>)?.id,
+          existingRsvpId: (lookupData?.existingRsvp as Record<string, string>)?.id,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Submission failed');
+      setStep('done');
+    } catch (err) { setSubmitError(err instanceof Error ? err.message : 'Something went wrong.'); }
+    finally { setSubmitLoading(false); }
+  };
+
+  const mealChoices = lookupData
+    ? ((lookupData.mealChoices ?? []) as Record<string, string>[])
+    : [];
+  const guestHasPlusOne = lookupData
+    ? !!(lookupData.guest as Record<string, unknown> | undefined)?.allows_plus_one
+    : false;
+
+  return (
+    <section id="od-rsvp" style={{
+      position: 'relative', padding: '120px 24px',
+      background: C.ink, overflow: 'hidden',
+    }}>
+      {/* Ambient background video */}
+      <div style={{ position: 'absolute', inset: 0, opacity: 0.18 }}>
+        <video autoPlay muted loop playsInline
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          src="/assets/od/od-video-ambient.mp4"
+        />
+      </div>
+      <div style={{ position: 'absolute', inset: 0, background: `${C.ink}88` }} />
+
+      {/* Frame watermark */}
+      <div style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
+        <Image src="/assets/od/od-frame-landscape.png" alt="" fill style={{ objectFit: 'cover' }} />
+      </div>
+
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: 600, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <p style={{
+            fontFamily: "'Jost', sans-serif", fontWeight: 200,
+            fontSize: 9, letterSpacing: '0.55em', textTransform: 'uppercase',
+            color: C.blush, margin: '0 0 20px', opacity: 0.55,
+          }}>Chapter VIII &nbsp;·&nbsp; Your Reply</p>
+          <h2 style={{
+            fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+            fontSize: 'clamp(40px, 5.5vw, 58px)', fontWeight: 300,
+            color: C.ivory, margin: '0 0 14px',
+          }}>Will You Join Us?</h2>
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+            fontSize: 17, color: C.ivory, opacity: 0.52, lineHeight: 1.8,
+          }}>
+            Kindly reply by July 1, 2026.<br />
+            Your presence would be our greatest joy.
+          </p>
+          <div style={{ width: '0.5px', height: 48, background: `linear-gradient(to bottom, ${C.blush}88, transparent)`, margin: '22px auto 0' }} />
+        </div>
+
+        {step === 'lookup' && (
+          <form onSubmit={handleLookup}
+            style={{ background: `${C.ivory}08`, backdropFilter: 'blur(10px)', padding: '48px 40px', border: `0.5px solid ${C.rose}28`, position: 'relative' }}
+          >
+            <CornerMarks color={C.blush} size={12} />
+
+            <div style={{ marginBottom: 32 }}>
+              <label style={{ ...labelSx, color: C.blush }}>Your Invitation Code</label>
+              <input
+                type="text" value={code}
+                onChange={e => setCode(e.target.value)}
+                placeholder="e.g. OD-1234"
+                style={{ ...inputSx, color: C.ivory, borderBottomColor: `${C.blush}44` }}
+              />
+            </div>
+
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+              fontSize: 13, color: C.ivory, opacity: 0.3, textAlign: 'center', margin: '0 0 24px',
+            }}>or</p>
+
+            <div style={{ marginBottom: 36 }}>
+              <label style={{ ...labelSx, color: C.blush }}>Your Full Name</label>
+              <input
+                type="text" value={lookupName}
+                onChange={e => setLookupName(e.target.value)}
+                placeholder="As it appears on your invitation"
+                style={{ ...inputSx, color: C.ivory, borderBottomColor: `${C.blush}44` }}
+              />
+            </div>
+
+            {lookupError && (
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 14, color: '#F29', opacity: 0.8, marginBottom: 20 }}>
+                {lookupError}
+              </p>
+            )}
+
+            <button type="submit" disabled={lookupLoading}
+              style={{
+                width: '100%', background: C.rose, border: 'none',
+                color: C.ivory, fontFamily: "'Jost', sans-serif", fontWeight: 200,
+                fontSize: 10, letterSpacing: '0.42em', textTransform: 'uppercase',
+                padding: '18px 0', cursor: lookupLoading ? 'wait' : 'pointer', opacity: lookupLoading ? 0.65 : 1,
+              }}>
+              {lookupLoading ? 'Searching…' : 'Find My Invitation'}
+            </button>
+          </form>
+        )}
+
+        {step === 'form' && (
+          <form onSubmit={handleSubmit}
+            style={{ background: `${C.ivory}08`, backdropFilter: 'blur(10px)', padding: '48px 40px', border: `0.5px solid ${C.rose}28`, position: 'relative' }}
+          >
+            <CornerMarks color={C.blush} size={12} />
+
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+              fontSize: 18, color: C.ivory, opacity: 0.7, marginBottom: 36,
+              textAlign: 'center',
+            }}>
+              Welcome, {guestName || 'dear guest'}
+            </p>
+
+            {[
+              { label: 'Your Name', value: guestName, set: setGuestName, type: 'text', placeholder: 'Full name' },
+              { label: 'Email',     value: email,     set: setEmail,     type: 'email', placeholder: 'your@email.com' },
+            ].map(f => (
+              <div key={f.label} style={{ marginBottom: 28 }}>
+                <label style={{ ...labelSx, color: C.blush }}>{f.label}</label>
+                <input type={f.type} value={f.value} onChange={e => f.set(e.target.value)}
+                  placeholder={f.placeholder} required
+                  style={{ ...inputSx, color: C.ivory, borderBottomColor: `${C.blush}44` }} />
+              </div>
+            ))}
+
+            <div style={{ marginBottom: 28 }}>
+              <label style={{ ...labelSx, color: C.blush }}>Will You Attend?</label>
+              <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
+                {(['attending', 'declined'] as const).map(opt => (
+                  <button key={opt} type="button"
+                    onClick={() => setAttending(opt)}
+                    style={{
+                      flex: 1, padding: '12px 0',
+                      background: attending === opt ? C.rose : 'transparent',
+                      border: `0.5px solid ${C.rose}${attending === opt ? 'FF' : '44'}`,
+                      color: attending === opt ? C.ivory : `${C.ivory}88`,
+                      fontFamily: "'Jost', sans-serif", fontWeight: 200,
+                      fontSize: 9, letterSpacing: '0.35em', textTransform: 'uppercase',
+                      cursor: 'pointer', transition: 'all 0.2s ease',
+                    }}>
+                    {opt === 'attending' ? 'Joyfully Accepts' : 'Regretfully Declines'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {mealChoices.length > 0 && (
+              <div style={{ marginBottom: 28 }}>
+                <label style={{ ...labelSx, color: C.blush }}>Meal Preference</label>
+                <select value={mealChoiceId} onChange={e => setMealChoiceId(e.target.value)}
+                  style={{ ...inputSx, color: C.ivory, borderBottomColor: `${C.blush}44` }}>
+                  <option value="" style={{ background: C.ink }}>Select your preference</option>
+                  {mealChoices.map(m => (
+                    <option key={m.id} value={m.id} style={{ background: C.ink }}>{m.name}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <div style={{ marginBottom: 28 }}>
+              <label style={{ ...labelSx, color: C.blush }}>Dietary Notes</label>
+              <input type="text" value={dietary} onChange={e => setDietary(e.target.value)}
+                placeholder="Allergies, restrictions…"
+                style={{ ...inputSx, color: C.ivory, borderBottomColor: `${C.blush}44` }} />
+            </div>
+
+            {guestHasPlusOne && (
+              <>
+                <div style={{ marginBottom: 20 }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                    <input type="checkbox" checked={hasPlusOne} onChange={e => setHasPlusOne(e.target.checked)}
+                      style={{ accentColor: C.rose }} />
+                    <span style={{ ...labelSx, margin: 0 }}>I am bringing a plus one</span>
+                  </label>
+                </div>
+                {hasPlusOne && (
+                  <div style={{ marginBottom: 28 }}>
+                    <label style={{ ...labelSx, color: C.blush }}>Plus One&apos;s Full Name</label>
+                    <input type="text" value={plusOneName} onChange={e => setPlusOneName(e.target.value)}
+                      placeholder="Guest's full name"
+                      style={{ ...inputSx, color: C.ivory, borderBottomColor: `${C.blush}44` }} />
+                  </div>
+                )}
+              </>
+            )}
+
+            <div style={{ marginBottom: 36 }}>
+              <label style={{ ...labelSx, color: C.blush }}>A Message for Oliver &amp; Daniella</label>
+              <textarea value={message} onChange={e => setMessage(e.target.value)}
+                placeholder="Share your warmth, your wishes, your love…" rows={4}
+                style={{ ...inputSx, color: C.ivory, borderBottomColor: `${C.blush}44`, resize: 'none' }} />
+            </div>
+
+            {submitError && (
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 14, color: '#F29', opacity: 0.8, marginBottom: 20 }}>
+                {submitError}
+              </p>
+            )}
+
+            <button type="submit" disabled={submitLoading}
+              style={{
+                width: '100%', background: C.rose, border: 'none',
+                color: C.ivory, fontFamily: "'Jost', sans-serif", fontWeight: 200,
+                fontSize: 10, letterSpacing: '0.42em', textTransform: 'uppercase',
+                padding: '18px 0', cursor: submitLoading ? 'wait' : 'pointer', opacity: submitLoading ? 0.65 : 1,
+              }}>
+              {submitLoading ? 'Sending…' : 'Send My Reply'}
+            </button>
+          </form>
+        )}
+
+        {step === 'done' && (
+          <div style={{
+            textAlign: 'center', padding: '64px 40px',
+            border: `0.5px solid ${C.rose}30`, background: `${C.ivory}08`,
+            backdropFilter: 'blur(10px)', position: 'relative',
+          }}>
+            <CornerMarks color={C.blush} size={14} />
+            <p style={{
+              fontFamily: "'Pinyon Script', cursive",
+              fontSize: 60, color: C.blush, margin: '0 0 20px', lineHeight: 1,
+            }}>Thank You</p>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+              fontSize: 17, color: C.ivory, opacity: 0.62, lineHeight: 1.85, margin: 0,
+            }}>
+              We have received your reply and we cannot wait<br />
+              to celebrate with you among the roses.<br />
+              <br />
+              — Oliver &amp; Daniella
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// CLOSING
+// ══════════════════════════════════════════════════════
+function ChapterClosing() {
+  return (
+    <section style={{
+      position: 'relative', height: '100svh',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      overflow: 'hidden',
+    }}>
+      <Image src="/assets/od/od-frame-landscape.png" alt="" fill
+        style={{ objectFit: 'cover', opacity: 0.35 }} />
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: `linear-gradient(to bottom, ${C.cream} 0%, ${C.cream}88 40%, ${C.cream}AA 60%, ${C.cream} 100%)`,
+      }} />
+
+      <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 24px' }}>
+        <p style={{
+          fontFamily: "'Jost', sans-serif", fontWeight: 200,
+          fontSize: 9, letterSpacing: '0.55em', textTransform: 'uppercase',
+          color: C.rose, margin: '0 0 18px', opacity: 0.55,
+        }}>August 15, 2026</p>
+
+        <div style={{ width: 40, height: '0.5px', background: C.rose, opacity: 0.3, margin: '0 auto 28px' }} />
+
+        <h2 style={{
+          fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic',
+          fontSize: 'clamp(1.6rem, 4.5vw, 2.8rem)', fontWeight: 300,
+          color: C.ink, lineHeight: 1.4, marginBottom: 52, maxWidth: 520, margin: '0 auto 52px',
+        }}>
+          &ldquo;Every garden is made beautiful<br />by the love that tends it.&rdquo;
+        </h2>
+
+        <div style={{ margin: '0 0 32px' }}>
+          <span style={{
+            fontFamily: "'Pinyon Script', cursive",
+            fontSize: 'clamp(52px, 10vw, 84px)',
+            fontWeight: 400, color: C.roseDark, lineHeight: 0.9, display: 'block',
+          }}>
+            Oliver <span style={{ color: C.mauve, fontSize: '0.7em', fontStyle: 'normal' }}>&amp;</span> Daniella
+          </span>
+        </div>
+
+        <p style={{
+          fontFamily: "'Jost', sans-serif", fontWeight: 200,
+          fontSize: 9, letterSpacing: '0.45em', textTransform: 'uppercase',
+          color: C.inkSoft, opacity: 0.45, margin: 0,
+        }}>
+          Saturday, August 15, 2026 · Kelowna, British Columbia
+        </p>
+      </div>
+    </section>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// ROOT PAGE
+// ══════════════════════════════════════════════════════
+export default function OliverAndDaniellaPage() {
+  const [phase, setPhase] = useState<'video' | 'invitation'>('video');
+
+  return (
+    <div style={{ background: C.cream, color: C.ink, overflowX: 'hidden', fontFamily: "'Cormorant Garamond', serif" }}>
+      <FontLoader />
+      <Grain />
+
+      {phase === 'video' && <VideoEntrance onComplete={() => setPhase('invitation')} />}
+
+      {phase === 'invitation' && (
+        <div style={{ position: 'relative' }}>
+          <PetalCanvas />
+
+          {/* Back link */}
+          <div style={{ position: 'fixed', top: 28, left: 28, zIndex: 9000 }}>
+            <Link href="/collection" style={{
+              fontFamily: "'Jost', sans-serif", fontSize: 9,
+              letterSpacing: '0.38em', textTransform: 'uppercase',
+              color: `${C.inkSoft}88`, textDecoration: 'none',
+            }}>← Collection</Link>
+          </div>
+
+          <ChapterInvitation />
+          <ChapterStory />
+          <ChapterProposal />
+          <ChapterBotanical />
+          <ChapterVenue />
+          <ChapterProgramme />
+          <ChapterDetails />
+          <ChapterRSVP />
+          <ChapterClosing />
+
+          <footer style={{
+            padding: '48px 24px', background: C.ink, textAlign: 'center',
+            borderTop: `0.5px solid ${C.rose}18`,
+          }}>
+            <p style={{
+              fontFamily: "'Jost', sans-serif", fontWeight: 200,
+              fontSize: 9, letterSpacing: '0.32em', textTransform: 'uppercase',
+              color: `${C.ivory}30`, margin: '0 0 12px',
+            }}>Oliver &amp; Daniella · August 15, 2026 · Kelowna, British Columbia</p>
+            <p style={{
+              fontFamily: "'Jost', sans-serif", fontWeight: 200,
+              fontSize: 9, letterSpacing: '0.32em', textTransform: 'uppercase',
+              color: `${C.ivory}20`, margin: 0,
+            }}>#OliverandDaniella2026</p>
+          </footer>
+
+          <FloatingRSVP />
+        </div>
+      )}
     </div>
   );
 }

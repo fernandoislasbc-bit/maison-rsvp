@@ -6,8 +6,19 @@ import Link from 'next/link';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
 import { WORKS } from '@/lib/works';
+import WorksCinematicCarousel from '@/components/ui/works-cinematic-carousel';
 
-const CATEGORIES = ['All', ...Array.from(new Set(WORKS.map(w => w.category)))];
+// Only show couples with a real built experience (page or experienceUrl)
+const REAL_SLUGS = new Set([
+  'oliver-and-charlotte',
+  'thomas-and-grace',
+  'oliver-and-daniela',
+  'neil-and-riley',
+  'santiago-and-luna',
+]);
+const COUPLE_WORKS = WORKS.filter(w => REAL_SLUGS.has(w.slug) || !!w.experienceUrl);
+
+const CATEGORIES = ['All', ...Array.from(new Set(COUPLE_WORKS.map(w => w.category)))];
 
 export default function WorkIndex() {
   const [active, setActive]     = useState('All');
@@ -19,7 +30,7 @@ export default function WorkIndex() {
     return () => clearTimeout(t);
   }, []);
 
-  const filtered = active === 'All' ? WORKS : WORKS.filter(w => w.category === active);
+  const filtered = active === 'All' ? COUPLE_WORKS : COUPLE_WORKS.filter(w => w.category === active);
 
   return (
     <>
@@ -91,6 +102,9 @@ export default function WorkIndex() {
             opacity: .5,
           }} />
         </header>
+
+        {/* ── Cinematic commissions reel — couple names on scroll ── */}
+        <WorksCinematicCarousel works={COUPLE_WORKS} />
 
         {/* ── Filter tabs ─────────────────────────── */}
         <div style={{
@@ -277,7 +291,7 @@ function FeaturedCard({ work, hovered, onEnter, onLeave }: {
           border: '1px solid rgba(201,168,130,.25)',
           padding: '.35em .8em',
         }}>
-          {work.slug === 'the-crossing' ? 'Signature Experience' : 'Featured'}
+          Featured
         </span>
 
         {/* Text */}
