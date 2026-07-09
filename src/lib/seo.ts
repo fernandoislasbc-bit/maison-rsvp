@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 const SITE = {
   name:    'Maison RSVP',
-  url:     'https://www.maisonrsvp.com',
+  url:     'https://www.maisonrsvp.ca',
   twitter: '@maisonrsvp',
   locale:  'en_CA',
 };

@@ -2,7 +2,16 @@ import type { MetadataRoute } from 'next';
 import { ARTICLES } from '@/lib/journal';
 import { WORKS } from '@/lib/works';
 
-const BASE = 'https://www.maisonrsvp.com';
+const BASE = 'https://www.maisonrsvp.ca';
+
+// Only slugs that have a real built page
+const REAL_WORK_SLUGS = new Set([
+  'oliver-and-charlotte',
+  'thomas-and-grace',
+  'oliver-and-daniela',
+  'neil-and-riley',
+  'santiago-and-luna',
+]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
@@ -17,12 +26,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/contact`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
   ];
 
-  const workPages: MetadataRoute.Sitemap = WORKS.map(w => ({
-    url:              `${BASE}/work/${w.slug}`,
-    lastModified:     new Date(),
-    changeFrequency:  'monthly',
-    priority:         0.8,
-  }));
+  const workPages: MetadataRoute.Sitemap = WORKS
+    .filter(w => REAL_WORK_SLUGS.has(w.slug))
+    .map(w => ({
+      url:             `${BASE}/work/${w.slug}`,
+      lastModified:    new Date(),
+      changeFrequency: 'monthly',
+      priority:        0.8,
+    }));
 
   const articlePages: MetadataRoute.Sitemap = ARTICLES.map(a => ({
     url:              `${BASE}/journal/${a.slug}`,

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   description: 'Bespoke luxury digital invitation experiences for weddings, destination celebrations, and private events — designed from scratch, never from templates. By private commission only. Vancouver · London · Lake Como.',
   keywords: 'luxury wedding invitations, bespoke digital invitations, custom wedding website, luxury invitation experience, digital wedding invitation Canada',
-  metadataBase: new URL('https://www.maisonrsvp.com'),
+  metadataBase: new URL('https://www.maisonrsvp.ca'),
   alternates: { canonical: '/' },
   openGraph: { type: 'website', siteName: 'Maison RSVP', locale: 'en_CA' },
   twitter: { card: 'summary_large_image' },

@@ -41,7 +41,7 @@ export default function Image() {
 
         {/* URL */}
         <div style={{ position: 'absolute', bottom: 35, right: 100, fontFamily: 'Georgia, serif', fontSize: 11, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(181,175,165,0.35)', display: 'flex' }}>
-          maisonrsvp.com
+          maisonrsvp.ca
         </div>
       </div>
     ),
