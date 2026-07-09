@@ -100,6 +100,62 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Founder */}
+        <section style={{
+          padding: 'clamp(7rem,12vw,12rem) clamp(2rem,5vw,5rem)',
+          background: `radial-gradient(ellipse 60% 40% at 30% 60%, #EDE5D8 0%, transparent 55%), var(--ivory)`,
+          borderTop: '1px solid rgba(162,129,90,.08)',
+        }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 'clamp(4rem,8vw,8rem)', alignItems: 'center' }}>
+            {/* Photo placeholder */}
+            <div style={{ position: 'relative', maxWidth: 380 }}>
+              <div style={{
+                width: '100%', aspectRatio: '3/4',
+                background: 'rgba(162,129,90,.06)',
+                border: '1px solid rgba(162,129,90,.2)',
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                gap: '1rem',
+                fontFamily: 'var(--font-manrope), sans-serif',
+              }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(162,129,90,.4)" strokeWidth="1">
+                  <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                </svg>
+                <span style={{ fontSize: '.55rem', letterSpacing: '.3em', textTransform: 'uppercase', color: 'rgba(162,129,90,.4)' }}>
+                  [Your photograph here]
+                </span>
+              </div>
+              {/* Gold accent line */}
+              <div style={{ position: 'absolute', bottom: -24, left: 0, width: 'clamp(2rem,4vw,3rem)', height: 1, background: 'var(--gold)', opacity: .4 }} />
+            </div>
+
+            {/* Text */}
+            <div>
+              <p style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.58rem', letterSpacing: '.4em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 'clamp(2rem,3vw,2.5rem)' }}>
+                The Founder
+              </p>
+              <h2 style={{ fontFamily: 'var(--font-prata), Georgia, serif', fontSize: 'clamp(2rem,3.5vw,3.2rem)', lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 'clamp(1.5rem,2.5vw,2rem)' }}>
+                {/* PLACEHOLDER — replace with your full name */}
+                [Your Name]
+              </h2>
+              <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontSize: 'clamp(.95rem,1.2vw,1.1rem)', lineHeight: 1.85, color: 'var(--mist)', marginBottom: '1.5rem', maxWidth: '42ch' }}>
+                {/* PLACEHOLDER — 2-3 sentences about your background, journey, and what led you to found Maison RSVP. Keep it personal. What did you see that was missing in the market? What do you believe about the role of design in a person's most important moments? */}
+                [Your background — e.g. "I spent a decade in luxury event production before founding Maison RSVP. I kept watching couples pour everything into their celebration, only to send a generic digital invite from a template builder. I believed the invitation itself deserved the same care."]
+              </p>
+              <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(.95rem,1.2vw,1.1rem)', lineHeight: 1.85, color: 'rgba(162,129,90,.7)', maxWidth: '40ch' }}>
+                {/* PLACEHOLDER — a short, quotable sentence that captures your design philosophy */}
+                &ldquo;[A sentence that defines your creative philosophy — what you believe about beauty, ceremony, or the meaning of a first impression.]&rdquo;
+              </p>
+              <div style={{ marginTop: 'clamp(2rem,3vw,2.5rem)', paddingTop: 'clamp(1.5rem,2.5vw,2rem)', borderTop: '1px solid rgba(162,129,90,.12)' }}>
+                <p style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.55rem', letterSpacing: '.28em', textTransform: 'uppercase', color: 'var(--mist)' }}>
+                  {/* PLACEHOLDER — your location or discipline, e.g. "Vancouver, BC — Invitation Design & Art Direction" */}
+                  [Your city] — Invitation Design &amp; Art Direction
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* CTA */}
         <section style={{ borderTop: '1px solid var(--dust)', padding: 'clamp(6rem,10vw,10rem) clamp(2rem,5vw,5rem)', textAlign: 'center' }}>
           <p style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.58rem', letterSpacing: '.4em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 'clamp(2rem,4vw,3rem)' }}>Begin your commission</p>

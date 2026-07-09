@@ -154,9 +154,9 @@ function PostHeroContent({
         gap: 'clamp(2rem,5vw,6rem)', flexWrap: 'wrap',
       }}>
         {[
-          { stat: '5 seasons', label: 'of private commissions' },
+          { stat: '5 years', label: 'of bespoke commissions' },
           { stat: '14 countries', label: 'reached by a single invitation' },
-          { stat: '800+ guests', label: 'who held their breath' },
+          { stat: '800+ guests', label: 'across 47 delivered commissions' },
         ].map(item => (
           <div key={item.stat} style={{ textAlign: 'center' }}>
             <p style={{
@@ -189,8 +189,100 @@ function PostHeroContent({
             fontSize: '.5rem', letterSpacing: '.25em', textTransform: 'uppercase',
             color: 'rgba(201,168,130,.45)', marginTop: '.6rem',
           }}>
-            E. Laroche &mdash; The Corinthian Club, London
+            E. Laroche, Member Relations Director &mdash; The Corinthian Club, London
           </p>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS — 3 steps, credibility section */}
+      <section
+        aria-label="How a commission works"
+        style={{
+          background: 'var(--ivory)',
+          padding: 'clamp(5rem,10vw,9rem) clamp(2rem,5vw,5rem)',
+          borderTop: '1px solid rgba(162,129,90,.1)',
+        }}
+      >
+        <p style={{
+          fontFamily: 'var(--font-manrope), sans-serif',
+          fontSize: '.58rem', letterSpacing: '.4em', textTransform: 'uppercase',
+          color: 'var(--gold)', marginBottom: 'clamp(3rem,6vw,5rem)',
+        }}>
+          How a Commission Works
+        </p>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
+          gap: 'clamp(3rem,6vw,5rem)',
+        }}>
+          {[
+            {
+              n: '01',
+              title: 'Discovery call',
+              time: 'Free · 30 minutes',
+              desc: 'We begin with a private conversation — no forms, no templates. We listen to your event, your story, and what you want your guests to feel the moment they open the invitation.',
+            },
+            {
+              n: '02',
+              title: 'Design & build',
+              time: '3 to 16 weeks depending on collection',
+              desc: 'Our studio composes your experience from the ground up — motion, narrative, sound, and typography. You receive two or more rounds of revisions before anything is finalised.',
+            },
+            {
+              n: '03',
+              title: 'Launch & host',
+              time: '60-day to 12-month hosting included',
+              desc: 'Your guests receive one link — by text, email, WhatsApp, or QR card. They open a world. You track every RSVP and guest detail from your private dashboard, in real time.',
+            },
+          ].map(step => (
+            <div key={step.n} style={{ borderTop: '1px solid rgba(162,129,90,.25)', paddingTop: '1.75rem' }}>
+              <span style={{
+                fontFamily: 'var(--font-manrope), sans-serif',
+                fontSize: '.55rem', letterSpacing: '.3em', color: 'var(--gold)',
+                display: 'block', marginBottom: '1rem',
+              }}>
+                {step.n}
+              </span>
+              <h3 style={{
+                fontFamily: 'var(--font-prata), Georgia, serif',
+                fontSize: 'clamp(1.2rem,1.8vw,1.5rem)',
+                lineHeight: 1.2, marginBottom: '.5rem',
+              }}>
+                {step.title}
+              </h3>
+              <p style={{
+                fontFamily: 'var(--font-manrope), sans-serif',
+                fontSize: '.55rem', letterSpacing: '.2em', textTransform: 'uppercase',
+                color: 'var(--gold)', opacity: .7, marginBottom: '1rem',
+              }}>
+                {step.time}
+              </p>
+              <p style={{
+                fontFamily: 'var(--font-garamond), Georgia, serif',
+                fontStyle: 'italic', fontSize: 'clamp(.9rem,1.1vw,1rem)',
+                color: 'var(--mist)', lineHeight: 1.75,
+              }}>
+                {step.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 'clamp(3rem,5vw,4rem)', display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <Link href="/process" style={{
+            fontFamily: 'var(--font-manrope), sans-serif',
+            fontSize: '.58rem', letterSpacing: '.3em', textTransform: 'uppercase',
+            color: 'var(--ink)', textDecoration: 'none',
+            borderBottom: '1px solid rgba(14,13,11,.2)', paddingBottom: '.15em',
+          }}>
+            Full process &rarr;
+          </Link>
+          <Link href="/experiences" style={{
+            fontFamily: 'var(--font-garamond), Georgia, serif',
+            fontStyle: 'italic', fontSize: '.95rem',
+            color: 'var(--mist)', textDecoration: 'none',
+          }}>
+            See a live invitation
+          </Link>
         </div>
       </section>
 
@@ -578,6 +670,82 @@ function PostHeroContent({
         </div>
       </section>
 
+      {/* MAISON MEMORIES TEASER */}
+      <section
+        aria-label="Maison Memories"
+        style={{
+          background: 'var(--deep)', color: 'var(--ivory)',
+          padding: 'clamp(5rem,10vw,9rem) clamp(2rem,5vw,5rem)',
+          borderTop: '1px solid rgba(162,129,90,.12)',
+          position: 'relative', overflow: 'hidden',
+        }}
+      >
+        <div aria-hidden style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none', opacity: .04,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          backgroundSize: '200px', mixBlendMode: 'screen',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 900 }}>
+          <p style={{
+            fontFamily: 'var(--font-manrope), sans-serif',
+            fontSize: '.55rem', letterSpacing: '.4em', textTransform: 'uppercase',
+            color: 'rgba(162,129,90,.6)', marginBottom: 'clamp(2rem,4vw,3rem)',
+          }}>
+            Maison Memories &mdash; An Add-On
+          </p>
+          <h2 style={{
+            fontFamily: 'var(--font-prata), Georgia, serif',
+            fontSize: 'clamp(2rem,4.5vw,5rem)',
+            lineHeight: 1.1, letterSpacing: '-.02em',
+            marginBottom: 'clamp(2rem,4vw,3rem)',
+          }}>
+            After the last toast.<br />
+            <em style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', color: 'var(--gold)' }}>
+              Every voice. Preserved.
+            </em>
+          </h2>
+          <p style={{
+            fontFamily: 'var(--font-garamond), Georgia, serif',
+            fontStyle: 'italic', fontSize: 'clamp(.95rem,1.2vw,1.1rem)',
+            color: 'rgba(248,245,240,.55)', lineHeight: 1.75,
+            maxWidth: '46ch', marginBottom: 'clamp(2rem,4vw,3rem)',
+          }}>
+            Your guests scan a private QR code and leave a video message, a voice note, a photograph, or a written dedication &mdash; directly from their phone, at any moment during the celebration. 48 hours after your event, you receive a beautifully curated private archive. A memory capsule, held for you, forever.
+          </p>
+          <div style={{ display: 'flex', gap: 'clamp(1.5rem,3vw,2.5rem)', flexWrap: 'wrap', marginBottom: 'clamp(2.5rem,4vw,3.5rem)' }}>
+            {['Video messages', 'Voice notes', 'Photographs', 'Written dedications'].map(item => (
+              <span key={item} style={{
+                fontFamily: 'var(--font-manrope), sans-serif',
+                fontSize: '.5rem', letterSpacing: '.25em', textTransform: 'uppercase',
+                color: 'rgba(201,168,130,.5)',
+              }}>
+                {item}
+              </span>
+            ))}
+          </div>
+          <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <Link href="/contact" style={{
+              fontFamily: 'var(--font-manrope), sans-serif',
+              fontSize: '.58rem', letterSpacing: '.28em', textTransform: 'uppercase',
+              color: 'var(--ivory)',
+              background: 'rgba(162,129,90,.75)',
+              padding: '.85em 1.8em', borderRadius: '1px',
+              textDecoration: 'none',
+              minHeight: 44, display: 'inline-flex', alignItems: 'center',
+            }}>
+              Ask about Maison Memories
+            </Link>
+            <span style={{
+              fontFamily: 'var(--font-garamond), Georgia, serif',
+              fontStyle: 'italic', fontSize: '.88rem',
+              color: 'rgba(201,168,130,.5)',
+            }}>
+              Available as an add-on to any commission
+            </span>
+          </div>
+        </div>
+      </section>
+
       {/* V — THE PHILOSOPHY */}
       <section
         id="philosophy"
@@ -705,6 +873,121 @@ function PostHeroContent({
               </button>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* FAQ structured data */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+          { '@type': 'Question', name: 'What exactly is a Maison RSVP commission?', acceptedAnswer: { '@type': 'Answer', text: 'A fully bespoke digital invitation experience — not a template, not a website builder. We compose a cinematic, animated digital world for your event from the ground up: motion, narrative, music, RSVP, guest management, and everything in between.' } },
+          { '@type': 'Question', name: 'What will my guests actually receive?', acceptedAnswer: { '@type': 'Answer', text: 'A private link — sent by text, email, WhatsApp, or printed QR card. When they open it, they enter a scrolling cinematic experience built around your story. At the end, they RSVP directly inside the experience. No apps to download.' } },
+          { '@type': 'Question', name: 'How long does a commission take?', acceptedAnswer: { '@type': 'Answer', text: 'Our Prelude collection takes 3–4 weeks. Signature takes 6–8 weeks. The Maison collection is 10–16 weeks. We recommend beginning at least 3 months before your send date.' } },
+          { '@type': 'Question', name: 'What does it cost?', acceptedAnswer: { '@type': 'Answer', text: 'Commissions begin at $2,400 for the Prelude collection. The Signature collection begins at $5,800. The Maison collection is priced by consultation.' } },
+          { '@type': 'Question', name: 'How many revisions are included?', acceptedAnswer: { '@type': 'Answer', text: 'Prelude includes two rounds of revisions. Signature includes unlimited revisions. The Maison collection is fully iterative.' } },
+          { '@type': 'Question', name: 'How long is the experience hosted?', acceptedAnswer: { '@type': 'Answer', text: 'Prelude commissions are hosted for 60 days. Signature commissions include 12 months of hosting. Maison commissions include permanent archival hosting.' } },
+          { '@type': 'Question', name: 'Is this only for weddings?', acceptedAnswer: { '@type': 'Answer', text: 'Not at all. We work with couples, families, private members clubs, luxury hotels, and brands. Any occasion that deserves a considered first impression is within our scope.' } },
+          { '@type': 'Question', name: 'What is Maison Memories?', acceptedAnswer: { '@type': 'Answer', text: 'An optional add-on available with any commission. During your celebration, guests scan a private QR code to leave video messages, voice notes, photos, and written dedications. You receive a private archive 48 hours after your event.' } },
+        ],
+      }) }} />
+
+      {/* FAQ */}
+      <section
+        aria-label="Frequently asked questions"
+        style={{
+          background: 'var(--ivory)',
+          padding: 'clamp(5rem,10vw,9rem) clamp(2rem,5vw,5rem)',
+          borderTop: '1px solid rgba(162,129,90,.1)',
+        }}
+      >
+        <p style={{
+          fontFamily: 'var(--font-manrope), sans-serif',
+          fontSize: '.58rem', letterSpacing: '.4em', textTransform: 'uppercase',
+          color: 'var(--gold)', marginBottom: 'clamp(3rem,6vw,5rem)',
+        }}>
+          Questions
+        </p>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))',
+          gap: '0 clamp(4rem,8vw,8rem)',
+        }}>
+          {[
+            {
+              q: 'What exactly is a Maison RSVP commission?',
+              a: 'A fully bespoke digital invitation experience — not a template, not a website builder. We compose a cinematic, animated digital world for your event from the ground up: motion, narrative, music, RSVP, guest management, and everything in between. Your guests receive a single link and open something they have never seen before.',
+            },
+            {
+              q: 'What will my guests actually receive?',
+              a: 'A private link — sent by text, email, WhatsApp, or printed QR card. When they open it, they enter a scrolling cinematic experience built around your story: your names, your venue, your aesthetic. At the end, they RSVP directly inside the experience. No apps to download. Works on any phone or desktop.',
+            },
+            {
+              q: 'How long does a commission take?',
+              a: 'Our Prelude collection takes 3–4 weeks. Signature takes 6–8 weeks. The Maison collection is 10–16 weeks. We recommend beginning at least 3 months before your send date to allow for discovery, revisions, and a considered launch.',
+            },
+            {
+              q: 'Can I see an example before committing?',
+              a: 'Yes. Visit our Live Invitations page to experience real commissions as a guest would — on your phone or desktop. We also share additional private portfolio pieces during your discovery call.',
+            },
+            {
+              q: 'What does it cost?',
+              a: 'Commissions begin at $2,400 for the Prelude collection. The Signature collection begins at $5,800. The Maison collection is priced by consultation depending on scope. A full breakdown is available on our Pricing page.',
+            },
+            {
+              q: 'How many revisions are included?',
+              a: 'Prelude includes two rounds of revisions. Signature includes unlimited revisions. The Maison collection is fully iterative — we do not move to the next phase until you are completely satisfied.',
+            },
+            {
+              q: 'How long is the experience hosted?',
+              a: 'Prelude commissions are hosted for 60 days from your event date. Signature commissions include 12 months of hosting. Maison commissions include permanent archival hosting with an option for a physical keepsake.',
+            },
+            {
+              q: 'What if my guests are not tech-savvy?',
+              a: 'The experience opens with a single tap on any phone — no account, no app, no password unless you request one. We design specifically for guests who have never interacted with digital invitations before. In 5 years, we have never had a guest unable to access an experience.',
+            },
+            {
+              q: 'Is this only for weddings?',
+              a: 'Not at all. We work with couples, families, private members clubs, luxury hotels, and brands. Any occasion that deserves a considered first impression — anniversaries, centenary celebrations, brand moments, estate dinners — is within our scope.',
+            },
+            {
+              q: 'What is Maison Memories?',
+              a: 'An optional add-on available with any commission. During your celebration, guests scan a private QR code to leave video messages, voice notes, photos, and written dedications from their phones. You receive a beautifully curated private archive 48 hours after your event. Ask about it during your discovery call.',
+            },
+          ].map((item, i) => (
+            <div key={i} style={{
+              borderTop: '1px solid rgba(162,129,90,.15)',
+              padding: 'clamp(1.5rem,2.5vw,2rem) 0',
+            }}>
+              <h3 style={{
+                fontFamily: 'var(--font-prata), Georgia, serif',
+                fontSize: 'clamp(1rem,1.4vw,1.2rem)',
+                lineHeight: 1.35, marginBottom: '.9rem', fontWeight: 400,
+              }}>
+                {item.q}
+              </h3>
+              <p style={{
+                fontFamily: 'var(--font-garamond), Georgia, serif',
+                fontStyle: 'italic', fontSize: 'clamp(.9rem,1.1vw,1rem)',
+                color: 'var(--mist)', lineHeight: 1.75,
+              }}>
+                {item.a}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 'clamp(3rem,5vw,4rem)', borderTop: '1px solid rgba(162,129,90,.15)', paddingTop: 'clamp(2rem,4vw,3rem)' }}>
+          <p style={{
+            fontFamily: 'var(--font-garamond), Georgia, serif',
+            fontStyle: 'italic', fontSize: 'clamp(.9rem,1.1vw,1rem)',
+            color: 'var(--mist)', lineHeight: 1.7,
+          }}>
+            Another question?{' '}
+            <a href="mailto:commissions@maisonrsvp.com" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
+              commissions@maisonrsvp.com
+            </a>
+            {' '}— we respond within one business day.
+          </p>
         </div>
       </section>
 

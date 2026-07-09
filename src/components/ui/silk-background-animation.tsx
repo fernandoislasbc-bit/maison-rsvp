@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 
 /**
  * Silk background hero — opening section of the site.
@@ -258,11 +259,7 @@ export const Component = () => {
 
             {/* Clarifying tagline — what we actually do */}
             <p
-              className={`
-                mt-6
-                opacity-0
-                ${isLoaded ? 'animate-fade-in-corner' : ''}
-              `}
+              className={`mt-6 opacity-0 ${isLoaded ? 'animate-fade-in-corner' : ''}`}
               style={{
                 fontFamily: 'var(--font-garamond), Georgia, serif',
                 fontStyle: 'italic',
@@ -274,6 +271,45 @@ export const Component = () => {
             >
               Bespoke cinematic digital invitations&nbsp;&mdash;&nbsp;composed once, for one occasion.
             </p>
+
+            {/* Hero CTAs */}
+            <div
+              className={`mt-10 opacity-0 ${isLoaded ? 'animate-fade-in-corner' : ''}`}
+              style={{ display: 'flex', gap: 'clamp(1.5rem,3vw,2.5rem)', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}
+            >
+              <Link
+                href="/experiences"
+                style={{
+                  fontFamily: 'var(--font-manrope), sans-serif',
+                  fontSize: '.6rem', letterSpacing: '.28em', textTransform: 'uppercase',
+                  color: 'var(--ivory)',
+                  background: 'rgba(162,129,90,.85)',
+                  padding: '.85em 1.8em',
+                  borderRadius: '1px',
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap',
+                  minHeight: 44, display: 'inline-flex', alignItems: 'center',
+                  transition: 'background .3s',
+                }}
+              >
+                See a live invitation
+              </Link>
+              <Link
+                href="/contact"
+                style={{
+                  fontFamily: 'var(--font-garamond), Georgia, serif',
+                  fontStyle: 'italic',
+                  fontSize: 'clamp(.9rem, 1.1vw, 1rem)',
+                  color: 'rgba(248,245,240,0.65)',
+                  textDecoration: 'none',
+                  borderBottom: '1px solid rgba(248,245,240,0.25)',
+                  paddingBottom: '.15em',
+                  minHeight: 44, display: 'inline-flex', alignItems: 'flex-end',
+                }}
+              >
+                Begin a commission &rarr;
+              </Link>
+            </div>
           </div>
         </div>
 
