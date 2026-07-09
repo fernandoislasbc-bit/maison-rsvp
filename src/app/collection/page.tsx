@@ -17,7 +17,7 @@ const TIERS = [
     name:     'Prelude',
     roman:    'I',
     tagline:  'The perfect introduction.',
-    price:    'From $2,400',
+    price:    null,
     timeline: '3–4 weeks',
     ideal:    'Intimate weddings, private dinners, milestone celebrations',
     lead:     'For events where craft matters, but the story is short. Prelude is a refined digital experience built on our foundation framework — beautiful, intentional, and uniquely yours.',
@@ -38,7 +38,7 @@ const TIERS = [
     name:     'Signature',
     roman:    'II',
     tagline:  'Your story, fully told.',
-    price:    'From $5,800',
+    price:    null,
     timeline: '6–8 weeks',
     ideal:    'Destination weddings, luxury celebrations, 100–300 guests',
     lead:     'The Signature collection is where Maison RSVP begins to feel like itself. A cinematic digital experience with motion, narrative, and a design language built from the ground up for your occasion.',
@@ -371,25 +371,8 @@ function TierCard({ tier }: { tier: typeof TIERS[0] }) {
           marginBottom: 'clamp(2rem,4vw,3rem)',
         }} />
 
-        {/* Price + timeline */}
-        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', marginBottom: 'clamp(2rem,4vw,3rem)' }}>
-          <div>
-            <p style={{
-              fontFamily: 'var(--font-manrope), sans-serif',
-              fontSize: '.54rem', letterSpacing: '.3em', textTransform: 'uppercase',
-              color: tier.featured ? 'rgba(201,168,130,.5)' : 'var(--mist)',
-              marginBottom: '.4rem',
-            }}>
-              Investment
-            </p>
-            <p style={{
-              fontFamily: 'var(--font-prata), Georgia, serif',
-              fontSize: 'clamp(1.1rem,1.8vw,1.5rem)',
-              color: tier.featured ? 'var(--ivory)' : 'var(--ink)',
-            }}>
-              {tier.price}
-            </p>
-          </div>
+        {/* Timeline + investment note */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginBottom: 'clamp(2rem,4vw,3rem)' }}>
           <div>
             <p style={{
               fontFamily: 'var(--font-manrope), sans-serif',
@@ -407,6 +390,15 @@ function TierCard({ tier }: { tier: typeof TIERS[0] }) {
               {tier.timeline}
             </p>
           </div>
+          <p style={{
+            fontFamily: 'var(--font-garamond), Georgia, serif',
+            fontStyle: 'italic',
+            fontSize: '.85rem',
+            color: tier.featured ? 'rgba(248,245,240,.3)' : 'var(--mist)',
+            letterSpacing: '.01em',
+          }}>
+            {tier.price ?? 'Investment is discussed during your discovery call.'}
+          </p>
         </div>
 
         <p style={{

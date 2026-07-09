@@ -463,8 +463,8 @@ function PostHeroContent({
             marginBottom: 'clamp(3rem,5vw,4rem)',
           }}>
             {[
-              { name: 'Prelude',   price: 'From $2,400',    desc: 'Intimate weddings, private dinners, and milestone celebrations up to 100 guests. A complete cinematic invitation with RSVP.' },
-              { name: 'Signature', price: 'From $5,800',    desc: 'Destination weddings with 100–300 guests. Full narrative experience, custom animation, sound, and guest management dashboard.' },
+              { name: 'Prelude',   price: '3–4 weeks',          desc: 'Intimate weddings, private dinners, and milestone celebrations up to 100 guests. A complete cinematic invitation with RSVP.' },
+              { name: 'Signature', price: '6–8 weeks',          desc: 'Destination weddings with 100–300 guests. Full narrative experience, custom animation, sound, and guest management dashboard.' },
               { name: 'Maison',    price: 'By consultation', desc: 'Ultra-luxury events, 300+ guests, full creative direction, bespoke musical composition, and white-glove delivery.' },
             ].map(tier => (
               <div key={tier.name} style={{ borderLeft: '1px solid rgba(162,129,90,.25)', paddingLeft: '1.5rem' }}>
@@ -884,7 +884,7 @@ function PostHeroContent({
           { '@type': 'Question', name: 'What exactly is a Maison RSVP commission?', acceptedAnswer: { '@type': 'Answer', text: 'A fully bespoke digital invitation experience — not a template, not a website builder. We compose a cinematic, animated digital world for your event from the ground up: motion, narrative, music, RSVP, guest management, and everything in between.' } },
           { '@type': 'Question', name: 'What will my guests actually receive?', acceptedAnswer: { '@type': 'Answer', text: 'A private link — sent by text, email, WhatsApp, or printed QR card. When they open it, they enter a scrolling cinematic experience built around your story. At the end, they RSVP directly inside the experience. No apps to download.' } },
           { '@type': 'Question', name: 'How long does a commission take?', acceptedAnswer: { '@type': 'Answer', text: 'Our Prelude collection takes 3–4 weeks. Signature takes 6–8 weeks. The Maison collection is 10–16 weeks. We recommend beginning at least 3 months before your send date.' } },
-          { '@type': 'Question', name: 'What does it cost?', acceptedAnswer: { '@type': 'Answer', text: 'Commissions begin at $2,400 for the Prelude collection. The Signature collection begins at $5,800. The Maison collection is priced by consultation.' } },
+          { '@type': 'Question', name: 'What does it cost?', acceptedAnswer: { '@type': 'Answer', text: 'Investment is discussed during your complimentary discovery call. We work with clients across a range of scopes — from intimate Prelude commissions to full Maison creative direction. Contact us to begin.' } },
           { '@type': 'Question', name: 'How many revisions are included?', acceptedAnswer: { '@type': 'Answer', text: 'Prelude includes two rounds of revisions. Signature includes unlimited revisions. The Maison collection is fully iterative.' } },
           { '@type': 'Question', name: 'How long is the experience hosted?', acceptedAnswer: { '@type': 'Answer', text: 'Prelude commissions are hosted for 60 days. Signature commissions include 12 months of hosting. Maison commissions include permanent archival hosting.' } },
           { '@type': 'Question', name: 'Is this only for weddings?', acceptedAnswer: { '@type': 'Answer', text: 'Not at all. We work with couples, families, private members clubs, luxury hotels, and brands. Any occasion that deserves a considered first impression is within our scope.' } },
@@ -932,7 +932,7 @@ function PostHeroContent({
             },
             {
               q: 'What does it cost?',
-              a: 'Commissions begin at $2,400 for the Prelude collection. The Signature collection begins at $5,800. The Maison collection is priced by consultation depending on scope. A full breakdown is available on our Pricing page.',
+              a: 'Investment is discussed during your complimentary discovery call — there is no obligation, and no numbers are shared until we understand your event and what it deserves. Begin by reaching out and we will schedule a call within one business day.',
             },
             {
               q: 'How many revisions are included?',
