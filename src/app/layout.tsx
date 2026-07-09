@@ -38,6 +38,7 @@ export const metadata: Metadata = {
   openGraph: { type: 'website', siteName: 'Maison RSVP', locale: 'en_CA' },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },
+  verification: { google: 'FTl83WJuOXZaOd7n0pLxfObUUtK1uAV87ZWI1CgCVtw' },
 };
 
 export default function RootLayout({
