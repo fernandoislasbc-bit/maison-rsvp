@@ -26,10 +26,18 @@ export default function WorkIndex() {
   const [active, setActive]     = useState('All');
   const [hovered, setHovered]   = useState<string | null>(null);
   const [entered, setEntered]   = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
   useEffect(() => {
     const t = setTimeout(() => setEntered(true), 100);
     return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, []);
 
   const filtered = active === 'All' ? COUPLE_WORKS : COUPLE_WORKS.filter(w => w.category === active);
@@ -110,11 +118,11 @@ export default function WorkIndex() {
           }} />
         </header>
 
-        {/* ── Cinematic commissions reel — couple names on scroll ── */}
-        <WorksCinematicCarousel works={COUPLE_WORKS} />
+        {/* ── Cinematic commissions reel — desktop only ── */}
+        {isMobile === false && <WorksCinematicCarousel works={COUPLE_WORKS} />}
 
-        {/* ── Interactive vertical stack — scroll/drag to browse, click to enter ── */}
-        <WorksVerticalStack works={COUPLE_WORKS} />
+        {/* ── Interactive vertical stack — mobile only ── */}
+        {isMobile === true && <WorksVerticalStack works={COUPLE_WORKS} />}
 
         {/* ── Filter tabs ─────────────────────────── */}
         <div style={{

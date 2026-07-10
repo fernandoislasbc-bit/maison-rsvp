@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 const TESTIMONIALS = [
   {
     name: 'Beatrice & Théo',
@@ -69,13 +71,16 @@ function TestimonialCard({ name, location, year, body }: typeof TESTIMONIALS[0])
     <div style={{
       width: '100%',
       flexShrink: 0,
-      padding: '1.5rem',
+      padding: '1.25rem',
       background: 'rgba(248,245,240,.06)',
       border: '1px solid rgba(201,168,130,.12)',
       display: 'flex',
       flexDirection: 'column',
-      gap: '1rem',
+      gap: '.85rem',
       marginBottom: '0.75rem',
+      overflow: 'hidden',
+      boxSizing: 'border-box',
+      wordBreak: 'break-word',
     }}>
       {/* Initials + meta */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '.85rem' }}>
@@ -153,6 +158,17 @@ function MarqueeColumn({ reverse = false }: { reverse?: boolean }) {
 }
 
 export function TestimonialsMarquee() {
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  const mobile = isMobile === true;
+
   return (
     <section
       aria-label="Client testimonials"
@@ -161,7 +177,6 @@ export function TestimonialsMarquee() {
         padding: 'clamp(5rem,9vw,8rem) 0',
         position: 'relative',
         overflow: 'hidden',
-        /* full-bleed: break out of parent's horizontal padding */
         width: '100vw',
         marginLeft: 'calc(-50vw + 50%)',
       }}
@@ -217,12 +232,12 @@ export function TestimonialsMarquee() {
       {/* 3D marquee stage */}
       <div style={{
         position: 'relative',
-        height: 'clamp(360px, 50vh, 520px)',
+        height: mobile ? 'clamp(300px, 55vh, 420px)' : 'clamp(360px, 50vh, 520px)',
         overflow: 'hidden',
-        perspective: '600px',
+        perspective: mobile ? 'none' : '600px',
         perspectiveOrigin: '50% 0%',
       }}>
-        {/* Columns wrapper — full width, only rotateX for depth */}
+        {/* Columns wrapper */}
         <div style={{
           display: 'flex',
           flexDirection: 'row',
@@ -231,13 +246,13 @@ export function TestimonialsMarquee() {
           width: '100%',
           padding: '0 clamp(1rem,3vw,2.5rem)',
           boxSizing: 'border-box',
-          transform: 'translateY(-40px) rotateX(22deg)',
+          transform: mobile ? 'none' : 'translateY(-40px) rotateX(22deg)',
           transformOrigin: 'center top',
         }}>
           <MarqueeColumn />
           <MarqueeColumn reverse />
-          <MarqueeColumn />
-          <MarqueeColumn reverse />
+          {!mobile && <MarqueeColumn />}
+          {!mobile && <MarqueeColumn reverse />}
         </div>
 
         {/* Edge fades */}
