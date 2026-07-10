@@ -4,6 +4,11 @@ import { Resend } from 'resend';
 const resend = new Resend(process.env.MAISON_EMAIL_KEY);
 
 export async function POST(req: Request) {
+  if (!process.env.MAISON_EMAIL_KEY) {
+    console.error('MAISON_EMAIL_KEY is not set');
+    return NextResponse.json({ error: 'Email service not configured' }, { status: 500 });
+  }
+
   try {
     const body = await req.json();
 
