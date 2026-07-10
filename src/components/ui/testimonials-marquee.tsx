@@ -67,7 +67,7 @@ function TestimonialCard({ name, location, year, body }: typeof TESTIMONIALS[0])
   const initials = name.split(' & ').map(n => n[0]).join('·');
   return (
     <div style={{
-      width: 'clamp(200px, 22vw, 260px)',
+      width: '100%',
       flexShrink: 0,
       padding: '1.5rem',
       background: 'rgba(248,245,240,.06)',
@@ -124,21 +124,30 @@ function TestimonialCard({ name, location, year, body }: typeof TESTIMONIALS[0])
 function MarqueeColumn({ reverse = false }: { reverse?: boolean }) {
   const doubled = [...TESTIMONIALS, ...TESTIMONIALS];
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '0',
-      animation: reverse
-        ? 'maison-marquee-down 38s linear infinite'
-        : 'maison-marquee-up 38s linear infinite',
-      willChange: 'transform',
-    }}
-    onMouseEnter={e => (e.currentTarget.style.animationPlayState = 'paused')}
-    onMouseLeave={e => (e.currentTarget.style.animationPlayState = 'running')}
+    <div
+      style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}
+      onMouseEnter={e => {
+        const inner = e.currentTarget.firstElementChild as HTMLElement;
+        if (inner) inner.style.animationPlayState = 'paused';
+      }}
+      onMouseLeave={e => {
+        const inner = e.currentTarget.firstElementChild as HTMLElement;
+        if (inner) inner.style.animationPlayState = 'running';
+      }}
     >
-      {doubled.map((t, i) => (
-        <TestimonialCard key={i} {...t} />
-      ))}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0',
+        animation: reverse
+          ? 'maison-marquee-down 38s linear infinite'
+          : 'maison-marquee-up 38s linear infinite',
+        willChange: 'transform',
+      }}>
+        {doubled.map((t, i) => (
+          <TestimonialCard key={i} {...t} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -152,6 +161,9 @@ export function TestimonialsMarquee() {
         padding: 'clamp(5rem,9vw,8rem) 0',
         position: 'relative',
         overflow: 'hidden',
+        /* full-bleed: break out of parent's horizontal padding */
+        width: '100vw',
+        marginLeft: 'calc(-50vw + 50%)',
       }}
     >
       <style>{`
@@ -207,18 +219,20 @@ export function TestimonialsMarquee() {
         position: 'relative',
         height: 'clamp(360px, 50vh, 520px)',
         overflow: 'hidden',
-        perspective: '400px',
+        perspective: '600px',
+        perspectiveOrigin: '50% 0%',
       }}>
-        {/* Columns wrapper with 3D tilt */}
+        {/* Columns wrapper — full width, only rotateX for depth */}
         <div style={{
           display: 'flex',
           flexDirection: 'row',
           gap: '0.75rem',
           alignItems: 'flex-start',
-          position: 'absolute',
-          top: 0, left: '50%',
-          transform: 'translateX(-50%) translateY(-20px) translateZ(-80px) rotateX(18deg) rotateY(-6deg) rotateZ(8deg)',
-          transformOrigin: 'center center',
+          width: '100%',
+          padding: '0 clamp(1rem,3vw,2.5rem)',
+          boxSizing: 'border-box',
+          transform: 'translateY(-40px) rotateX(22deg)',
+          transformOrigin: 'center top',
         }}>
           <MarqueeColumn />
           <MarqueeColumn reverse />
