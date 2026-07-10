@@ -35,6 +35,11 @@ export default function WorkIndex() {
 
   return (
     <>
+      <style>{`
+        @media (max-width: 640px) {
+          .featured-aside { display: none !important; }
+        }
+      `}</style>
       {/* Global grain */}
       <div aria-hidden style={{
         position: 'fixed', inset: 0, zIndex: 9990, pointerEvents: 'none',
@@ -72,7 +77,7 @@ export default function WorkIndex() {
           }}>
             <h1 style={{
               fontFamily: 'var(--font-prata), Georgia, serif',
-              fontSize: 'clamp(4rem,10vw,11rem)',
+              fontSize: 'clamp(2.6rem,10vw,11rem)',
               lineHeight: .92, letterSpacing: '-.03em',
             }}>
               Every<br />commission<br />existed<br />
@@ -128,7 +133,7 @@ export default function WorkIndex() {
                 borderBottomStyle: 'solid',
                 borderBottomColor: active === cat ? 'var(--gold)' : 'transparent',
                 transition: 'color .3s, border-color .3s',
-                cursor: 'none',
+                cursor: 'pointer',
               }}
             >
               {cat}
@@ -302,7 +307,7 @@ function FeaturedCard({ work, hovered, onEnter, onLeave }: {
           position: 'absolute', bottom: 0, left: 0, right: 0,
           padding: 'clamp(2rem,4vw,4rem)',
           display: 'flex', justifyContent: 'space-between',
-          alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem',
+          alignItems: 'flex-end', gap: '1rem',
         }}>
           <div>
             <p style={{
@@ -321,7 +326,7 @@ function FeaturedCard({ work, hovered, onEnter, onLeave }: {
               {work.title}
             </h2>
           </div>
-          <div style={{ textAlign: 'right' }}>
+          <div className="featured-aside" style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
             <p style={{
               fontFamily: 'var(--font-garamond), Georgia, serif',
               fontStyle: 'italic', fontSize: 'clamp(.85rem,1.1vw,1rem)',
@@ -372,7 +377,7 @@ function GridCard({ work, hovered, onEnter, onLeave }: {
             transform: hovered ? 'scale(1.05)' : 'scale(1)',
             transition: 'transform 1.2s cubic-bezier(0.16,1,0.3,1)',
           }}
-          sizes="50vw"
+          sizes="(max-width: 640px) 100vw, 50vw"
         />
         <div style={{
           position: 'absolute', inset: 0,
