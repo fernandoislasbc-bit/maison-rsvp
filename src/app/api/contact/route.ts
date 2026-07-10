@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     } = body;
 
     const { error } = await resend.emails.send({
-      from:    'Maison RSVP <onboarding@resend.dev>',
+      from:    'Maison RSVP <concierge@maisonrsvp.com>',
       to:      'concierge@maisonrsvp.com',
       replyTo: email,
       subject: `New commission enquiry — ${firstName} ${lastName}`,
