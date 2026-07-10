@@ -11,6 +11,7 @@ import GrainHeroSection from '@/components/ui/grain-gradient-hero-section';
 import WorksCinematicCarousel from '@/components/ui/works-cinematic-carousel';
 import { WORKS as ALL_WORKS } from '@/lib/works';
 import { ClientLogoCloud } from '@/components/ui/client-logo-cloud';
+import { TestimonialsMarquee } from '@/components/ui/testimonials-marquee';
 
 /* ─── Data ─────────────────────────────────────────── */
 const TESTIMONIALS = [
@@ -197,6 +198,9 @@ function PostHeroContent({
 
       {/* CLIENT LOGO CLOUD */}
       <ClientLogoCloud />
+
+      {/* TESTIMONIALS */}
+      <TestimonialsMarquee />
 
       {/* HOW IT WORKS — 3 steps, credibility section */}
       <section
