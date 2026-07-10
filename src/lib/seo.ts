@@ -84,7 +84,7 @@ export function orgSchema() {
     contactPoint: {
       '@type':        'ContactPoint',
       contactType:    'customer service',
-      email:          'commissions@maisonrsvp.com',
+      email:          'concierge@maisonrsvp.com',
     },
   };
 }

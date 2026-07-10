@@ -46,7 +46,7 @@ Source files and design assets remain the property of Maison RSVP unless a full 
   },
   {
     title: 'Contact',
-    body: `For questions about these terms, please contact us at: commissions@maisonrsvp.com`,
+    body: `For questions about these terms, please contact us at: concierge@maisonrsvp.com`,
   },
 ];
 

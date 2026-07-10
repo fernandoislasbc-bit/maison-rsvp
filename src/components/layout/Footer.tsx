@@ -118,7 +118,7 @@ export default function Footer() {
           }}>
             Contact
           </p>
-          <a href="mailto:commissions@maisonrsvp.com" style={{
+          <a href="mailto:concierge@maisonrsvp.com" style={{
             fontFamily: 'var(--font-garamond), Georgia, serif',
             fontStyle: 'italic', fontSize: '.9rem',
             color: 'var(--ink)', display: 'block',
@@ -127,7 +127,7 @@ export default function Footer() {
           }}
           onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
           onMouseLeave={e => (e.currentTarget.style.color = 'var(--ink)')}>
-            commissions@maisonrsvp.com
+            concierge@maisonrsvp.com
           </a>
           <p style={{
             fontFamily: 'var(--font-manrope), sans-serif',

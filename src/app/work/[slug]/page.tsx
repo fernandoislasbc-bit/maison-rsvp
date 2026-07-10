@@ -456,7 +456,7 @@ export default function WorkStory() {
           <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontSize: '.82rem', letterSpacing: '.2em', textTransform: 'uppercase' }}>
             Maison RSVP
           </p>
-          <a href="mailto:commissions@maisonrsvp.com" style={{
+          <a href="mailto:concierge@maisonrsvp.com" style={{
             fontFamily: 'var(--font-garamond), Georgia, serif',
             fontStyle: 'italic', fontSize: '.85rem', color: 'var(--gold)',
           }}>

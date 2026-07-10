@@ -213,7 +213,7 @@ export default function WorkIndex() {
             Three commissions remaining this season.
           </p>
           <a
-            href="mailto:commissions@maisonrsvp.com"
+            href="mailto:concierge@maisonrsvp.com"
             style={{
               fontFamily: 'var(--font-garamond), Georgia, serif',
               fontSize: 'clamp(1rem,1.5vw,1.25rem)', letterSpacing: '.04em',
@@ -229,7 +229,7 @@ export default function WorkIndex() {
               e.currentTarget.style.borderBottomColor = 'rgba(162,129,90,.3)';
             }}
           >
-            commissions@maisonrsvp.com
+            concierge@maisonrsvp.com
           </a>
         </section>
 

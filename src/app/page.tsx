@@ -987,8 +987,8 @@ function PostHeroContent({
             color: 'var(--mist)', lineHeight: 1.7,
           }}>
             Another question?{' '}
-            <a href="mailto:commissions@maisonrsvp.com" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
-              commissions@maisonrsvp.com
+            <a href="mailto:concierge@maisonrsvp.com" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
+              concierge@maisonrsvp.com
             </a>
             {' '}— we respond within one business day.
           </p>
@@ -1102,8 +1102,8 @@ function PostHeroContent({
           fontStyle: 'italic', fontSize: '.95rem', color: 'var(--mist)',
         }}>
           or write to us at{' '}
-          <a href="mailto:commissions@maisonrsvp.com" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
-            commissions@maisonrsvp.com
+          <a href="mailto:concierge@maisonrsvp.com" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
+            concierge@maisonrsvp.com
           </a>
         </p>
 

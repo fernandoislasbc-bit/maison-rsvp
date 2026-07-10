@@ -37,7 +37,7 @@ export default function ContactPage() {
       if (!res.ok) throw new Error('Request failed');
       setSent(true);
     } catch {
-      setSubmitError('Something went wrong. Please try again or write to us directly at commissions@maisonrsvp.com.');
+      setSubmitError('Something went wrong. Please try again or write to us directly at concierge@maisonrsvp.com.');
     } finally {
       setSubmitting(false);
     }
@@ -61,7 +61,7 @@ export default function ContactPage() {
             <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(1rem,1.4vw,1.15rem)', color: 'var(--mist)', lineHeight: 1.75, maxWidth: '40ch', margin: '0 auto clamp(2.5rem,5vw,4rem)' }}>
               We respond to every enquiry personally, within two business days. Thank you for reaching out.
             </p>
-            <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: '.95rem', color: 'var(--mist)' }}>commissions@maisonrsvp.com</p>
+            <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: '.95rem', color: 'var(--mist)' }}>concierge@maisonrsvp.com</p>
           </div>
         </main>
         <Footer />
@@ -243,8 +243,8 @@ export default function ContactPage() {
 
             <div style={{ marginTop: 'clamp(2.5rem,4vw,4rem)', borderTop: '1px solid var(--dust)', paddingTop: 'clamp(2rem,4vw,3.5rem)' }}>
               <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: '.88rem', color: 'var(--mist)', lineHeight: 1.7, marginBottom: '1rem' }}>You may also reach us directly:</p>
-              <a href="mailto:commissions@maisonrsvp.com" style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: '.95rem', color: 'var(--gold)', textDecoration: 'none' }}>
-                commissions@maisonrsvp.com
+              <a href="mailto:concierge@maisonrsvp.com" style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: '.95rem', color: 'var(--gold)', textDecoration: 'none' }}>
+                concierge@maisonrsvp.com
               </a>
             </div>
           </aside>

@@ -34,11 +34,11 @@ We do not sell your personal information. We do not share it with third parties 
     title: 'Your rights',
     body: `You have the right to access the personal information we hold about you, to request its correction, to request its deletion, and to withdraw consent where consent is the basis for processing.
 
-To exercise any of these rights, please contact us at: privacy@maisonrsvp.com`,
+To exercise any of these rights, please contact us at: concierge@maisonrsvp.com`,
   },
   {
     title: 'Contact',
-    body: `If you have questions about this privacy policy or how we handle your personal information, please contact us at privacy@maisonrsvp.com. We will respond within five business days.`,
+    body: `If you have questions about this privacy policy or how we handle your personal information, please contact us at concierge@maisonrsvp.com. We will respond within five business days.`,
   },
 ];
 
