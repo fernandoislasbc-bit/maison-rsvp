@@ -53,7 +53,7 @@ export function ClientLogoCloud() {
               alt={logo.alt}
               loading="lazy"
               style={{
-                height: 'clamp(32px, 4vw, 52px)',
+                height: 'clamp(44px, 5.5vw, 72px)',
                 width: 'auto',
                 filter: 'grayscale(1) brightness(0)',
                 opacity: .45,
