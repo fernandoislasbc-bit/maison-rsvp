@@ -8,6 +8,72 @@ import type { Work } from '@/lib/works';
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* ── Mobile fallback — simple horizontal scroll strip ── */
+function MobileCarousel({ works }: { works: Work[] }) {
+  return (
+    <section style={{
+      padding: 'clamp(3rem,6vw,5rem) 0',
+      background: 'radial-gradient(ellipse 80% 60% at 50% 30%, #F2EBE0 0%, transparent 60%), var(--ivory)',
+    }}>
+      <p style={{
+        fontFamily: 'var(--font-manrope), sans-serif',
+        fontSize: '.58rem', letterSpacing: '.4em', textTransform: 'uppercase',
+        color: 'var(--gold)', textAlign: 'center',
+        marginBottom: 'clamp(2rem,5vw,3rem)',
+      }}>
+        The Commissions
+      </p>
+      <div style={{
+        display: 'flex', gap: '1.25rem',
+        overflowX: 'auto', overflowY: 'hidden',
+        scrollSnapType: 'x mandatory',
+        WebkitOverflowScrolling: 'touch',
+        padding: '0 clamp(2rem,5vw,5rem) 1.5rem',
+        scrollbarWidth: 'none',
+      }}>
+        {works.map(w => (
+          <Link key={w.slug} href={`/work/${w.slug}`} style={{
+            flexShrink: 0, scrollSnapAlign: 'start',
+            width: 'clamp(200px,60vw,280px)',
+            display: 'block', textDecoration: 'none',
+          }}>
+            <div style={{
+              position: 'relative', overflow: 'hidden', borderRadius: 2,
+              height: 'clamp(280px,75vw,380px)',
+            }}>
+              <img
+                src={w.cover} alt={w.title}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+              <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(to top, rgba(14,13,11,.65) 0%, transparent 50%)',
+              }} />
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '1.2rem' }}>
+                <p style={{
+                  fontFamily: 'var(--font-manrope), sans-serif',
+                  fontSize: '.5rem', letterSpacing: '.28em', textTransform: 'uppercase',
+                  color: 'rgba(201,168,130,.75)', marginBottom: '.4rem',
+                }}>{w.category}</p>
+                <h3 style={{
+                  fontFamily: 'var(--font-prata), Georgia, serif',
+                  fontSize: 'clamp(1rem,4vw,1.2rem)', lineHeight: 1.1,
+                  color: 'var(--ivory)',
+                }}>{w.title}</h3>
+              </div>
+            </div>
+            <p style={{
+              fontFamily: 'var(--font-garamond), Georgia, serif',
+              fontStyle: 'italic', fontSize: '.85rem',
+              color: 'var(--mist)', marginTop: '.75rem', lineHeight: 1.5,
+            }}>{w.location} · {w.season} {w.year}</p>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 /**
  * WorksCinematicCarousel — pinned 3D poster reel of the portfolio.
  *
@@ -29,7 +95,30 @@ const DEPTH_OPACITY_MIN = 0.22;
 const DEPTH_BLUR_MAX = 2.5;
 const DEPTH_BRIGHTNESS_MIN = 0.55;
 
+/* ── Wrapper: picks mobile vs desktop carousel ────────── */
 export default function WorksCinematicCarousel({ works }: { works: Work[] }) {
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  // Hold a blank spacer until we know viewport size — prevents GSAP from
+  // mounting on mobile only to be torn down immediately (causes removeChild errors)
+  if (isMobile === null) {
+    return <div style={{ height: '100vh', background: 'radial-gradient(ellipse 80% 60% at 50% 30%, #F2EBE0 0%, transparent 60%), var(--ivory)' }} />;
+  }
+
+  return isMobile
+    ? <MobileCarousel works={works} />
+    : <DesktopCarousel works={works} />;
+}
+
+/* ── Desktop: GSAP 3D cylinder (unchanged) ─────────────── */
+function DesktopCarousel({ works }: { works: Work[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const sceneRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLAnchorElement | null)[]>([]);
