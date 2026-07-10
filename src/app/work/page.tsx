@@ -8,6 +8,7 @@ import Footer from '@/components/layout/Footer';
 import { WORKS } from '@/lib/works';
 import WorksCinematicCarousel from '@/components/ui/works-cinematic-carousel';
 import { ClientLogoCloud } from '@/components/ui/client-logo-cloud';
+import { WorksVerticalStack } from '@/components/ui/works-vertical-stack';
 
 // Only show couples with a real built experience (page or experienceUrl)
 const REAL_SLUGS = new Set([
@@ -111,6 +112,9 @@ export default function WorkIndex() {
 
         {/* ── Cinematic commissions reel — couple names on scroll ── */}
         <WorksCinematicCarousel works={COUPLE_WORKS} />
+
+        {/* ── Interactive vertical stack — scroll/drag to browse, click to enter ── */}
+        <WorksVerticalStack works={COUPLE_WORKS} />
 
         {/* ── Filter tabs ─────────────────────────── */}
         <div style={{
