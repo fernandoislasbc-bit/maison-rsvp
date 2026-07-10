@@ -7,6 +7,7 @@ import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
 import { WORKS } from '@/lib/works';
 import WorksCinematicCarousel from '@/components/ui/works-cinematic-carousel';
+import { ClientLogoCloud } from '@/components/ui/client-logo-cloud';
 
 // Only show couples with a real built experience (page or experienceUrl)
 const REAL_SLUGS = new Set([
@@ -231,6 +232,8 @@ export default function WorkIndex() {
             commissions@maisonrsvp.com
           </a>
         </section>
+
+        <ClientLogoCloud />
 
       </main>
       <Footer />
