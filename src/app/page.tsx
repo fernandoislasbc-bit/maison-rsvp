@@ -12,6 +12,7 @@ import WorksCinematicCarousel from '@/components/ui/works-cinematic-carousel';
 import { WORKS as ALL_WORKS } from '@/lib/works';
 import { ClientLogoCloud } from '@/components/ui/client-logo-cloud';
 import { TestimonialsMarquee } from '@/components/ui/testimonials-marquee';
+import { PlatformShowcase } from '@/components/ui/platform-showcase';
 
 /* ─── Data ─────────────────────────────────────────── */
 const TESTIMONIALS = [
@@ -201,6 +202,9 @@ function PostHeroContent({
 
       {/* TESTIMONIALS */}
       <TestimonialsMarquee />
+
+      {/* PLATFORM SHOWCASE — beyond just an invitation */}
+      <PlatformShowcase />
 
       {/* HOW IT WORKS — 3 steps, credibility section */}
       <section
