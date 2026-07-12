@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
-import ScrollExpandMedia from '@/components/ui/scroll-expansion-hero';
 import SilkHero from '@/components/ui/silk-background-animation';
 import GrainHeroSection from '@/components/ui/grain-gradient-hero-section';
 import WorksCinematicCarousel from '@/components/ui/works-cinematic-carousel';
@@ -123,16 +122,7 @@ export default function Home() {
       {/* OPENING — MAISON RSVP silk hero */}
       <SilkHero />
 
-      {/* CHAPTER I — THE INVITATION */}
-      <ScrollExpandMedia
-        mediaType="video"
-        mediaSrc="/assets/hero.mp4"
-        title="An invitation. Yours."
-        subtitle="A world of its own."
-        scrollToExpand="Scroll to enter"
-      >
-        <PostHeroContent celIdx={celIdx} setCelIdx={setCelIdx} />
-      </ScrollExpandMedia>
+      <PostHeroContent celIdx={celIdx} setCelIdx={setCelIdx} />
     </>
   );
 }
