@@ -202,6 +202,7 @@ export function PlatformShowcase() {
       style={{
         position: 'relative',
         width: '100vw',
+        marginLeft: 'calc(50% - 50vw)',
         height: '100vh',
         overflow: 'hidden',
         display: 'flex',
