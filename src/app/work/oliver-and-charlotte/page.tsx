@@ -299,6 +299,7 @@ export default function OliverAndCharlottePage() {
               position: 'absolute', inset: 0,
               width: '100%', height: '100%',
               objectFit: 'cover',
+              objectPosition: 'center 20%',
               filter: introPhase === 'fading' ? 'blur(24px) brightness(.6)' : 'blur(0px) brightness(1)',
               transition: 'filter 1.6s cubic-bezier(0.4,0,0.2,1)',
             }}
