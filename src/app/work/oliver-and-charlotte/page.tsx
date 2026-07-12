@@ -71,6 +71,16 @@ const GLOBAL_CSS = `
     from { opacity: 0; transform: translateY(60px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+  @keyframes oc-page-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes oc-intro-text {
+    0%   { opacity: 0; letter-spacing: .6em; }
+    40%  { opacity: 1; letter-spacing: .35em; }
+    80%  { opacity: 1; letter-spacing: .35em; }
+    100% { opacity: 0; letter-spacing: .35em; }
+  }
   .oc-hero-title {
     will-change: transform, opacity;
     animation: oc-title-in 2s 0.3s both cubic-bezier(0.16, 1, 0.3, 1);
@@ -129,10 +139,22 @@ export default function OliverAndCharlottePage() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [rsvpForm, setRsvpForm] = useState({ name: '', attending: '', guests: '1', message: '' });
   const [rsvpSent, setRsvpSent] = useState(false);
+  const [introPhase, setIntroPhase] = useState<'playing' | 'fading' | 'done'>('playing');
+  const introTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* Mobile detection */
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  /* Intro handlers */
+  const triggerFade = React.useCallback(() => {
+    setIntroPhase('fading');
+    introTimerRef.current = setTimeout(() => setIntroPhase('done'), 1600);
+  }, []);
+
+  useEffect(() => {
+    return () => { if (introTimerRef.current) clearTimeout(introTimerRef.current); };
   }, []);
 
   /* Custom cursor */
@@ -150,6 +172,7 @@ export default function OliverAndCharlottePage() {
 
   /* GSAP scroll animations */
   useEffect(() => {
+    if (introPhase !== 'done') return;
     const ctx = gsap.context(() => {
 
       /* Ornaments */
@@ -249,9 +272,83 @@ export default function OliverAndCharlottePage() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [isMobile]);
+  }, [isMobile, introPhase]);
 
   if (isMobile === null) return null;
+
+  /* ── Video intro overlay ── */
+  if (introPhase !== 'done') {
+    return (
+      <>
+        <style dangerouslySetInnerHTML={{ __html: GLOBAL_CSS }}></style>
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 99999,
+          background: NAVY,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          overflow: 'hidden',
+          transition: 'opacity 1.6s cubic-bezier(0.4,0,0.2,1)',
+          opacity: introPhase === 'fading' ? 0 : 1,
+        }}>
+          {/* Video */}
+          <video
+            autoPlay
+            muted
+            playsInline
+            onEnded={triggerFade}
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover',
+              filter: introPhase === 'fading' ? 'blur(24px) brightness(.6)' : 'blur(0px) brightness(1)',
+              transition: 'filter 1.6s cubic-bezier(0.4,0,0.2,1)',
+            }}
+          >
+            <source src="/assets/oc/oc-intro.mp4" type="video/mp4" />
+          </video>
+
+          {/* Vignette */}
+          <div style={{
+            position: 'absolute', inset: 0, zIndex: 1,
+            background: `radial-gradient(ellipse at center, transparent 30%, ${NAVY}CC 100%)`,
+          }} />
+
+          {/* Bottom branding */}
+          <div style={{
+            position: 'absolute', bottom: '2rem', left: '50%', transform: 'translateX(-50%)',
+            zIndex: 2, textAlign: 'center', pointerEvents: 'none',
+          }}>
+            <p style={{
+              fontFamily: 'var(--font-manrope), sans-serif',
+              fontSize: '.42rem', letterSpacing: '.45em', textTransform: 'uppercase',
+              color: `${GOLD}88`,
+              animation: 'oc-intro-text 8s 0.5s both ease-in-out',
+            }}>
+              Maison RSVP · The Archive
+            </p>
+          </div>
+
+          {/* Skip button */}
+          <button
+            onClick={triggerFade}
+            style={{
+              position: 'absolute', bottom: '2rem', right: '2rem', zIndex: 3,
+              background: 'transparent', border: `1px solid ${GOLD}44`,
+              color: `${IVORY}88`,
+              fontFamily: 'var(--font-manrope), sans-serif',
+              fontSize: '.48rem', letterSpacing: '.3em', textTransform: 'uppercase',
+              padding: '.6rem 1.4rem',
+              cursor: 'pointer',
+              transition: 'border-color .3s, color .3s',
+            }}
+            onMouseEnter={e => { (e.target as HTMLButtonElement).style.borderColor = GOLD; (e.target as HTMLButtonElement).style.color = IVORY; }}
+            onMouseLeave={e => { (e.target as HTMLButtonElement).style.borderColor = `${GOLD}44`; (e.target as HTMLButtonElement).style.color = `${IVORY}88`; }}
+          >
+            Skip intro
+          </button>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -270,7 +367,7 @@ export default function OliverAndCharlottePage() {
 
       <Nav />
 
-      <main ref={containerRef} style={{ background: NAVY, color: IVORY, overflowX: 'hidden' }}>
+      <main ref={containerRef} style={{ background: NAVY, color: IVORY, overflowX: 'hidden', animation: 'oc-page-in .8s ease both' }}>
 
         {/* ══ HERO — Ink Reveal Envelope ══ */}
         <section
