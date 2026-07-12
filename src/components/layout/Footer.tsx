@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import MaisonLogo from '@/components/ui/maison-logo';
 
 export default function Footer() {
   return (
@@ -23,13 +24,8 @@ export default function Footer() {
       }}>
         {/* Brand */}
         <div>
-          <p style={{
-            fontFamily: 'var(--font-garamond), Georgia, serif',
-            fontSize: '1rem', letterSpacing: '.22em', textTransform: 'uppercase',
-            color: 'var(--ink)', marginBottom: '1.2rem',
-          }}>
-            Maison RSVP
-          </p>
+          <MaisonLogo color="#2C1A0E" height={48} style={{ marginBottom: '1.4rem' }} />
+
           <p style={{
             fontFamily: 'var(--font-garamond), Georgia, serif',
             fontStyle: 'italic', fontSize: '.88rem',

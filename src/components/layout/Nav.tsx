@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import MaisonLogo from '@/components/ui/maison-logo';
 
 const LINKS = [
   { href: '/work',         label: 'Portfolio' },
@@ -54,18 +55,13 @@ export default function Nav({ light = false, delayMs = 0 }: { light?: boolean; d
           transition: 'background .4s ease, backdrop-filter .4s ease, border-color .4s, opacity .9s ease',
         }}
       >
-        {/* Wordmark */}
-        <Link
-          href="/"
-          aria-label="Maison RSVP — Home"
-          style={{
-            fontFamily: 'var(--font-garamond), Georgia, serif',
-            fontSize: '.82rem', letterSpacing: '.24em', textTransform: 'uppercase',
-            color: fg, transition: 'color .3s',
-            textDecoration: 'none',
-          }}
-        >
-          Maison RSVP
+        {/* Logo */}
+        <Link href="/" aria-label="Maison RSVP — Home" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+          <MaisonLogo
+            color={light || scrolled ? '#2C1A0E' : '#f0e4ce'}
+            height={34}
+            style={{ transition: 'fill .3s' }}
+          />
         </Link>
 
         {/* Desktop links */}
