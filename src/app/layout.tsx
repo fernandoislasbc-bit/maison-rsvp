@@ -3,6 +3,7 @@ import { Prata, Manrope, EB_Garamond } from 'next/font/google';
 import './globals.css';
 import { orgSchema, websiteSchema } from '@/lib/seo';
 import Cursor from '@/components/ui/Cursor';
+import { Concierge } from '@/components/ui/concierge';
 
 const prata = Prata({
   weight: '400',
@@ -57,6 +58,7 @@ export default function RootLayout({
       <body className="min-h-full">
         <Cursor />
         {children}
+        <Concierge />
       </body>
     </html>
   );
