@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -14,8 +14,8 @@ const INK   = '#0E0D0B';
 const CREAM = '#F2EBE0';
 
 const GUESTS = [
-  { initials: 'AW', name: 'A. Worthington', status: 'attending' },
-  { initials: 'EL', name: 'E. Laroche',      status: 'attending' },
+  { initials: 'JA', name: 'J. Ashford',     status: 'attending' },
+  { initials: 'HB', name: 'H. Beaumont',     status: 'attending' },
   { initials: 'IF', name: 'I. Fontaine',      status: 'attending' },
   { initials: 'TB', name: 'T. Blackwood',     status: 'pending'   },
   { initials: 'MR', name: 'M. Renaud',        status: 'attending' },
@@ -109,8 +109,18 @@ export function PlatformShowcase() {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRef      = useRef<HTMLDivElement>(null);
   const rafRef       = useRef<number>(0);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
   useEffect(() => {
+    const mq = window.matchMedia('(max-width: 900px)');
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile !== false) return;
     const onMove = (e: MouseEvent) => {
       if (!cardRef.current) return;
       cancelAnimationFrame(rafRef.current);
@@ -124,10 +134,11 @@ export function PlatformShowcase() {
     };
     window.addEventListener('mousemove', onMove);
     return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(rafRef.current); };
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
-    const mob = window.innerWidth < 900;
+    if (isMobile !== false) return;
+    const mob = false;
     const ctx = gsap.context(() => {
       gsap.set('.ps-bg-text',   { autoAlpha: 1,  y: 0 });
       gsap.set('.ps-card',      { y: window.innerHeight + 300, autoAlpha: 1 });
@@ -193,7 +204,130 @@ export function PlatformShowcase() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
+
+  // Before hydration settles, hold space quietly to avoid a layout jump.
+  if (isMobile === null) {
+    return <section aria-label="Platform capabilities" style={{ minHeight: '60vh', background: CREAM }} />;
+  }
+
+  // Mobile: no scroll pin, no GSAP — a calm stacked composition.
+  if (isMobile) {
+    return (
+      <section
+        aria-label="Platform capabilities"
+        style={{
+          width: '100vw', marginLeft: 'calc(50% - 50vw)',
+          background: CREAM,
+          padding: 'clamp(5rem,14vw,7rem) 1.25rem',
+        }}
+      >
+        <div style={{ maxWidth: 560, margin: '0 auto', textAlign: 'center' }}>
+          <p style={{
+            fontFamily: 'var(--font-manrope), sans-serif',
+            fontSize: '.58rem', letterSpacing: '.4em', textTransform: 'uppercase',
+            color: GOLD, marginBottom: '1.25rem',
+          }}>
+            Beyond the Invitation
+          </p>
+          <h2 style={{
+            fontFamily: 'var(--font-prata), Georgia, serif',
+            fontSize: 'clamp(2.4rem,10vw,3.4rem)',
+            lineHeight: .96, letterSpacing: '-.03em',
+            color: INK, marginBottom: '1.25rem',
+          }}>
+            Everything in<br />
+            <em style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', color: GOLD }}>
+              one place.
+            </em>
+          </h2>
+          <p style={{
+            fontFamily: 'var(--font-garamond), Georgia, serif',
+            fontStyle: 'italic', fontSize: '.95rem',
+            color: 'rgba(14,13,11,.45)', maxWidth: '34ch',
+            lineHeight: 1.8, margin: '0 auto',
+          }}>
+            One link. Four capabilities. From the invitation to the entrance — Maison RSVP orchestrates the entire guest experience.
+          </p>
+        </div>
+
+        <div style={{
+          maxWidth: 560, margin: '3rem auto 0',
+          borderRadius: 28,
+          background: 'linear-gradient(145deg,#1A1208 0%,#0E0D0B 100%)',
+          border: '1px solid rgba(162,129,90,.08)',
+          boxShadow: '0 40px 80px -30px rgba(0,0,0,.6)',
+          padding: '2.5rem 1.5rem',
+          overflow: 'hidden',
+        }}>
+          <p style={{
+            fontFamily: 'var(--font-manrope), sans-serif',
+            fontSize: '.52rem', letterSpacing: '.35em', textTransform: 'uppercase',
+            color: GOLD, marginBottom: '.75rem', textAlign: 'center',
+          }}>
+            The complete suite
+          </p>
+          <h3 style={{
+            fontFamily: 'var(--font-prata), Georgia, serif',
+            fontSize: 'clamp(1.5rem,6.5vw,2rem)',
+            lineHeight: 1.05, letterSpacing: '-.02em',
+            color: IVORY, textAlign: 'center',
+          }}>
+            One link.<br />Four capabilities.
+          </h3>
+
+          <div style={{ position: 'relative', width: 190, height: 400, margin: '2.25rem auto' }}>
+            <PhoneScreen />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+            {FEATURES.map(f => (
+              <div key={f.label} style={{
+                display: 'flex', gap: '1rem', alignItems: 'flex-start',
+                borderTop: '1px solid rgba(162,129,90,.12)',
+                paddingTop: '.9rem',
+              }}>
+                <span style={{ color: GOLD, marginTop: 2, flexShrink: 0 }}>{f.icon}</span>
+                <div>
+                  <p style={{
+                    fontFamily: 'var(--font-manrope), sans-serif',
+                    fontSize: '.58rem', letterSpacing: '.2em', textTransform: 'uppercase',
+                    color: IVORY, marginBottom: '.3rem',
+                  }}>
+                    {f.label}
+                  </p>
+                  <p style={{
+                    fontFamily: 'var(--font-garamond), Georgia, serif',
+                    fontStyle: 'italic', fontSize: '.85rem',
+                    color: 'rgba(248,245,240,.4)', lineHeight: 1.6,
+                  }}>
+                    {f.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '2.25rem' }}>
+            <a
+              href="/contact"
+              style={{
+                display: 'inline-block',
+                fontFamily: 'var(--font-garamond), Georgia, serif',
+                fontSize: '1rem',
+                color: GOLD, textDecoration: 'none',
+                borderBottom: '1px solid rgba(162,129,90,.35)',
+                paddingBottom: '.2em', letterSpacing: '.03em',
+                minHeight: 44, lineHeight: '44px',
+              }}
+            >
+              Commission your suite →
+            </a>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -376,6 +510,101 @@ export function PlatformShowcase() {
           <div className="ps-center-col" style={{ display: 'flex', justifyContent: 'center' }}>
             <div className="ps-mockup ps-mockup-wrap">
 
+              <PhoneScreen />
+
+              {/* badge: RSVPs */}
+              <div className="ps-badge ps-badge-left" style={{
+                borderRadius: 16, padding: '12px 16px',
+                display: 'flex', alignItems: 'center', gap: 12,
+                background: 'rgba(162,129,90,.12)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(162,129,90,.2)',
+                boxShadow: '0 20px 40px -10px rgba(0,0,0,.7)',
+                whiteSpace: 'nowrap',
+              }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: '50%',
+                  background: 'rgba(38,77,42,.4)', border: '1px solid rgba(110,231,160,.2)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#6EE7A0" strokeWidth="2" style={{ width: 14, height: 14 }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <p style={{ fontFamily: 'var(--font-manrope),sans-serif', fontSize: 11, fontWeight: 600, color: IVORY }}>47 RSVPs confirmed</p>
+                  <p style={{ fontFamily: 'var(--font-manrope),sans-serif', fontSize: 9, color: 'rgba(248,245,240,.4)' }}>Live · Updated just now</p>
+                </div>
+              </div>
+
+              {/* badge: QR */}
+              <div className="ps-badge ps-badge-right" style={{
+                borderRadius: 16, padding: '12px 16px',
+                display: 'flex', alignItems: 'center', gap: 12,
+                background: 'rgba(162,129,90,.12)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(162,129,90,.2)',
+                boxShadow: '0 20px 40px -10px rgba(0,0,0,.7)',
+                whiteSpace: 'nowrap',
+              }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: '50%',
+                  background: 'rgba(162,129,90,.2)', border: '1px solid rgba(162,129,90,.3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" style={{ width: 14, height: 14 }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
+                  </svg>
+                </div>
+                <div>
+                  <p style={{ fontFamily: 'var(--font-manrope),sans-serif', fontSize: 11, fontWeight: 600, color: IVORY }}>QR scan active</p>
+                  <p style={{ fontFamily: 'var(--font-manrope),sans-serif', fontSize: 9, color: 'rgba(248,245,240,.4)' }}>44 guests checked in at door</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* RIGHT: brand headline */}
+          <div className="ps-right ps-right-col">
+            <p style={{
+              fontFamily: 'var(--font-manrope), sans-serif',
+              fontSize: '.52rem', letterSpacing: '.35em', textTransform: 'uppercase',
+              color: GOLD, marginBottom: '1.5rem',
+            }}>
+              Maison RSVP
+            </p>
+            <h3 style={{
+              fontFamily: 'var(--font-prata), Georgia, serif',
+              fontSize: 'clamp(2rem,3.5vw,4.5rem)',
+              lineHeight: .96, letterSpacing: '-.03em',
+              color: IVORY, marginBottom: '1.5rem',
+            }}>
+              Invitation.<br />
+              <em style={{ fontFamily: 'var(--font-garamond),Georgia,serif', fontStyle: 'italic', color: GOLD }}>RSVP.</em><br />
+              Dashboard.<br />
+              <em style={{ fontFamily: 'var(--font-garamond),Georgia,serif', fontStyle: 'italic', color: GOLD }}>Entrance.</em>
+            </h3>
+            <p style={{
+              fontFamily: 'var(--font-garamond), Georgia, serif',
+              fontStyle: 'italic',
+              fontSize: 'clamp(.8rem,.95vw,.9rem)',
+              color: 'rgba(248,245,240,.4)',
+              lineHeight: 1.8, maxWidth: '26ch',
+            }}>
+              We hand you a single link. Your guests open a world. You track every reply, message, and arrival from one private dashboard.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PhoneScreen() {
+  return (
+    <>
               {/* phone bezel */}
               <div style={{
                 width: '100%', height: '100%', borderRadius: '3rem', background: '#111',
@@ -509,93 +738,6 @@ export function PlatformShowcase() {
                   }} />
                 ))}
               </div>
-
-              {/* badge: RSVPs */}
-              <div className="ps-badge ps-badge-left" style={{
-                borderRadius: 16, padding: '12px 16px',
-                display: 'flex', alignItems: 'center', gap: 12,
-                background: 'rgba(162,129,90,.12)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(162,129,90,.2)',
-                boxShadow: '0 20px 40px -10px rgba(0,0,0,.7)',
-                whiteSpace: 'nowrap',
-              }}>
-                <div style={{
-                  width: 32, height: 32, borderRadius: '50%',
-                  background: 'rgba(38,77,42,.4)', border: '1px solid rgba(110,231,160,.2)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#6EE7A0" strokeWidth="2" style={{ width: 14, height: 14 }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div>
-                  <p style={{ fontFamily: 'var(--font-manrope),sans-serif', fontSize: 11, fontWeight: 600, color: IVORY }}>47 RSVPs confirmed</p>
-                  <p style={{ fontFamily: 'var(--font-manrope),sans-serif', fontSize: 9, color: 'rgba(248,245,240,.4)' }}>Live · Updated just now</p>
-                </div>
-              </div>
-
-              {/* badge: QR */}
-              <div className="ps-badge ps-badge-right" style={{
-                borderRadius: 16, padding: '12px 16px',
-                display: 'flex', alignItems: 'center', gap: 12,
-                background: 'rgba(162,129,90,.12)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(162,129,90,.2)',
-                boxShadow: '0 20px 40px -10px rgba(0,0,0,.7)',
-                whiteSpace: 'nowrap',
-              }}>
-                <div style={{
-                  width: 32, height: 32, borderRadius: '50%',
-                  background: 'rgba(162,129,90,.2)', border: '1px solid rgba(162,129,90,.3)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" style={{ width: 14, height: 14 }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
-                  </svg>
-                </div>
-                <div>
-                  <p style={{ fontFamily: 'var(--font-manrope),sans-serif', fontSize: 11, fontWeight: 600, color: IVORY }}>QR scan active</p>
-                  <p style={{ fontFamily: 'var(--font-manrope),sans-serif', fontSize: 9, color: 'rgba(248,245,240,.4)' }}>44 guests checked in at door</p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          {/* RIGHT: brand headline */}
-          <div className="ps-right ps-right-col">
-            <p style={{
-              fontFamily: 'var(--font-manrope), sans-serif',
-              fontSize: '.52rem', letterSpacing: '.35em', textTransform: 'uppercase',
-              color: GOLD, marginBottom: '1.5rem',
-            }}>
-              Maison RSVP
-            </p>
-            <h3 style={{
-              fontFamily: 'var(--font-prata), Georgia, serif',
-              fontSize: 'clamp(2rem,3.5vw,4.5rem)',
-              lineHeight: .96, letterSpacing: '-.03em',
-              color: IVORY, marginBottom: '1.5rem',
-            }}>
-              Invitation.<br />
-              <em style={{ fontFamily: 'var(--font-garamond),Georgia,serif', fontStyle: 'italic', color: GOLD }}>RSVP.</em><br />
-              Dashboard.<br />
-              <em style={{ fontFamily: 'var(--font-garamond),Georgia,serif', fontStyle: 'italic', color: GOLD }}>Entrance.</em>
-            </h3>
-            <p style={{
-              fontFamily: 'var(--font-garamond), Georgia, serif',
-              fontStyle: 'italic',
-              fontSize: 'clamp(.8rem,.95vw,.9rem)',
-              color: 'rgba(248,245,240,.4)',
-              lineHeight: 1.8, maxWidth: '26ch',
-            }}>
-              We hand you a single link. Your guests open a world. You track every reply, message, and arrival from one private dashboard.
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </section>
+    </>
   );
 }

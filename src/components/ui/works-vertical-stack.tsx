@@ -73,7 +73,6 @@ export function WorksVerticalStack({ works }: Props) {
   };
 
   const isVisible = (index: number) => Math.abs(getDiff(index)) <= 2;
-  const active = works[currentIndex];
 
   return (
     <section style={{
@@ -241,49 +240,6 @@ export function WorksVerticalStack({ works }: Props) {
             </motion.div>
           );
         })}
-      </div>
-
-      {/* Active work info — right side on desktop */}
-      <div style={{
-        position: 'absolute',
-        right: 'clamp(5rem,12vw,14rem)',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        maxWidth: '22ch',
-        zIndex: 10,
-        pointerEvents: 'none',
-      }}>
-        <motion.div
-          key={active.slug}
-          initial={{ opacity: 0, x: 12 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: .5, ease: [.16,1,.3,1] }}
-        >
-          <p style={{
-            fontFamily: 'var(--font-manrope), sans-serif',
-            fontSize: '.52rem', letterSpacing: '.32em', textTransform: 'uppercase',
-            color: 'rgba(201,168,130,.55)', marginBottom: '1rem',
-          }}>
-            {active.season} {active.year}
-          </p>
-          <h2 style={{
-            fontFamily: 'var(--font-prata), Georgia, serif',
-            fontSize: 'clamp(1.4rem,2.5vw,2.2rem)',
-            color: 'var(--ivory)', lineHeight: 1.05,
-            letterSpacing: '-.015em', marginBottom: '.8rem',
-          }}>
-            {active.title}
-          </h2>
-          <p style={{
-            fontFamily: 'var(--font-garamond), Georgia, serif',
-            fontStyle: 'italic',
-            fontSize: 'clamp(.82rem,1.1vw,1rem)',
-            color: 'rgba(248,245,240,.4)',
-            lineHeight: 1.7,
-          }}>
-            {active.tagline}
-          </p>
-        </motion.div>
       </div>
 
       {/* Bottom hint */}

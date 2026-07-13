@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy | Maison RSVP',
-  description: 'How Maison RSVP collects, uses, and protects your personal information.',
-  robots: { index: false, follow: false },
-};
+export const metadata: Metadata = buildMetadata({
+  title:       'Privacy Policy',
+  description: 'How Maison RSVP collects, uses, and protects your personal information — including enquiry details and guest RSVP data.',
+  path:        '/privacy',
+});
 
 const SECTIONS = [
   {
@@ -34,11 +35,11 @@ We do not sell your personal information. We do not share it with third parties 
     title: 'Your rights',
     body: `You have the right to access the personal information we hold about you, to request its correction, to request its deletion, and to withdraw consent where consent is the basis for processing.
 
-To exercise any of these rights, please contact us at: concierge@maisonrsvp.com`,
+To exercise any of these rights, please contact us at: concierge@maisonrsvp.ca`,
   },
   {
     title: 'Contact',
-    body: `If you have questions about this privacy policy or how we handle your personal information, please contact us at concierge@maisonrsvp.com. We will respond within five business days.`,
+    body: `If you have questions about this privacy policy or how we handle your personal information, please contact us at concierge@maisonrsvp.ca. We will respond within five business days.`,
   },
 ];
 

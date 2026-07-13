@@ -83,14 +83,14 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* By the numbers */}
+        {/* Commitments — verifiable promises, not vanity metrics */}
         <section style={{ padding: 'clamp(7rem,12vw,12rem) clamp(2rem,5vw,5rem)', background: `radial-gradient(ellipse 70% 50% at 50% 50%, #F2EBE0 0%, transparent 65%), var(--ivory)` }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,180px),1fr))', gap: 'clamp(3rem,5vw,5rem)', textAlign: 'center' }}>
             {[
-              { n: '48',  label: 'Commissions completed' },
-              { n: '18',  label: 'Countries reached' },
-              { n: '100%', label: 'Unique designs' },
-              { n: '2021', label: 'Founded' },
+              { n: '1',    label: 'Commission at a time' },
+              { n: '0',    label: 'Templates, ever' },
+              { n: '100%', label: 'Designed from scratch' },
+              { n: '∞',    label: 'Care per detail' },
             ].map(stat => (
               <div key={stat.label}>
                 <p style={{ fontFamily: 'var(--font-prata), Georgia, serif', fontSize: 'clamp(3rem,6vw,5.5rem)', lineHeight: 1, letterSpacing: '-.03em', marginBottom: '.5rem' }}>{stat.n}</p>
@@ -100,58 +100,31 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Founder */}
+        {/* The Atelier — studio narrative. When ready, this section can carry the
+            founder's name, photograph, and personal story. */}
         <section style={{
           padding: 'clamp(7rem,12vw,12rem) clamp(2rem,5vw,5rem)',
           background: `radial-gradient(ellipse 60% 40% at 30% 60%, #EDE5D8 0%, transparent 55%), var(--ivory)`,
           borderTop: '1px solid rgba(162,129,90,.08)',
         }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 'clamp(4rem,8vw,8rem)', alignItems: 'center' }}>
-            {/* Photo placeholder */}
-            <div style={{ position: 'relative', maxWidth: 380 }}>
-              <div style={{
-                width: '100%', aspectRatio: '3/4',
-                background: 'rgba(162,129,90,.06)',
-                border: '1px solid rgba(162,129,90,.2)',
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', justifyContent: 'center',
-                gap: '1rem',
-                fontFamily: 'var(--font-manrope), sans-serif',
-              }}>
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(162,129,90,.4)" strokeWidth="1">
-                  <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-                </svg>
-                <span style={{ fontSize: '.55rem', letterSpacing: '.3em', textTransform: 'uppercase', color: 'rgba(162,129,90,.4)' }}>
-                  [Your photograph here]
-                </span>
-              </div>
-              {/* Gold accent line */}
-              <div style={{ position: 'absolute', bottom: -24, left: 0, width: 'clamp(2rem,4vw,3rem)', height: 1, background: 'var(--gold)', opacity: .4 }} />
-            </div>
-
-            {/* Text */}
-            <div>
-              <p style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.58rem', letterSpacing: '.4em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 'clamp(2rem,3vw,2.5rem)' }}>
-                The Founder
+          <div style={{ maxWidth: '58ch', margin: '0 auto', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.58rem', letterSpacing: '.4em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 'clamp(2rem,3vw,2.5rem)' }}>
+              The Atelier
+            </p>
+            <h2 style={{ fontFamily: 'var(--font-prata), Georgia, serif', fontSize: 'clamp(2rem,3.5vw,3.2rem)', lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 'clamp(1.5rem,2.5vw,2rem)' }}>
+              A small studio,<br />
+              <em style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', color: 'var(--gold)' }}>by design.</em>
+            </h2>
+            <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontSize: 'clamp(.95rem,1.2vw,1.1rem)', lineHeight: 1.85, color: 'var(--mist)', marginBottom: '1.5rem' }}>
+              Maison RSVP began with a simple observation: couples pour months of care into their celebration, then announce it with a template. We founded the atelier to give the invitation the same devotion as the event itself — designed once, for one occasion, and never repeated.
+            </p>
+            <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(.95rem,1.2vw,1.1rem)', lineHeight: 1.85, color: 'rgba(162,129,90,.7)' }}>
+              &ldquo;The first impression of your wedding does not happen at the venue. It happens the moment the invitation opens.&rdquo;
+            </p>
+            <div style={{ marginTop: 'clamp(2rem,3vw,2.5rem)', paddingTop: 'clamp(1.5rem,2.5vw,2rem)', borderTop: '1px solid rgba(162,129,90,.12)' }}>
+              <p style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.55rem', letterSpacing: '.28em', textTransform: 'uppercase', color: 'var(--mist)' }}>
+                Vancouver, Canada — Invitation Design &amp; Art Direction
               </p>
-              <h2 style={{ fontFamily: 'var(--font-prata), Georgia, serif', fontSize: 'clamp(2rem,3.5vw,3.2rem)', lineHeight: 1.05, letterSpacing: '-.02em', marginBottom: 'clamp(1.5rem,2.5vw,2rem)' }}>
-                {/* PLACEHOLDER — replace with your full name */}
-                [Your Name]
-              </h2>
-              <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontSize: 'clamp(.95rem,1.2vw,1.1rem)', lineHeight: 1.85, color: 'var(--mist)', marginBottom: '1.5rem', maxWidth: '42ch' }}>
-                {/* PLACEHOLDER — 2-3 sentences about your background, journey, and what led you to found Maison RSVP. Keep it personal. What did you see that was missing in the market? What do you believe about the role of design in a person's most important moments? */}
-                [Your background — e.g. "I spent a decade in luxury event production before founding Maison RSVP. I kept watching couples pour everything into their celebration, only to send a generic digital invite from a template builder. I believed the invitation itself deserved the same care."]
-              </p>
-              <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(.95rem,1.2vw,1.1rem)', lineHeight: 1.85, color: 'rgba(162,129,90,.7)', maxWidth: '40ch' }}>
-                {/* PLACEHOLDER — a short, quotable sentence that captures your design philosophy */}
-                &ldquo;[A sentence that defines your creative philosophy — what you believe about beauty, ceremony, or the meaning of a first impression.]&rdquo;
-              </p>
-              <div style={{ marginTop: 'clamp(2rem,3vw,2.5rem)', paddingTop: 'clamp(1.5rem,2.5vw,2rem)', borderTop: '1px solid rgba(162,129,90,.12)' }}>
-                <p style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.55rem', letterSpacing: '.28em', textTransform: 'uppercase', color: 'var(--mist)' }}>
-                  {/* PLACEHOLDER — your location or discipline, e.g. "Vancouver, BC — Invitation Design & Art Direction" */}
-                  [Your city] — Invitation Design &amp; Art Direction
-                </p>
-              </div>
             </div>
           </div>
         </section>

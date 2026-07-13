@@ -7,7 +7,7 @@ import MaisonLogo from '@/components/ui/maison-logo';
 
 const LINKS = [
   { href: '/work',         label: 'Portfolio' },
-  { href: '/collection',   label: 'Pricing' },
+  { href: '/collection',   label: 'The Collection' },
   { href: '/experiences',  label: 'Live Invitations' },
   { href: '/process',      label: 'Process' },
   { href: '/journal',      label: 'Journal' },

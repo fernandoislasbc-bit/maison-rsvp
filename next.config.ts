@@ -22,6 +22,17 @@ const nextConfig: NextConfig = {
   },
   compress: true,
   poweredByHeader: false,
+  async redirects() {
+    return [
+      // Canonical host: maisonrsvp.ca (non-www). 301 everything from www.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.maisonrsvp.ca' }],
+        destination: 'https://maisonrsvp.ca/:path*',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

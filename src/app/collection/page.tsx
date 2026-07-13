@@ -276,7 +276,7 @@ export default function CollectionPage() {
             fontSize: '.58rem', letterSpacing: '.4em', textTransform: 'uppercase',
             color: 'var(--gold)', marginBottom: 'clamp(2rem,4vw,3rem)',
           }}>
-            Three commissions remaining this season
+            Commissions open by season
           </p>
           <h2 style={{
             fontFamily: 'var(--font-prata), Georgia, serif',

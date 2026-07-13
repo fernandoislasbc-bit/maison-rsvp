@@ -3,8 +3,6 @@
 import { InfiniteSlider } from '@/components/ui/infinite-slider';
 
 const LOGOS = [
-  { src: '/logos/intercontinental.png', alt: 'InterContinental Hotels & Resorts' },
-  { src: '/logos/marriott.png',         alt: 'Marriott Hotels & Resorts' },
   { src: '/logos/per-se.png',           alt: 'Per Se Hospitality Group' },
   { src: '/logos/acquafarina.png',      alt: 'Acquafarina' },
   { src: '/logos/social-corner.png',    alt: 'Social Corner' },
@@ -36,7 +34,7 @@ export function ClientLogoCloud() {
         textAlign: 'center',
         marginBottom: 'clamp(2rem,4vw,3rem)',
       }}>
-        Trusted by
+        Venues &amp; houses we have worked alongside
       </p>
 
       {/* Fade edges */}

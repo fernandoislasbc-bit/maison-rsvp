@@ -28,7 +28,7 @@ export const ARTICLES: Article[] = [
   {
     slug:         'why-your-wedding-invitation-is-the-most-important-design-decision-you-will-make',
     title:        'Why Your Wedding Invitation Is the Most Important Design Decision You Will Make',
-    seoTitle:     'Why Your Wedding Invitation Is the Most Important Design Decision | Maison RSVP',
+    seoTitle:     'Why Your Wedding Invitation Is the Most Important Design Decision',
     description:  'Most couples spend months choosing a venue and minutes choosing an invitation. Here is why that is the wrong order — and what happens when you get it right.',
     category:     'Luxury Wedding Inspiration',
     categorySlug: 'luxury-wedding-inspiration',
@@ -42,7 +42,7 @@ export const ARTICLES: Article[] = [
   {
     slug:         'the-difference-between-a-wedding-website-and-a-wedding-invitation-experience',
     title:        'The Difference Between a Wedding Website and a Wedding Invitation Experience',
-    seoTitle:     'Wedding Website vs. Wedding Invitation Experience | Maison RSVP',
+    seoTitle:     'Wedding Website vs. Wedding Invitation Experience',
     description:  'A wedding website tells your guests when and where. A wedding invitation experience tells them why it matters. The difference is everything.',
     category:     'Digital Invitations',
     categorySlug: 'digital-invitations',
@@ -55,7 +55,7 @@ export const ARTICLES: Article[] = [
   {
     slug:         'lake-como-wedding-inspiration-the-most-beautiful-venues-on-the-water',
     title:        'Lake Como Wedding Inspiration: The Most Beautiful Venues on the Water',
-    seoTitle:     'Lake Como Wedding Venues & Inspiration 2025 | Maison RSVP Journal',
+    seoTitle:     'Lake Como Wedding Venues & Inspiration 2025',
     description:  'Lake Como remains the world\'s most sought-after destination wedding location. Here are the venues, the light, and the design language that make it extraordinary.',
     category:     'Destination Weddings',
     categorySlug: 'destination-weddings',
@@ -68,7 +68,7 @@ export const ARTICLES: Article[] = [
   {
     slug:         'how-to-brief-a-luxury-invitation-designer',
     title:        'How to Brief a Luxury Invitation Designer (Without Starting From Scratch)',
-    seoTitle:     'How to Brief a Luxury Invitation Designer | Maison RSVP Journal',
+    seoTitle:     'How to Brief a Luxury Invitation Designer',
     description:  'The best creative briefs do not describe what you want. They describe how you want your guests to feel. Here is how to write one.',
     category:     'Wedding Planning',
     categorySlug: 'wedding-planning',
@@ -81,7 +81,7 @@ export const ARTICLES: Article[] = [
   {
     slug:         'destination-wedding-digital-invitation-what-your-guests-need-to-feel-before-they-book',
     title:        'Destination Wedding Digital Invitations: What Your Guests Need to Feel Before They Book',
-    seoTitle:     'Destination Wedding Digital Invitations — What Guests Need to Feel | Maison RSVP',
+    seoTitle:     'Destination Wedding Digital Invitations — What Guests Need to Feel',
     description:  'When you ask guests to travel internationally for your wedding, the invitation carries a specific responsibility. Here is how to meet it.',
     category:     'Destination Weddings',
     categorySlug: 'destination-weddings',
@@ -94,7 +94,7 @@ export const ARTICLES: Article[] = [
   {
     slug:         '2025-luxury-wedding-website-trends',
     title:        'Luxury Wedding Website Trends for 2025: What\'s Changing and Why',
-    seoTitle:     'Luxury Wedding Website Design Trends 2025 | Maison RSVP Journal',
+    seoTitle:     'Luxury Wedding Website Design Trends 2025',
     description:  'The templates are dying. Cinematic storytelling is rising. Here is what the most considered couples are asking for in 2025 — and why it matters.',
     category:     'Wedding Website Trends',
     categorySlug: 'wedding-website-trends',

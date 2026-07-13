@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { ARTICLES } from '@/lib/journal';
 import { WORKS } from '@/lib/works';
 
-const BASE = 'https://www.maisonrsvp.ca';
+const BASE = 'https://maisonrsvp.ca';
 
 // Only slugs that have a real built page
 const REAL_WORK_SLUGS = new Set([

@@ -55,7 +55,7 @@ export default function Footer() {
           <nav aria-label="Commission links">
             {[
               { href: '/collection',  label: 'The Collection' },
-              { href: '/experiences', label: 'Experiences' },
+              { href: '/experiences', label: 'Live Invitations' },
               { href: '/process',     label: 'Our Process' },
               { href: '/contact',     label: 'Begin a Commission' },
             ].map(l => (
@@ -114,7 +114,7 @@ export default function Footer() {
           }}>
             Contact
           </p>
-          <a href="mailto:concierge@maisonrsvp.com" style={{
+          <a href="mailto:concierge@maisonrsvp.ca" style={{
             fontFamily: 'var(--font-garamond), Georgia, serif',
             fontStyle: 'italic', fontSize: '.9rem',
             color: 'var(--ink)', display: 'block',
@@ -123,7 +123,7 @@ export default function Footer() {
           }}
           onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold)')}
           onMouseLeave={e => (e.currentTarget.style.color = 'var(--ink)')}>
-            concierge@maisonrsvp.com
+            concierge@maisonrsvp.ca
           </a>
           <p style={{
             fontFamily: 'var(--font-manrope), sans-serif',
@@ -131,7 +131,7 @@ export default function Footer() {
             color: 'var(--mist)', lineHeight: 1.7,
           }}>
             New commissions open quarterly.<br />
-            Three remain this season.
+            By private appointment.
           </p>
         </div>
       </div>

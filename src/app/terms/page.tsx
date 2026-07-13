@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
+import { buildMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Terms of Service | Maison RSVP',
-  description: 'Terms and conditions governing Maison RSVP commission agreements.',
-  robots: { index: false, follow: false },
-};
+export const metadata: Metadata = buildMetadata({
+  title:       'Terms of Service',
+  description: 'Terms and conditions governing Maison RSVP commission agreements, revisions, hosting, and guest data handling.',
+  path:        '/terms',
+});
 
 const SECTIONS = [
   {
@@ -46,7 +47,7 @@ Source files and design assets remain the property of Maison RSVP unless a full 
   },
   {
     title: 'Contact',
-    body: `For questions about these terms, please contact us at: concierge@maisonrsvp.com`,
+    body: `For questions about these terms, please contact us at: concierge@maisonrsvp.ca`,
   },
 ];
 

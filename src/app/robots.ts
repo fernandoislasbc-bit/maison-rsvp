@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/_next/'],
       },
     ],
-    sitemap: 'https://www.maisonrsvp.ca/sitemap.xml',
+    sitemap: 'https://maisonrsvp.ca/sitemap.xml',
   };
 }

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 const SITE = {
   name:    'Maison RSVP',
-  url:     'https://www.maisonrsvp.ca',
+  url:     'https://maisonrsvp.ca',
   twitter: '@maisonrsvp',
   locale:  'en_CA',
 };
@@ -24,12 +24,15 @@ export function buildMetadata({
   keywords?: string[];
   noIndex?: boolean;
 }): Metadata {
-  const fullTitle = `${title} | Maison RSVP`;
+  // Strip any brand suffix supplied by callers — the root layout's title
+  // template appends "| Maison RSVP" exactly once.
+  const bareTitle = title.replace(/\s*\|\s*Maison RSVP.*$/i, '').trim();
+  const fullTitle = `${bareTitle} | Maison RSVP`;
   const canonical = `${SITE.url}${path}`;
   const ogImage   = image.startsWith('http') ? image : `${SITE.url}${image}`;
 
   return {
-    title:       fullTitle,
+    title:       bareTitle,
     description,
     keywords:    keywords?.join(', '),
     metadataBase: new URL(SITE.url),
@@ -84,7 +87,7 @@ export function orgSchema() {
     contactPoint: {
       '@type':        'ContactPoint',
       contactType:    'customer service',
-      email:          'concierge@maisonrsvp.com',
+      email:          'concierge@maisonrsvp.ca',
     },
   };
 }

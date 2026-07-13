@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
           <div style="border-bottom: 1px solid #c9a882; padding-bottom: 24px; margin-bottom: 24px;">
             <h1 style="font-size: 22px; font-weight: 400; margin: 0;">New commission enquiry</h1>
-            <p style="color: #888; font-size: 13px; margin: 6px 0 0;">Maison RSVP · concierge@maisonrsvp.com</p>
+            <p style="color: #888; font-size: 13px; margin: 6px 0 0;">Maison RSVP · concierge@maisonrsvp.ca</p>
           </div>
 
           <table style="width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.8;">
