@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>NOCHE ROJA — A Private Agave Evening · Hotel La Boutique</title>
+<meta name="description" content="Hotel La Boutique, in partnership with Tequila La Luz, requests the pleasure of your company. Saturday, November 14, 2026 — Tequila, Jalisco.">
+
+<!-- Typography: editorial serif + refined sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<style>
+/* ════════════════════════════════════════════════════════════
+   NOCHE ROJA — design tokens
+   ════════════════════════════════════════════════════════════ */
+:root{
+  --crimson:   #7A0F14;
+  --deep-red:  #250305;
+  --black:     #050303;
+  --gold:      #C9A35A;
+  --ivory:     #F4EBDD;
+  --warm-beige:#C7A982;
+  --soft-red:  #B01822;
+
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Jost', 'Helvetica Neue', sans-serif;
+
+  --pad: clamp(1.5rem, 5vw, 6rem);
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+html.locked, html.locked body{ overflow:hidden; height:100%; }
+body{
+  background: var(--black);
+  color: var(--ivory);
+  font-family: var(--sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection{ background: var(--crimson); color: var(--ivory); }
+
+/* ── Silk shader canvas — fixed beneath everything ── */
+#silk{
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  display: block;
+}
+
+/* ── Film grain over the whole experience ── */
+.grain{
+  position: fixed; inset: -50%;
+  width: 200%; height: 200%;
+  z-index: 3; pointer-events: none;
+  opacity: .05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px;
+  mix-blend-mode: overlay;
+}
+
+/* ── Floating petals ── */
+#petals{ position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+.petal{
+  position: absolute;
+  width: 12px; height: 16px;
+  background: radial-gradient(ellipse at 35% 30%, rgba(176,24,34,.85), rgba(122,15,20,.55) 70%);
+  border-radius: 70% 30% 60% 40% / 50% 60% 40% 50%;
+  filter: blur(.4px);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* ════════════════════════════════════════════════════════════
+   ENTRANCE — cinematic video threshold
+   ════════════════════════════════════════════════════════════ */
+#entrance{
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--black);
+  overflow: hidden;
+}
+/* REPLACE VIDEO → assets/intro-video.mp4 */
+#entrance video{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: .85; /* film plays nearly clean before the text blends in */
+}
+#entrance .veil{
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 42%, rgba(122,15,20,.32) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(5,3,3,.72) 0%, rgba(37,3,5,.5) 45%, rgba(5,3,3,.9) 100%);
+}
+.entrance-inner{
+  position: relative; text-align: center;
+  padding: 0 1.5rem;
+}
+.entrance-house{
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(.6rem,1.6vw,.72rem);
+  letter-spacing: .55em; text-transform: uppercase;
+  color: var(--warm-beige);
+  margin-bottom: 2.2rem;
+}
+.entrance-title{
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(3rem, 11vw, 7.5rem);
+  letter-spacing: .12em;
+  line-height: 1;
+  color: var(--ivory);
+  text-shadow: 0 0 60px rgba(176,24,34,.35);
+}
+.entrance-sub{
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(1rem, 2.6vw, 1.3rem);
+  color: var(--warm-beige);
+  margin-top: 1.4rem;
+}
+.enter-btn{
+  display: inline-block;
+  margin-top: 3.2rem;
+  font-family: var(--sans);
+  font-size: .68rem; font-weight: 400;
+  letter-spacing: .42em; text-transform: uppercase;
+  color: var(--ivory);
+  background: transparent;
+  border: 1px solid rgba(201,163,90,.55);
+  padding: 1.35em 3.2em;
+  cursor: pointer;
+  transition: background .5s ease, color .5s ease, border-color .5s ease, box-shadow .5s ease;
+}
+.enter-btn:hover, .enter-btn:focus-visible{
+  background: rgba(122,15,20,.55);
+  border-color: var(--gold);
+  box-shadow: 0 0 40px rgba(122,15,20,.5);
+  outline: none;
+}
+.skip-btn{
+  position: absolute;
+  bottom: max(1.6rem, env(safe-area-inset-bottom));
+  left: 50%; transform: translateX(-50%);
+  font-family: var(--sans); font-size: .58rem;
+  letter-spacing: .3em; text-transform: uppercase;
+  color: rgba(244,235,221,.4);
+  background: none; border: none; cursor: pointer;
+  padding: .8em 1.4em;
+}
+.skip-btn:hover{ color: var(--warm-beige); }
+
+/* ── Wax seal ceremony ── */
+#seal-stage{
+  position: fixed; inset: 0; z-index: 49;
+  display: none; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse 100% 80% at 50% 50%, #2A0407 0%, var(--black) 78%);
+}
+.seal{
+  position: relative;
+  display: flex; align-items: center; gap: clamp(1.2rem,4vw,2rem);
+}
+.seal::before, .seal::after{
+  content:'';
+  display: block;
+  width: clamp(48px, 10vw, 90px); height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,163,90,.7));
+}
+.seal::after{ transform: scaleX(-1); }
+.seal span{
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(2.6rem, 7vw, 4rem);
+  letter-spacing: .3em; padding-left: .3em; /* optically centre the tracked pair */
+  color: var(--gold);
+  text-shadow: 0 0 50px rgba(176,24,34,.45);
+}
+.seal-caption{
+  position: absolute;
+  margin-top: clamp(190px, 40vw, 260px);
+  font-family: var(--serif); font-style: italic;
+  font-size: 1rem; color: var(--warm-beige);
+  letter-spacing: .05em;
+}
+
+/* ════════════════════════════════════════════════════════════
+   MAIN INVITATION
+   ════════════════════════════════════════════════════════════ */
+main{ position: relative; z-index: 1; visibility: hidden; }
+
+section{ position: relative; padding: clamp(6rem,12vw,10rem) var(--pad); }
+
+.eyebrow{
+  font-family: var(--sans); font-weight: 300;
+  font-size: .62rem; letter-spacing: .5em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+}
+.divider{
+  width: 72px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 2.4rem auto;
+}
+h2{
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
+  letter-spacing: .04em; line-height: 1.1;
+  color: var(--ivory);
+}
+.lede{
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-style: italic;
+  line-height: 1.9;
+  color: rgba(244,235,221,.78);
+  max-width: 56ch;
+}
+
+/* ── HERO ── */
+#hero{
+  min-height: 100svh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 100% 65% at 50% 0%, rgba(122,15,20,.34) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(5,3,3,.55), rgba(5,3,3,.86));
+  overflow: hidden;
+}
+/* REPLACE IMAGE → assets/red-horse.png (hero backdrop) */
+.hero-figure{
+  position: absolute; inset: 0; z-index: -1;
+  background-image: url('assets/red-horse.png');
+  background-size: cover;
+  background-position: center 30%;
+  opacity: .5;
+  will-change: transform;
+}
+.hero-partner{
+  font-family: var(--sans); font-weight: 300;
+  font-size: .62rem; letter-spacing: .5em; text-transform: uppercase;
+  color: var(--warm-beige);
+  line-height: 2.4;
+}
+.hero-title{
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(3.4rem, 14vw, 10.5rem);
+  letter-spacing: .1em;
+  line-height: .96;
+  color: var(--ivory);
+  margin: 2.2rem 0 1rem;
+  text-shadow: 0 0 90px rgba(176,24,34,.4);
+}
+.hero-title .lt{ display: inline-block; will-change: transform, opacity; }
+.hero-title .gold{ color: var(--gold); }
+.hero-tag{
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(1.1rem, 2.6vw, 1.5rem);
+  color: var(--warm-beige);
+}
+.hero-when{
+  margin-top: 3rem;
+  font-family: var(--sans); font-weight: 300;
+  font-size: .7rem; letter-spacing: .4em; text-transform: uppercase;
+  color: rgba(244,235,221,.75);
+  line-height: 2.4;
+}
+.scroll-cue{
+  position: absolute; bottom: 2.2rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .7rem;
+}
+.scroll-cue span{
+  font-size: .52rem; letter-spacing: .4em; text-transform: uppercase;
+  color: rgba(199,169,130,.55);
+}
+.scroll-cue i{
+  display: block; width: 1px; height: 44px;
+  background: linear-gradient(180deg, var(--gold), transparent);
+}
+
+/* ── STORY ── */
+#story{ text-align: center; background: linear-gradient(180deg, rgba(5,3,3,.96), rgba(37,3,5,.88)); }
+#story .lede{ margin: 0 auto; }
+
+/* ── EVENING (timeline) ── */
+#evening{ background: linear-gradient(180deg, rgba(37,3,5,.88), rgba(5,3,3,.95)); }
+.evening-head{ text-align: center; margin-bottom: clamp(3.5rem,7vw,5.5rem); }
+.timeline{
+  max-width: 640px; margin: 0 auto;
+  position: relative;
+  padding-left: clamp(1.6rem, 5vw, 2.4rem);
+  border-left: 1px solid rgba(201,163,90,.28);
+}
+.moment{ position: relative; padding-bottom: clamp(2.6rem,6vw,3.6rem); }
+.moment:last-child{ padding-bottom: 0; }
+.moment::before{
+  content:'';
+  position: absolute;
+  left: calc(-1 * clamp(1.6rem,5vw,2.4rem) - 4.5px);
+  top: .5em;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--crimson);
+  box-shadow: 0 0 0 3px rgba(122,15,20,.25), 0 0 14px rgba(176,24,34,.6);
+}
+.moment time{
+  font-family: var(--sans);
+  font-size: .64rem; letter-spacing: .34em; text-transform: uppercase;
+  color: var(--gold);
+}
+.moment h3{
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  letter-spacing: .03em;
+  margin: .5rem 0 .5rem;
+}
+.moment p{
+  font-family: var(--serif); font-style: italic;
+  font-size: 1rem; line-height: 1.8;
+  color: rgba(244,235,221,.62);
+  max-width: 46ch;
+}
+
+/* ── SETTING ── */
+#setting{
+  background: linear-gradient(180deg, rgba(5,3,3,.95), rgba(37,3,5,.9));
+}
+.setting-grid{
+  display: grid; grid-template-columns: 1fr;
+  gap: clamp(2.5rem,6vw,5rem);
+  max-width: 1100px; margin: 0 auto;
+  align-items: center;
+}
+@media (min-width: 880px){ .setting-grid{ grid-template-columns: 1fr 1fr; } }
+/* REPLACE IMAGE → assets/red-textile.png (setting portrait) */
+.setting-photo{
+  position: relative; overflow: hidden;
+  aspect-ratio: 3 / 4;
+  border: 1px solid rgba(201,163,90,.3);
+  padding: 10px;
+  background: rgba(5,3,3,.5);
+}
+.setting-photo .ph{
+  width: 100%; height: 100%;
+  background-image: url('assets/red-textile.png');
+  background-size: cover; background-position: center 20%;
+  will-change: transform;
+}
+.setting-photo .sweep{
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgba(244,235,221,.1) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+
+/* ── DRESS CODE ── */
+#dress{
+  text-align: center;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(122,15,20,.3) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(37,3,5,.9), rgba(5,3,3,.96));
+}
+.swatches{ display: flex; justify-content: center; gap: 1rem; margin-top: 2.6rem; }
+.swatches i{
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid rgba(244,235,221,.2);
+}
+
+/* ── RSVP ── */
+#rsvp{ background: linear-gradient(180deg, rgba(5,3,3,.96), rgba(5,3,3,.99)); }
+.rsvp-card{
+  max-width: 620px; margin: 0 auto;
+  border: 1px solid rgba(201,163,90,.32);
+  padding: clamp(2.2rem, 6vw, 4rem);
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(122,15,20,.16) 0%, transparent 55%),
+    rgba(10,4,5,.72);
+  position: relative;
+}
+.rsvp-card::before{
+  content:'';
+  position: absolute; inset: 7px;
+  border: 1px solid rgba(201,163,90,.14);
+  pointer-events: none;
+}
+.rsvp-head{ text-align: center; margin-bottom: 2.6rem; }
+.field{ margin-bottom: 1.7rem; }
+.field label{
+  display: block;
+  font-family: var(--sans); font-size: .58rem;
+  letter-spacing: .34em; text-transform: uppercase;
+  color: var(--warm-beige);
+  margin-bottom: .55rem;
+}
+.field input, .field select, .field textarea{
+  width: 100%;
+  background: transparent;
+  border: none; border-bottom: 1px solid rgba(201,163,90,.35);
+  color: var(--ivory);
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.05rem;
+  padding: .6rem 0;
+  outline: none;
+  border-radius: 0;
+  transition: border-color .4s;
+}
+.field input:focus, .field select:focus, .field textarea:focus{ border-bottom-color: var(--gold); }
+.field select{ appearance: none; cursor: pointer; }
+.field select option{ background: var(--deep-red); color: var(--ivory); }
+.field textarea{ resize: none; line-height: 1.7; }
+.field-row{ display: grid; grid-template-columns: 1fr; gap: 0 1.6rem; }
+@media (min-width: 560px){ .field-row{ grid-template-columns: 1fr 1fr; } }
+.age-check{
+  display: flex; gap: .8rem; align-items: flex-start;
+  margin: 2rem 0 2.4rem;
+}
+.age-check input{
+  width: 17px; height: 17px; margin-top: .18em;
+  accent-color: var(--crimson);
+  flex-shrink: 0;
+}
+.age-check label{
+  font-family: var(--serif); font-style: italic;
+  font-size: .92rem; color: rgba(244,235,221,.7); line-height: 1.65;
+}
+.rsvp-submit{
+  display: block; width: 100%;
+  font-family: var(--sans); font-size: .66rem;
+  letter-spacing: .42em; text-transform: uppercase;
+  color: var(--ivory);
+  background: var(--crimson);
+  border: 1px solid rgba(201,163,90,.4);
+  padding: 1.4em;
+  cursor: pointer;
+  transition: background .45s, box-shadow .45s;
+}
+.rsvp-submit:hover, .rsvp-submit:focus-visible{
+  background: var(--soft-red);
+  box-shadow: 0 0 44px rgba(176,24,34,.4);
+  outline: none;
+}
+.rsvp-error{
+  font-family: var(--serif); font-style: italic;
+  color: #E06A63; font-size: .95rem;
+  margin-bottom: 1.2rem; display: none;
+}
+.rsvp-confirm{ display: none; text-align: center; }
+.rsvp-confirm .seal-mini{
+  margin: 0 auto 1.6rem;
+  font-family: var(--serif); font-weight: 500; font-size: 1.9rem;
+  letter-spacing: .3em; padding-left: .3em;
+  color: var(--gold);
+  text-shadow: 0 0 30px rgba(176,24,34,.4);
+}
+.rsvp-contact{
+  text-align: center; margin-top: 2.6rem;
+  font-family: var(--sans); font-size: .62rem;
+  letter-spacing: .3em; text-transform: uppercase;
+  color: rgba(199,169,130,.65); line-height: 2.6;
+}
+.rsvp-contact a{ color: var(--warm-beige); text-decoration: none; border-bottom: 1px solid rgba(201,163,90,.3); }
+
+/* ── FOOTER ── */
+footer{
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 3.5rem var(--pad) 4rem;
+  background: var(--black);
+  border-top: 1px solid rgba(201,163,90,.16);
+}
+footer .mono{
+  font-family: var(--serif); font-weight: 600;
+  font-size: 1.3rem; color: var(--gold); letter-spacing: .2em;
+}
+footer p{
+  font-family: var(--sans); font-size: .58rem;
+  letter-spacing: .3em; text-transform: uppercase;
+  color: rgba(244,235,221,.4);
+  margin-top: 1.1rem; line-height: 2.4;
+}
+footer .legal{
+  font-family: var(--serif); font-style: italic;
+  font-size: .82rem; text-transform: none; letter-spacing: .03em;
+  color: rgba(199,169,130,.55);
+}
+
+/* ── Reveal helpers ── */
+.reveal{ opacity: 0; transform: translateY(28px); }
+
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity: 1; transform: none; }
+  html{ scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Silk shader — lives beneath the entire experience ═══ -->
+<canvas id="silk" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div id="petals" aria-hidden="true"></div>
+
+<!-- ═══ 1 · ENTRANCE ═══ -->
+<div id="entrance">
+  <!-- REPLACE VIDEO: assets/intro-video.mp4 -->
+  <video autoplay muted loop playsinline poster="">
+    <source src="assets/intro-video.mp4" type="video/mp4">
+  </video>
+  <div class="veil" id="entranceVeil"></div>
+  <div class="entrance-inner">
+    <p class="entrance-house">Hotel La Boutique · Tequila, Jalisco</p>
+    <h1 class="entrance-title">NOCHE<br>ROJA</h1>
+    <p class="entrance-sub">A Private Agave Evening</p>
+    <button class="enter-btn" id="enterBtn">Enter the Invitation</button>
+  </div>
+  <button class="skip-btn" id="skipBtn">Skip intro</button>
+</div>
+
+<!-- ═══ 2 · WAX SEAL CEREMONY ═══ -->
+<div id="seal-stage" role="presentation">
+  <div class="seal" id="seal"><span>NR</span></div>
+  <p class="seal-caption">Your invitation awaits</p>
+</div>
+
+<!-- ═══ MAIN INVITATION ═══ -->
+<main id="main">
+
+  <!-- 3 · HERO -->
+  <section id="hero">
+    <div class="hero-figure" id="heroFigure"></div>
+    <p class="hero-partner reveal">Hotel La Boutique<br>in partnership with Tequila La Luz</p>
+    <h1 class="hero-title" id="heroTitle"><span class="gold">NOCHE ROJA</span></h1>
+    <p class="hero-tag reveal">A Private Agave Evening</p>
+    <div class="divider reveal"></div>
+    <p class="hero-when reveal">
+      Saturday · November 14 · 2026<br>
+      Patio de los Agaves — Tequila, Jalisco
+    </p>
+    <div class="scroll-cue" aria-hidden="true">
+      <span>Descend</span><i></i>
+    </div>
+  </section>
+
+  <!-- 4 · STORY -->
+  <section id="story">
+    <p class="eyebrow reveal">The Invitation</p>
+    <h2 class="reveal">An evening composed<br>in agave &amp; candlelight.</h2>
+    <div class="divider reveal"></div>
+    <p class="lede reveal">
+      Beneath the red sky of Tequila, Hotel La Boutique opens its private courtyard
+      for an evening composed in agave, candlelight, and ceremony. Noche Roja is an
+      intimate celebration of craft, design, and Mexican luxury — created for guests
+      who understand that true elegance is never loud.
+    </p>
+  </section>
+
+  <!-- 5 · THE EVENING -->
+  <section id="evening">
+    <div class="evening-head">
+      <p class="eyebrow reveal">The Evening</p>
+      <h2 class="reveal">Five movements,<br>one night.</h2>
+    </div>
+    <div class="timeline">
+      <div class="moment reveal">
+        <time>6:30 PM</time>
+        <h3>Arrival &amp; Welcome</h3>
+        <p>Guests are received in the hotel's private agave courtyard.</p>
+      </div>
+      <div class="moment reveal">
+        <time>7:00 PM</time>
+        <h3>Golden Hour Courtyard Reception</h3>
+        <p>A warm opening moment surrounded by crimson light, stone, and agave.</p>
+      </div>
+      <div class="moment reveal">
+        <time>8:00 PM</time>
+        <h3>Agave Dinner Experience</h3>
+        <p>A refined dinner inspired by the landscape and traditions of Jalisco.</p>
+      </div>
+      <div class="moment reveal">
+        <time>9:30 PM</time>
+        <h3>Private Tasting Ceremony</h3>
+        <p>An intimate guided experience by Tequila La Luz.</p>
+      </div>
+      <div class="moment reveal">
+        <time>10:30 PM</time>
+        <h3>Red Courtyard Celebration</h3>
+        <p>Music, candlelight, and a final toast beneath the night sky.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · THE SETTING -->
+  <section id="setting">
+    <div class="setting-grid">
+      <div class="setting-photo reveal">
+        <div class="ph" id="settingPh"></div>
+        <div class="sweep" id="settingSweep"></div>
+      </div>
+      <div>
+        <p class="eyebrow reveal">The Setting</p>
+        <h2 class="reveal">Patio de los Agaves</h2>
+        <div class="divider reveal" style="margin-left:0"></div>
+        <p class="lede reveal">
+          Patio de los Agaves is a secluded open-air courtyard framed by red stone,
+          native agave, candlelit arches, and the quiet drama of Tequila's landscape.
+          For one evening only, it becomes a private world in black, red, and gold.
+        </p>
+        <p class="lede reveal" style="margin-top:1.4rem; font-size:.95rem;">
+          Camino Real de la Luz 88 — Tequila, Jalisco, Mexico
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · DRESS CODE -->
+  <section id="dress">
+    <p class="eyebrow reveal">Dress Code</p>
+    <h2 class="reveal">Black &amp; Red<br>Evening Attire</h2>
+    <div class="divider reveal"></div>
+    <p class="lede reveal" style="margin:0 auto">
+      Guests are invited to arrive in elegant black tailoring with crimson accents.
+      Velvet, silk, leather, gold jewelry, and sculptural silhouettes are encouraged.
+    </p>
+    <div class="swatches reveal" aria-hidden="true">
+      <i style="background:#050303"></i>
+      <i style="background:#250305"></i>
+      <i style="background:#7A0F14"></i>
+      <i style="background:#B01822"></i>
+      <i style="background:#C9A35A"></i>
+    </div>
+  </section>
+
+  <!-- 8 · RSVP -->
+  <section id="rsvp">
+    <div class="rsvp-card reveal" id="rsvpCard">
+      <div class="rsvp-head">
+        <p class="eyebrow">Kindly Respond</p>
+        <h2 style="font-size:clamp(1.7rem,4vw,2.4rem)">Your presence is requested</h2>
+      </div>
+
+      <form id="rsvpForm" novalidate>
+        <div class="field">
+          <label for="f-name">Full name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone</label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-attend">Attendance</label>
+            <select id="f-attend" name="attendance">
+              <option>Accepts with pleasure</option>
+              <option>Regretfully declines</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-guests">Number of guests</label>
+            <select id="f-guests" name="guests">
+              <option>1</option><option>2</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-diet">Dietary notes</label>
+          <input id="f-diet" name="diet" type="text" placeholder="">
+        </div>
+        <div class="field">
+          <label for="f-msg">Message to the concierge</label>
+          <textarea id="f-msg" name="message" rows="3"></textarea>
+        </div>
+        <div class="age-check">
+          <input id="f-age" name="age" type="checkbox" required>
+          <label for="f-age">I confirm I am of legal drinking age and understand valid ID may be required.</label>
+        </div>
+        <p class="rsvp-error" id="rsvpError" role="alert"></p>
+        <button type="submit" class="rsvp-submit">Send RSVP</button>
+      </form>
+
+      <div class="rsvp-confirm" id="rsvpConfirm">
+        <div class="seal-mini">NR</div>
+        <h2 style="font-size:clamp(1.5rem,3.5vw,2rem)">Received with pleasure</h2>
+        <div class="divider"></div>
+        <p class="lede" style="margin:0 auto">
+          Your RSVP has been received. The concierge team at Hotel La Boutique
+          will be in touch shortly.
+        </p>
+      </div>
+
+      <p class="rsvp-contact">
+        <a href="mailto:concierge@hotellaboutique.mx">concierge@hotellaboutique.mx</a><br>
+        <a href="tel:+523741288800">+52 374 128 8800</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- 9 · FOOTER -->
+<footer>
+  <p class="mono">NR</p>
+  <p>Hotel La Boutique · Tequila La Luz<br>Camino Real de la Luz 88 — Tequila, Jalisco</p>
+  <p class="legal">This event is for guests of legal drinking age only.<br>Valid ID required. Please enjoy responsibly.</p>
+</footer>
+
+<!-- ═══ Silk fragment shader (exact, from the 21st.dev Shader Builder) ═══ -->
+<script id="silk-frag" type="x-shader/x-fragment">
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+
+uniform vec3 u_colors[8];
+uniform vec4 u_scene;      // resolution.xy, time, colour count
+uniform vec4 u_shape;      // scale, intensity, paramA, warp
+uniform vec4 u_surface;    // detail, contrast, brightness, saturation
+uniform vec4 u_finish;     // hue, vignette, blur, grain
+uniform vec4 u_transform;  // seed, rotation, drift, OKLab toggle
+uniform vec4 u_space;      // offset.xy, pointer.xy
+uniform vec4 u_cursor;
+
+#define u_resolution u_scene.xy
+#define u_time u_scene.z
+#define u_colorCount u_scene.w
+#define u_scale u_shape.x
+#define u_intensity u_shape.y
+#define u_paramA u_shape.z
+#define u_warp u_shape.w
+#define u_detail u_surface.x
+#define u_contrast u_surface.y
+#define u_brightness u_surface.z
+#define u_saturation u_surface.w
+#define u_hue u_finish.x
+#define u_vignette u_finish.y
+#define u_blur u_finish.z
+#define u_grain u_finish.w
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+#define u_seed u_transform.x
+#else
+#define u_seed mod(u_transform.x, 31.0)
+#endif
+#define u_rotate u_transform.y
+#define u_drift u_transform.z
+#define u_oklab u_transform.w
+#define u_offset u_space.xy
+#define u_mouse u_space.zw
+#define u_cursorPresence u_cursor.x
+#define u_cursorEffect u_cursor.y
+#define u_cursorStrength u_cursor.z
+#define u_cursorRadius u_cursor.w
+
+float hash21(vec2 p) {
+#ifndef GL_FRAGMENT_PRECISION_HIGH
+  p = mod(p, 31.0);
+#endif
+  p = fract(p * vec2(234.34, 435.345));
+  p += dot(p, p + 34.23);
+  return fract(p.x * p.y);
+}
+
+float grainHash(vec2 p) {
+  vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  return fract((p3.x + p3.y) * p3.z);
+}
+
+vec2 hash22(vec2 p) {
+#ifndef GL_FRAGMENT_PRECISION_HIGH
+  p = mod(p, 31.0);
+#endif
+  float n = sin(dot(p, vec2(41.0, 289.0)));
+  return fract(vec2(15731.743, 7892.321) * n);
+}
+
+float noise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(
+    mix(hash21(i), hash21(i + vec2(1.0, 0.0)), u.x),
+    mix(hash21(i + vec2(0.0, 1.0)), hash21(i + vec2(1.0, 1.0)), u.x),
+    u.y);
+}
+
+float fbm(vec2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  for (int i = 0; i < 5; i++) {
+    v += a * noise(p);
+    p = p * 2.03 + vec2(17.0, 9.2);
+    a *= 0.5;
+  }
+  return v;
+}
+
+vec3 srgbToLinear(vec3 c) {
+  return mix(c / 12.92, pow((c + 0.055) / 1.055, vec3(2.4)),
+    step(0.04045, c));
+}
+vec3 linearToSrgb(vec3 c) {
+  return mix(c * 12.92, 1.055 * pow(max(c, vec3(0.0)), vec3(1.0 / 2.4)) - 0.055,
+    step(0.0031308, c));
+}
+vec3 linToOklab(vec3 c) {
+  float l = 0.4122214708 * c.r + 0.5363325363 * c.g + 0.0514459929 * c.b;
+  float m = 0.2119034982 * c.r + 0.6806995451 * c.g + 0.1073969566 * c.b;
+  float s = 0.0883024619 * c.r + 0.2817188376 * c.g + 0.6299787005 * c.b;
+  l = pow(max(l, 0.0), 1.0 / 3.0);
+  m = pow(max(m, 0.0), 1.0 / 3.0);
+  s = pow(max(s, 0.0), 1.0 / 3.0);
+  return vec3(
+    0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
+    1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
+    0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s);
+}
+vec3 oklabToLin(vec3 c) {
+  float l = c.x + 0.3963377774 * c.y + 0.2158037573 * c.z;
+  float m = c.x - 0.1055613458 * c.y - 0.0638541728 * c.z;
+  float s = c.x - 0.0894841775 * c.y - 1.2914855480 * c.z;
+  l = l * l * l; m = m * m * m; s = s * s * s;
+  return vec3(
+    4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s);
+}
+vec3 mixColour(vec3 a, vec3 b, float t) {
+  if (u_oklab > 0.5) {
+    vec3 la = linToOklab(srgbToLinear(a));
+    vec3 lb = linToOklab(srgbToLinear(b));
+    return clamp(linearToSrgb(oklabToLin(mix(la, lb, t))), 0.0, 1.0);
+  }
+  return mix(a, b, t);
+}
+
+vec3 palette(float x) {
+  float n = max(u_colorCount - 1.0, 1.0);
+  float f = clamp(x, 0.0, 1.0) * n;
+  vec3 col = u_colors[0];
+  for (int i = 0; i < 7; i++) {
+    if (float(i) < n)
+      col = mixColour(col, u_colors[i + 1],
+        smoothstep(0.0, 1.0, clamp(f - float(i), 0.0, 1.0)));
+  }
+  return col;
+}
+
+vec3 hueRotate(vec3 col, float a) {
+  const mat3 toYIQ = mat3(0.299, 0.596, 0.211,
+                          0.587, -0.274, -0.523,
+                          0.114, -0.322, 0.312);
+  const mat3 toRGB = mat3(1.0, 1.0, 1.0,
+                          0.956, -0.272, -1.106,
+                          0.621, -0.647, 1.703);
+  vec3 yiq = toYIQ * col;
+  float ca = cos(a), sa = sin(a);
+  yiq = vec3(yiq.x, yiq.y * ca - yiq.z * sa, yiq.y * sa + yiq.z * ca);
+  return toRGB * yiq;
+}
+
+vec3 shade(vec2 uv, vec2 p, float t) {
+  vec2 q = p * 1.6;
+  float amp = 0.25 + u_intensity * 0.85;
+  for (float i = 1.0; i < 5.0; i += 1.0) {
+    q.x += amp / i * cos(i * 2.4 * q.y + t * 0.8 + u_seed);
+    q.y += amp / i * cos(i * 1.7 * q.x + t * 0.6);
+  }
+  return palette(0.5 + 0.5 * sin(q.x + q.y));
+}
+
+void main() {
+  vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+  vec2 screenUv = uv;
+  vec2 p = (gl_FragCoord.xy - 0.5 * u_resolution.xy)
+    / min(u_resolution.x, u_resolution.y);
+  float cursorMask = 0.0;
+
+  if (u_cursorPresence > 0.001) {
+    vec2 cursor = (0.5 * u_mouse * u_resolution.xy)
+      / min(u_resolution.x, u_resolution.y);
+    vec2 cursorDelta = p - cursor;
+    if (u_cursorEffect < 0.5) {
+      p += cursor * u_cursorPresence * u_cursorStrength * 0.55;
+    } else {
+      float cursorDistance = length(cursorDelta);
+      vec2 cursorDirection = cursorDelta / max(cursorDistance, 0.0001);
+      cursorMask = u_cursorPresence
+        * (1.0 - smoothstep(0.0, u_cursorRadius, cursorDistance));
+      if (u_cursorEffect < 1.5) {
+        p -= cursorDirection * cursorMask * u_cursorStrength * 0.24;
+      } else if (u_cursorEffect < 2.5) {
+        float cursorAngle = cursorMask * u_cursorStrength * 2.2;
+        float cc = cos(cursorAngle), cs = sin(cursorAngle);
+        p = cursor + mat2(cc, -cs, cs, cc) * cursorDelta;
+      } else if (u_cursorEffect < 3.5) {
+        float ripple = sin(
+          cursorDistance / max(u_cursorRadius, 0.001) * 18.0 - u_time * 5.0);
+        p -= cursorDirection * ripple * cursorMask * u_cursorStrength * 0.07;
+      }
+    }
+  }
+
+  uv = p * min(u_resolution.x, u_resolution.y) / u_resolution.xy + 0.5;
+  p *= u_scale;
+  if (abs(u_rotate) > 0.0001) {
+    float cr = cos(u_rotate), sr = sin(u_rotate);
+    p = mat2(cr, -sr, sr, cr) * p;
+  }
+  p += u_offset;
+  if (u_drift > 0.0001)
+    p += u_drift * vec2(sin(u_time * 0.31), cos(u_time * 0.23));
+  if (u_warp > 0.0) {
+    p += u_warp * (vec2(
+      fbm(p * u_detail + u_seed),
+      fbm(p * u_detail + vec2(5.2, 1.3))) - 0.5);
+  }
+  vec3 col;
+  if (u_blur > 0.0) {
+    float e = u_blur;
+    float pe = e * u_scale;
+    vec2 uvE = vec2(e) * min(u_resolution.x, u_resolution.y) / u_resolution.xy;
+    col  = shade(uv, p, u_time) * 0.36;
+    col += shade(uv + vec2(uvE.x, 0.0), p + vec2(pe, 0.0), u_time) * 0.16;
+    col += shade(uv - vec2(uvE.x, 0.0), p - vec2(pe, 0.0), u_time) * 0.16;
+    col += shade(uv + vec2(0.0, uvE.y), p + vec2(0.0, pe), u_time) * 0.16;
+    col += shade(uv - vec2(0.0, uvE.y), p - vec2(0.0, pe), u_time) * 0.16;
+  } else {
+    col = shade(uv, p, u_time);
+  }
+  if (abs(u_contrast - 1.0) > 0.0001)
+    col = (col - 0.5) * u_contrast + 0.5;
+  if (abs(u_saturation - 1.0) > 0.0001) {
+    float luma = dot(col, vec3(0.299, 0.587, 0.114));
+    col = mix(vec3(luma), col, u_saturation);
+  }
+  if (abs(u_hue) > 0.0001)
+    col = hueRotate(col, u_hue);
+  if (abs(u_brightness) > 0.0001)
+    col += u_brightness;
+  if (u_vignette > 0.0001) {
+    float vd = length(screenUv - 0.5) * 1.41421356;
+    col *= 1.0 - u_vignette * smoothstep(0.35, 1.0, vd);
+  }
+  if (u_cursorPresence > 0.001 && u_cursorEffect > 3.5)
+    col += (vec3(0.18) + col * 0.12) * cursorMask * u_cursorStrength;
+  if (u_grain > 0.0001)
+    col += (grainHash(
+      gl_FragCoord.xy + vec2(u_seed * 17.0, u_seed * 31.0)) - 0.5) * u_grain;
+  gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+}
+</script>
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   SILK SHADER — plain WebGL1, fullscreen triangle, no libraries
+   Palette: Noche Roja (black → deep red → crimson → soft red)
+   ════════════════════════════════════════════════════════════ */
+(function () {
+  const canvas = document.getElementById('silk');
+  const gl = canvas.getContext('webgl', { antialias: false, alpha: false })
+          || canvas.getContext('experimental-webgl');
+  if (!gl) { canvas.style.background = 'linear-gradient(180deg,#050303,#250305)'; return; }
+
+  const VERT = 'attribute vec2 a;\nvoid main(){ gl_Position = vec4(a, 0.0, 1.0); }';
+  const FRAG = document.getElementById('silk-frag').textContent;
+
+  function compile(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(s)); return null;
+    }
+    return s;
+  }
+  const vs = compile(gl.VERTEX_SHADER, VERT);
+  const fs = compile(gl.FRAGMENT_SHADER, FRAG);
+  if (!vs || !fs) return;
+  const prog = gl.createProgram();
+  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+  gl.useProgram(prog);
+
+  // Fullscreen triangle
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, 'a');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+  const U = n => gl.getUniformLocation(prog, n);
+  const uColors = U('u_colors'), uScene = U('u_scene'), uShape = U('u_shape'),
+        uSurface = U('u_surface'), uFinish = U('u_finish'),
+        uTransform = U('u_transform'), uSpace = U('u_space'), uCursor = U('u_cursor');
+
+  // Noche Roja palette (low → high): #050303, #250305, #7A0F14, #B01822.
+  // Slots 5–8 repeat the top colour; u_colorCount = 4 so they are unused.
+  const C = [
+    0.020, 0.012, 0.012,
+    0.145, 0.012, 0.020,
+    0.478, 0.059, 0.078,
+    0.690, 0.094, 0.133,
+    0.690, 0.094, 0.133,
+    0.690, 0.094, 0.133,
+    0.690, 0.094, 0.133,
+    0.690, 0.094, 0.133,
+  ];
+  gl.uniform3fv(uColors, new Float32Array(C));
+  gl.uniform4f(uShape, 1.26, 0.28, 0.50, 0.00);
+  gl.uniform4f(uSurface, 2.40, 1.11, 0.00, 1.00);
+  gl.uniform4f(uFinish, 0.00, 0.00, 0.000, 0.05);
+  gl.uniform4f(uTransform, 1581.0, 0.00, 0.00, 0.0);
+  gl.uniform4f(uSpace, 0.0, 0.0, 0.0, 0.0);   // cursor: off
+  gl.uniform4f(uCursor, 0.0, 2.0, 0.65, 0.46); // presence 0 → no cursor effect
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2); // cap DPR at 2
+    const w = Math.round(canvas.clientWidth * dpr);
+    const h = Math.round(canvas.clientHeight * dpr);
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w; canvas.height = h;
+      gl.viewport(0, 0, w, h);
+    }
+  }
+  window.addEventListener('resize', resize);
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const t0 = performance.now();
+  let raf = 0;
+
+  function frame() {
+    resize();
+    const seconds = (performance.now() - t0) / 1000;
+    gl.uniform4f(uScene, canvas.width, canvas.height, seconds * 0.76, 4.0);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (!reducedMotion) raf = requestAnimationFrame(frame);
+  }
+
+  // Pause the loop when the tab is hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { cancelAnimationFrame(raf); }
+    else if (!reducedMotion) { raf = requestAnimationFrame(frame); }
+  });
+
+  frame(); // reduced motion → renders a single still frame
+})();
+
+/* ════════════════════════════════════════════════════════════
+   EXPERIENCE — GSAP entrance, seal ceremony, scroll choreography
+   ════════════════════════════════════════════════════════════ */
+(function () {
+  gsap.registerPlugin(ScrollTrigger);
+  // Hidden/background pages never fire rAF — entrance tweens would freeze
+  // at opacity 0, so treat that state like reduced motion.
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    || document.visibilityState !== 'visible';
+
+  const entrance = document.getElementById('entrance');
+  const sealStage = document.getElementById('seal-stage');
+  const seal = document.getElementById('seal');
+  const main = document.getElementById('main');
+  const video = entrance.querySelector('video');
+
+  document.documentElement.classList.add('locked');
+
+  /* ── Hero title: letter-by-letter gold reveal (spaces preserved) ── */
+  const titleEl = document.getElementById('heroTitle');
+  const rawTitle = 'NOCHE ROJA';
+  // Letters live inside nowrap word wrappers so lines only break between words.
+  titleEl.innerHTML = rawTitle.split(' ').map(word =>
+    `<span style="white-space:nowrap; display:inline-block">${
+      word.split('').map(ch => `<span class="lt gold">${ch}</span>`).join('')
+    }</span>`
+  ).join(' ');
+
+  /* ── Entrance: let the film play, then blend the introduction in ── */
+  if (!reduced) {
+    gsap.set('.entrance-inner > *', { autoAlpha: 0 });
+    gsap.set('#entranceVeil', { opacity: .55 });
+
+    const intro = gsap.timeline({ delay: 4.6 }); // the film breathes alone first
+    intro
+      .to('#entranceVeil', { opacity: 1, duration: 2.2, ease: 'sine.inOut' })
+      .to(entrance.querySelector('video'), { opacity: .55, duration: 2.2, ease: 'sine.inOut' }, '<')
+      .fromTo('.entrance-house', { autoAlpha: 0, y: 14 },
+        { autoAlpha: 1, y: 0, duration: 1.6, ease: 'power2.out' }, '-=1.2')
+      .fromTo('.entrance-title', { autoAlpha: 0, letterSpacing: '.3em' },
+        { autoAlpha: 1, letterSpacing: '.12em', duration: 2.4, ease: 'power2.out' }, '-=.9')
+      .fromTo('.entrance-sub', { autoAlpha: 0, y: 12 },
+        { autoAlpha: 1, y: 0, duration: 1.5, ease: 'power2.out' }, '-=1.4')
+      .fromTo('.enter-btn', { autoAlpha: 0, y: 16 },
+        { autoAlpha: 1, y: 0, duration: 1.4, ease: 'power2.out' }, '-=.8');
+  }
+
+  /* ── Reveal the main invitation ── */
+  function openInvitation(ceremony) {
+    entrance.style.pointerEvents = 'none';
+
+    const showMain = () => {
+      sealStage.style.display = 'none';
+      main.style.visibility = 'visible';
+      document.documentElement.classList.remove('locked');
+      if (video) { video.pause(); }
+      entrance.style.display = 'none';
+
+      if (reduced) return;
+      // Letter reveal + hero entrance
+      gsap.fromTo('.lt',
+        { autoAlpha: 0, y: 40, rotateX: -50 },
+        { autoAlpha: 1, y: 0, rotateX: 0, duration: 1.1, stagger: .06, ease: 'power4.out', delay: .15 });
+      gsap.fromTo('#hero .reveal',
+        { autoAlpha: 0, y: 24 },
+        { autoAlpha: 1, y: 0, duration: 1.2, stagger: .16, ease: 'power3.out', delay: .7,
+          onComplete: () => { document.querySelectorAll('#hero .reveal').forEach(el => el.classList.remove('reveal')); } });
+      gsap.from('.scroll-cue', { autoAlpha: 0, duration: 1.4, delay: 2 });
+      startPetals();
+    };
+
+    if (!ceremony || reduced) {
+      // Skip: quick elegant fade
+      gsap.to(entrance, { autoAlpha: 0, duration: reduced ? .01 : .8, ease: 'power2.inOut', onComplete: showMain });
+      return;
+    }
+
+    // Ceremony: video fades → wax seal pulses → letter opens
+    const tl = gsap.timeline();
+    tl.to(entrance, { autoAlpha: 0, duration: 1.1, ease: 'power2.inOut' })
+      .set(sealStage, { display: 'flex' })
+      .fromTo(sealStage, { autoAlpha: 0 }, { autoAlpha: 1, duration: .6 })
+      .fromTo(seal, { scale: .6, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: .9, ease: 'back.out(1.6)' })
+      .to(seal, { scale: 1.07, duration: .5, yoyo: true, repeat: 1, ease: 'sine.inOut' }) // wax seal pulse
+      .to(seal, { scale: 1.25, autoAlpha: 0, duration: .7, ease: 'power2.in' }, '+=.2')
+      .to(sealStage, { autoAlpha: 0, duration: .8, ease: 'power2.inOut', onComplete: showMain }, '-=.2');
+  }
+
+  document.getElementById('enterBtn').addEventListener('click', () => openInvitation(true));
+  document.getElementById('skipBtn').addEventListener('click', () => openInvitation(false));
+
+  /* ── Scroll choreography ── */
+  if (!reduced) {
+    // Generic reveals
+    document.querySelectorAll('.reveal').forEach(el => {
+      gsap.to(el, {
+        autoAlpha: 1, y: 0, duration: 1.15, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 84%' },
+      });
+    });
+
+    // Hero figure slow parallax
+    gsap.to('#heroFigure', {
+      yPercent: 12, scale: 1.06, ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true },
+    });
+
+    // Setting portrait: subtle zoom + light sweep
+    gsap.fromTo('#settingPh', { scale: 1.12 }, {
+      scale: 1, ease: 'none',
+      scrollTrigger: { trigger: '#setting', start: 'top bottom', end: 'bottom top', scrub: true },
+    });
+    gsap.to('#settingSweep', {
+      x: '240%', duration: 2.2, ease: 'power2.inOut',
+      scrollTrigger: { trigger: '#setting', start: 'top 60%' },
+    });
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+  }
+
+  /* ── Floating red petals (gentle, capped) ── */
+  function startPetals() {
+    if (reduced) return;
+    const host = document.getElementById('petals');
+    const COUNT = window.innerWidth < 700 ? 6 : 11;
+    for (let i = 0; i < COUNT; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      host.appendChild(p);
+      drift(p, true);
+    }
+    function drift(p, first) {
+      const x = Math.random() * 100;
+      gsap.set(p, { left: x + 'vw', top: '-4vh', rotate: Math.random() * 360, opacity: 0 });
+      gsap.to(p, {
+        top: '106vh',
+        left: (x + (Math.random() * 16 - 8)) + 'vw',
+        rotate: '+=' + (Math.random() * 240 - 120),
+        opacity: .8,
+        duration: 13 + Math.random() * 10,
+        delay: first ? Math.random() * 10 : Math.random() * 3,
+        ease: 'none',
+        onComplete: () => drift(p, false),
+      });
+    }
+  }
+
+  /* ── RSVP (no backend — elegant confirmation state) ── */
+  const form = document.getElementById('rsvpForm');
+  const err = document.getElementById('rsvpError');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('f-name').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const age = document.getElementById('f-age').checked;
+
+    if (!name) { return fail('May we have your full name?'); }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { return fail('That email address does not look quite right.'); }
+    if (!age) { return fail('Please confirm you are of legal drinking age.'); }
+
+    err.style.display = 'none';
+    const confirm = document.getElementById('rsvpConfirm');
+    if (reduced) {
+      form.style.display = 'none';
+      confirm.style.display = 'block';
+    } else {
+      gsap.to(form, {
+        autoAlpha: 0, y: -14, duration: .6, ease: 'power2.in',
+        onComplete: () => {
+          form.style.display = 'none';
+          confirm.style.display = 'block';
+          gsap.fromTo(confirm, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out' });
+          gsap.fromTo('.seal-mini', { scale: .6 }, { scale: 1, duration: .8, ease: 'back.out(1.8)', delay: .2 });
+        },
+      });
+    }
+    function fail(msg) { err.textContent = msg; err.style.display = 'block'; }
+  });
+})();
+</script>
+</body>
+</html>

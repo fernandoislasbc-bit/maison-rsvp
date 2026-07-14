@@ -16,6 +16,7 @@ const REAL_SLUGS = new Set([
   'oliver-and-daniela',
   'neil-and-riley',
   'santiago-and-luna',
+  'noche-roja',
 ]);
 const COUPLE_WORKS = WORKS.filter(w => REAL_SLUGS.has(w.slug) || !!w.experienceUrl);
 

@@ -364,6 +364,30 @@ export const WORKS: Work[] = [
       format:    'Full immersive digital invitation + wax seal entrance + RSVP',
     },
   },
+  {
+    slug:     'noche-roja',
+    title:    'Noche Roja',
+    category: 'Brand Event',
+    location: 'Tequila, Jalisco, Mexico',
+    season:   'Autumn',
+    year:     '2026',
+    cover:    '/assets/noche/noche-cover.jpg',
+    images:   ['/assets/noche/noche-textile.jpg'],
+    tagline:  'A private agave evening in black, red, and gold — hotel hospitality composed as a fashion film.',
+    intro:
+      'Hotel La Boutique asked for an invitation that felt like the evening itself: mysterious, ceremonial, and unmistakably Mexican. Noche Roja opens with cinema — a black horse in candlelight — and descends into a courtyard of agave and crimson.',
+    body: [
+      'The entrance is a film. The screen breathes for a moment before the title blends through the image, letter by letter, like a projection on silk. Behind the entire experience runs a living silk shader — black into deep red into crimson — composed in WebGL and set to the pace of candlelight.',
+      'The evening unfolds in five movements, from golden-hour reception to a private tasting ceremony by Tequila La Luz, each revealed on a candlelit timeline. The dress code — black and red evening attire — is presented like an editorial spread.',
+      'The RSVP closes the ceremony: a single card in red stone and gold, and a concierge confirmation that arrives like a note slipped under a hotel door.',
+    ],
+    details: {
+      guests:    'By private list',
+      duration:  'One evening',
+      format:    'Cinematic entrance + WebGL silk + timeline + RSVP',
+    },
+    experienceUrl: '/experiences/noche-roja/index.html',
+  },
 ];
 
 export function getWork(slug: string): Work | undefined {

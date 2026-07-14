@@ -41,7 +41,7 @@ const TESTIMONIALS = [
   },
 ];
 
-const FEATURED_SLUGS = ['thomas-and-grace', 'oliver-and-daniela', 'neil-and-riley', 'santiago-and-luna'] as const;
+const FEATURED_SLUGS = ['thomas-and-grace', 'oliver-and-daniela', 'neil-and-riley', 'santiago-and-luna', 'noche-roja'] as const;
 const FEATURED_WORKS = FEATURED_SLUGS.map(s => ALL_WORKS.find(w => w.slug === s)!);
 
 // Archive: only show works with a real built experience page

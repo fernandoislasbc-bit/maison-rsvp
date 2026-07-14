@@ -11,6 +11,7 @@ const REAL_WORK_SLUGS = new Set([
   'oliver-and-daniela',
   'neil-and-riley',
   'santiago-and-luna',
+  'noche-roja',
 ]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
