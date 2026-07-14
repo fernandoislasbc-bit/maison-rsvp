@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { decodeEdition } from '@/lib/editions';
+import { decodeEdition, type Edition, type DesignedPayload } from '@/lib/editions';
+
+const isDesigned = (x: Edition | DesignedPayload): x is DesignedPayload => 'k' in x && x.k === 'd';
 
 const resend = new Resend(process.env.MAISON_EMAIL_KEY);
 
@@ -37,11 +39,14 @@ export async function POST(req: Request) {
     const edition = await decodeEdition(token);
     if (!edition) return NextResponse.json({ error: 'This invitation link is not valid.' }, { status: 400 });
 
-    const hosts = [edition.n1, edition.n2].filter(Boolean).join(' & ');
+    const hosts = isDesigned(edition) ? edition.design.details.names : [edition.n1, edition.n2].filter(Boolean).join(' & ');
+    const dateLine = isDesigned(edition) ? edition.design.details.date : edition.d;
+    const to = edition.e;
+    if (!to) return NextResponse.json({ error: 'This invitation collects replies elsewhere.' }, { status: 400 });
 
     const { error } = await resend.emails.send({
       from:    'Maison Editions <concierge@maisonrsvp.ca>',
-      to:      edition.e,
+      to,
       subject: `RSVP — ${guest} ${attending ? 'is attending' : 'sends regrets'} · ${hosts}`,
       html: `
         <div style="font-family: Georgia, serif; max-width: 560px; margin: 0 auto; color: #1a1a1a;">
@@ -50,7 +55,7 @@ export async function POST(req: Request) {
             <h1 style="font-size: 20px; font-weight: 400; margin: 0;">${esc(guest)} ${attending ? 'is attending' : 'is unable to attend'}</h1>
           </div>
           <table style="width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.8;">
-            <tr><td style="color: #888; width: 140px; padding: 4px 0;">Invitation</td><td>${esc(hosts)} — ${esc(edition.d)}</td></tr>
+            <tr><td style="color: #888; width: 140px; padding: 4px 0;">Invitation</td><td>${esc(hosts)} — ${esc(dateLine)}</td></tr>
             <tr><td style="color: #888; padding: 4px 0;">Guest</td><td><strong>${esc(guest)}</strong></td></tr>
             <tr><td style="color: #888; padding: 4px 0;">Reply</td><td>${attending ? 'Attending' : 'Regrets'}</td></tr>
             ${note ? `<tr><td style="color: #888; padding: 4px 0; vertical-align: top;">Note</td><td style="font-style: italic;">${esc(note)}</td></tr>` : ''}

@@ -66,7 +66,7 @@ export default function InvitationMakerPage() {
           <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(1rem,1.5vw,1.2rem)', color: 'var(--mist)', maxWidth: '52ch', margin: '0 auto clamp(2.5rem,4vw,3rem)', lineHeight: 1.75 }}>
             Compose an elegant animated invitation in minutes. One shareable link, RSVPs straight to your email. No sign-up, no account, nothing stored — a gift from the studio behind Maison RSVP.
           </p>
-          <Link href="/invitation-maker/create" style={{
+          <Link href="/invitation-maker/design" style={{
             display: 'inline-block',
             fontFamily: 'var(--font-manrope), sans-serif',
             fontSize: '.62rem', letterSpacing: '.3em', textTransform: 'uppercase',

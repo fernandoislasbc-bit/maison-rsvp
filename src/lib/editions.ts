@@ -5,7 +5,12 @@
    stored. RSVPs are delivered to the creator by email.
    ───────────────────────────────────────────────────────────── */
 
+import type { InvitationDesign } from '@/lib/builder-config';
+
 export type EditionTemplateId = 'garden' | 'nocturne' | 'riviera';
+
+/** Invitation composed in the design studio — same stateless token transport. */
+export type DesignedPayload = { k: 'd'; e: string; design: InvitationDesign };
 
 export type Edition = {
   t: EditionTemplateId;   // template
@@ -65,7 +70,7 @@ export const OCCASIONS = [
 
 /* ─── Server-side token crypto (do not import in client code) ─── */
 
-export async function encodeEdition(data: Edition): Promise<string> {
+export async function encodeEdition(data: Edition | DesignedPayload): Promise<string> {
   const { createCipheriv, randomBytes, createHash } = await import('crypto');
   const { deflateRawSync } = await import('zlib');
   const key = createHash('sha256')
@@ -79,7 +84,7 @@ export async function encodeEdition(data: Edition): Promise<string> {
   return Buffer.concat([iv, tag, enc]).toString('base64url');
 }
 
-export async function decodeEdition(token: string): Promise<Edition | null> {
+export async function decodeEdition(token: string): Promise<Edition | DesignedPayload | null> {
   try {
     const { createDecipheriv, createHash } = await import('crypto');
     const { inflateRawSync } = await import('zlib');
@@ -93,8 +98,12 @@ export async function decodeEdition(token: string): Promise<Edition | null> {
     const decipher = createDecipheriv('aes-256-gcm', key, iv);
     decipher.setAuthTag(tag);
     const plain = Buffer.concat([decipher.update(enc), decipher.final()]);
-    const data = JSON.parse(inflateRawSync(plain).toString('utf8')) as Edition;
-    if (!data.n1 || !data.t || !data.d) return null;
+    const data = JSON.parse(inflateRawSync(plain).toString('utf8')) as Edition | DesignedPayload;
+    if ('k' in data && data.k === 'd') {
+      if (!data.design?.details?.names || !data.design?.details?.date) return null;
+      return data;
+    }
+    if (!(data as Edition).n1 || !(data as Edition).t || !(data as Edition).d) return null;
     return data;
   } catch {
     return null;

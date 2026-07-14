@@ -1,5 +1,42 @@
 import { NextResponse } from 'next/server';
-import { encodeEdition, validateEdition, EDITION_LIMITS, type Edition } from '@/lib/editions';
+import { encodeEdition, validateEdition, EDITION_LIMITS, type Edition, type DesignedPayload } from '@/lib/editions';
+import { DEFAULT_DESIGN, BUILDER_LIMITS, THEMES, TREATMENTS, TYPE_PAIRINGS, type InvitationDesign } from '@/lib/builder-config';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+function sanitizeDesign(raw: unknown): InvitationDesign | string {
+  const b = (raw ?? {}) as Partial<InvitationDesign> & { details?: Partial<InvitationDesign['details']> };
+  const L = BUILDER_LIMITS;
+  const c = (v: unknown, n: number) => String(v ?? '').trim().slice(0, n);
+  const det: Partial<InvitationDesign['details']> = b.details ?? {};
+  const design: InvitationDesign = {
+    ...DEFAULT_DESIGN,
+    occasion: c(b.occasion, 24),
+    theme: THEMES.some(t => t.id === b.theme) ? b.theme! : 'timeless',
+    image: null,
+    imagePosition: { x: 50, y: 50, zoom: 1 },
+    imageEffect: TREATMENTS.some(t => t.id === b.imageEffect) ? b.imageEffect! : '',
+    typography: TYPE_PAIRINGS.some(t => t.id === b.typography) ? b.typography! : 'classic',
+    alignment: b.alignment === 'left' ? 'left' : 'center',
+    scale: b.scale === 'intimate' || b.scale === 'grand' ? b.scale : 'classic',
+    details: {
+      title: c(det.title, L.title), names: c(det.names, L.names),
+      date: c(det.date, L.date), time: c(det.time, L.time),
+      venue: c(det.venue, L.venue), location: c(det.location, L.location),
+      message: c(det.message, L.message),
+      rsvpLabel: c(det.rsvpLabel, L.rsvpLabel) || 'Kindly reply',
+      rsvpUrl: c(det.rsvpUrl, L.rsvpUrl),
+      email: c(det.email, 120).toLowerCase(),
+    },
+  };
+  const d = design.details;
+  if (!d.names) return 'Please add the names or hosts.';
+  if (!d.date) return 'Please add the date.';
+  if (!d.venue) return 'Please add the venue.';
+  if (d.rsvpUrl && !/^https?:\/\/.+\..+/.test(d.rsvpUrl)) return 'The RSVP link should start with https://';
+  if (!d.rsvpUrl && !EMAIL_RE.test(d.email)) return 'A valid email is needed to receive replies.';
+  return design;
+}
 
 // Small in-memory rate limit — resets on restart, enough to deter abuse.
 const hits = new Map<string, { n: number; t: number }>();
@@ -21,6 +58,16 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
+
+    // Designed invitation from the studio configurator
+    if (body.k === 'd') {
+      const design = sanitizeDesign(body.design);
+      if (typeof design === 'string') return NextResponse.json({ error: design }, { status: 400 });
+      const payload: DesignedPayload = { k: 'd', e: design.details.email, design };
+      const token = await encodeEdition(payload);
+      return NextResponse.json({ url: `/e/${token}` });
+    }
+
     const L = EDITION_LIMITS;
     const data: Edition = {
       t:  body.t,
