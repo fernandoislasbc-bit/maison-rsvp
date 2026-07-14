@@ -55,6 +55,7 @@ export default function Footer() {
           <nav aria-label="Commission links">
             {[
               { href: '/collection',  label: 'The Collection' },
+              { href: '/invitation-maker', label: 'Free Invitation Maker' },
               { href: '/experiences', label: 'Live Invitations' },
               { href: '/process',     label: 'Our Process' },
               { href: '/contact',     label: 'Begin a Commission' },
