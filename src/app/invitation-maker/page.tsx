@@ -22,7 +22,7 @@ export const metadata: Metadata = buildMetadata({
 const FAQ = [
   { q: 'Is the invitation maker really free?', a: 'Yes — completely. No sign-up, no credit card, no trial. Choose a design, add your details, and share your link. It is our gift, made by the same studio that composes bespoke invitation experiences by private commission.' },
   { q: 'How do guests RSVP?', a: 'Your invitation includes an elegant reply form. Every RSVP — attending or regrets, with an optional note — arrives directly in your email inbox. Guests never need an account.' },
-  { q: 'Do you store my information or my guest list?', a: 'No. Your invitation lives entirely inside its own private link — we keep no copy of it and no database of your guests. Your email address is used only to deliver RSVPs and never for marketing.' },
+  { q: 'Do you store my information or my guest list?', a: 'Almost nothing. Your invitation text lives entirely inside its own private link — we keep no copy of it and no database of your guests. If you add a photograph in the design studio, it is stored privately for up to twelve months so your guests can see it, then deleted. Your email address is used only to deliver RSVPs and never for marketing.' },
   { q: 'Can I use it for weddings, birthdays, or dinners?', a: 'Any occasion. The occasion line is editable — weddings, engagement parties, anniversaries, private dinners, and celebrations of any kind.' },
   { q: 'What is the difference between a free Edition and a commission?', a: 'An Edition is a beautiful foundation design you personalise in minutes. A commission is composed from scratch for one occasion only — cinematic motion, original narrative, guest dashboard, and entrance management. Editions are our gift; commissions are our craft.' },
 ];
@@ -64,7 +64,7 @@ export default function InvitationMakerPage() {
             <em style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', color: 'var(--gold)' }}>done beautifully.</em>
           </h1>
           <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(1rem,1.5vw,1.2rem)', color: 'var(--mist)', maxWidth: '52ch', margin: '0 auto clamp(2.5rem,4vw,3rem)', lineHeight: 1.75 }}>
-            Compose an elegant animated invitation in minutes. One shareable link, RSVPs straight to your email. No sign-up, no account, nothing stored — a gift from the studio behind Maison RSVP.
+            Compose an elegant animated invitation in minutes. One shareable link, RSVPs straight to your email. No sign-up, no account, no guest lists kept — a gift from the studio behind Maison RSVP.
           </p>
           <Link href="/invitation-maker/design" style={{
             display: 'inline-block',

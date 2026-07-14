@@ -14,7 +14,15 @@ function sanitizeDesign(raw: unknown): InvitationDesign | string {
     occasion: c(b.occasion, 24),
     theme: THEMES.some(t => t.id === b.theme) ? b.theme! : 'timeless',
     image: null,
-    imagePosition: { x: 50, y: 50, zoom: 1 },
+    imageRef: typeof b.imageRef === 'string' && /^[a-f0-9]{24}$/.test(b.imageRef) ? b.imageRef : null,
+    imagePosition: (() => {
+      const p = (b.imagePosition ?? {}) as Partial<InvitationDesign['imagePosition']>;
+      const num = (v: unknown, lo: number, hi: number, d: number) => {
+        const n = Number(v);
+        return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : d;
+      };
+      return { x: num(p.x, 0, 100, 50), y: num(p.y, 0, 100, 50), zoom: num(p.zoom, 1, 2.2, 1) };
+    })(),
     imageEffect: TREATMENTS.some(t => t.id === b.imageEffect) ? b.imageEffect! : '',
     typography: TYPE_PAIRINGS.some(t => t.id === b.typography) ? b.typography! : 'classic',
     alignment: b.alignment === 'left' ? 'left' : 'center',

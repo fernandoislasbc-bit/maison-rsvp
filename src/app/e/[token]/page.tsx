@@ -43,7 +43,7 @@ export default async function EditionPage({ params }: Props) {
   return (
     <main>
       {isDesigned(data) ? (
-        <InvitationPreview design={data.design} full>
+        <InvitationPreview design={{ ...data.design, image: data.design.imageRef ? `/api/editions/photo/${data.design.imageRef}` : null }} full>
           {data.design.details.rsvpUrl ? (
             <a
               href={data.design.details.rsvpUrl}

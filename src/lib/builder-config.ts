@@ -16,8 +16,10 @@ export type TypeScale = 'intimate' | 'classic' | 'grand';
 export type InvitationDesign = {
   occasion: string;
   theme: ThemeId | '';
-  /** object URL, client-only — never persisted or shared */
+  /** object URL, client-only — never persisted */
   image: string | null;
+  /** server photo id — set when the invitation is created, travels in the share link */
+  imageRef?: string | null;
   imagePosition: { x: number; y: number; zoom: number };
   imageEffect: TreatmentId | '';
   typography: TypographyId | '';
@@ -41,6 +43,7 @@ export const DEFAULT_DESIGN: InvitationDesign = {
   occasion: '',
   theme: '',
   image: null,
+  imageRef: null,
   imagePosition: { x: 50, y: 50, zoom: 1 },
   imageEffect: '',
   typography: '',

@@ -9,6 +9,7 @@ import {
   BUILDER_STORAGE_KEY, STEP_TITLES, STEP_SHORT,
 } from '@/lib/builder-config';
 import { InvitationPreview } from './invitation-preview';
+import { getPhoto } from './photo-store';
 import {
   OccasionStep, ThemeStep, ImageStep, TreatmentStep,
   TypographyStep, DetailsStep, ReviewStep,
@@ -155,11 +156,22 @@ export default function InvitationBuilder() {
     if (e) { setError(e); setStep(5); return; }
     setFinishing(true); setError('');
     try {
+      // Photograph first: compressed in the browser, saved privately, referenced by id
+      let imageRef: string | null = design.imageRef ?? null;
+      if (design.image && !imageRef) {
+        const blob = getPhoto(design.image);
+        if (blob) {
+          const up = await fetch('/api/editions/photo', { method: 'POST', body: blob });
+          const uj = await up.json();
+          if (!up.ok) throw new Error(uj.error || 'Your photograph could not be saved — please try again.');
+          imageRef = uj.id;
+        }
+      }
       const { image: _image, ...shareable } = design;
       const res = await fetch('/api/editions/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ k: 'd', design: { ...shareable, image: null } }),
+        body: JSON.stringify({ k: 'd', design: { ...shareable, image: null, imageRef } }),
       });
       const j = await res.json();
       if (!res.ok) throw new Error(j.error || 'failed');

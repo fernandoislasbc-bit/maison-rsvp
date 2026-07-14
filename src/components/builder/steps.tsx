@@ -6,6 +6,7 @@ import {
   OCCASIONS_B, THEMES, TYPE_PAIRINGS, SCALES, BUILDER_LIMITS,
   recommendedTreatments, orderedTypography, getTheme, themeAccent,
 } from '@/lib/builder-config';
+import { compressPhoto, rememberPhoto, forgetPhoto } from './photo-store';
 
 /* Shared step building blocks — real buttons, real labels. */
 
@@ -126,18 +127,25 @@ export function ImageStep({ design, patch }: StepProps) {
   const dragging = useRef<{ startX: number; startY: number; px: number; py: number } | null>(null);
   const frameRef = useRef<HTMLDivElement>(null);
 
-  const setFile = useCallback((file: File | undefined | null) => {
+  const setFile = useCallback(async (file: File | undefined | null) => {
     if (!file) return;
     if (!ACCEPTED.includes(file.type)) { setError('Please choose a JPG, PNG, or WebP photograph.'); return; }
     if (file.size > BUILDER_LIMITS.imageBytes) { setError('That photograph is over 10 MB — a smaller version will look just as beautiful.'); return; }
     setError('');
-    if (design.image) URL.revokeObjectURL(design.image);
-    patch({ image: URL.createObjectURL(file), imagePosition: { x: 50, y: 50, zoom: 1 } });
+    try {
+      const blob = await compressPhoto(file);
+      if (design.image) forgetPhoto(design.image);
+      const url = URL.createObjectURL(blob);
+      rememberPhoto(url, blob);
+      patch({ image: url, imageRef: null, imagePosition: { x: 50, y: 50, zoom: 1 } });
+    } catch {
+      setError('That photograph could not be read — please try another.');
+    }
   }, [design.image, patch]);
 
   const remove = () => {
-    if (design.image) URL.revokeObjectURL(design.image);
-    patch({ image: null, imagePosition: { x: 50, y: 50, zoom: 1 } });
+    if (design.image) forgetPhoto(design.image);
+    patch({ image: null, imageRef: null, imagePosition: { x: 50, y: 50, zoom: 1 } });
   };
 
   // drag to reposition
@@ -196,7 +204,7 @@ export function ImageStep({ design, patch }: StepProps) {
           style={{ position: 'absolute', width: 1, height: 1, opacity: 0, overflow: 'hidden' }} />
         {error && <p role="alert" style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', color: '#C0564C', fontSize: '.9rem', marginTop: '1rem' }}>{error}</p>}
         <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: '.85rem', color: 'var(--mist)', marginTop: '1.25rem' }}>
-          Photographs stay on your device — nothing is uploaded. You can also continue without one.
+          Your photograph is prepared privately in your browser and only saved when you create the invitation. You can also continue without one.
         </p>
       </div>
     );
@@ -489,7 +497,7 @@ export function ReviewStep({ design, summaryOnly }: { design: InvitationDesign; 
       ))}
       {!summaryOnly && design.image && (
         <p style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: '.85rem', color: 'var(--mist)', lineHeight: 1.7 }}>
-          A note on photographs: in this free Edition they remain on your device — the link you share carries your design without the photograph. Commissioned invitations include full photography, motion, and hosting.
+          Your photograph will appear on the shared invitation. It is stored privately, never made public beyond your link, and removed twelve months after creation.
         </p>
       )}
       <span aria-hidden style={{ color: themeAccent(theme), display: 'none' }} />
