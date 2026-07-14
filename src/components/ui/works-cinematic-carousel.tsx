@@ -32,7 +32,7 @@ function MobileCarousel({ works }: { works: Work[] }) {
         scrollbarWidth: 'none',
       }}>
         {works.map(w => (
-          <Link key={w.slug} href={`/work/${w.slug}`} style={{
+          <Link key={w.slug} href={w.direct && w.experienceUrl ? w.experienceUrl : `/work/${w.slug}`} style={{
             flexShrink: 0, scrollSnapAlign: 'start',
             width: 'clamp(200px,60vw,280px)',
             display: 'block', textDecoration: 'none',
@@ -366,7 +366,7 @@ function DesktopCarousel({ works }: { works: Work[] }) {
           {works.map((w, i) => (
             <Link
               key={w.slug}
-              href={`/work/${w.slug}`}
+              href={w.direct && w.experienceUrl ? w.experienceUrl : `/work/${w.slug}`}
               ref={(el) => { cardRefs.current[i] = el; }}
               aria-label={`${w.title} — read the story`}
               style={{
@@ -427,7 +427,7 @@ function DesktopCarousel({ works }: { works: Work[] }) {
 
         {/* CTA to the active story */}
         <Link
-          href={`/work/${active.slug}`}
+          href={active.direct && active.experienceUrl ? active.experienceUrl : `/work/${active.slug}`}
           style={{
             position: 'absolute',
             bottom: '11%',

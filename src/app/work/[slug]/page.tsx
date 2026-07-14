@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { buildMetadata } from '@/lib/seo';
 import { WORKS } from '@/lib/works';
 import WorkStory from './story-client';
@@ -18,6 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default function Page() {
+export default async function Page({ params }: Props) {
+  const { slug } = await params;
+  const work = WORKS.find(w => w.slug === slug);
+  if (work?.direct && work.experienceUrl) redirect(work.experienceUrl);
   return <WorkStory />;
 }

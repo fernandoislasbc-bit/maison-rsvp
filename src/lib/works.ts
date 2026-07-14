@@ -19,6 +19,8 @@ export type Work = {
   /** URL of the live invitation experience (internal or external). When set,
       the story page shows an "Enter Invitation" button linking to it. */
   experienceUrl?: string;
+  /** Skip the story page entirely — every link opens the experience itself. */
+  direct?: boolean;
 };
 
 export const WORKS: Work[] = [
@@ -387,6 +389,7 @@ export const WORKS: Work[] = [
       format:    'Cinematic entrance + WebGL silk + timeline + RSVP',
     },
     experienceUrl: '/experiences/noche-roja/index.html',
+    direct: true,
   },
 ];
 

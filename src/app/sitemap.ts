@@ -28,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const workPages: MetadataRoute.Sitemap = WORKS
-    .filter(w => REAL_WORK_SLUGS.has(w.slug))
+    .filter(w => REAL_WORK_SLUGS.has(w.slug) && !w.direct)
     .map(w => ({
       url:             `${BASE}/work/${w.slug}`,
       lastModified:    new Date(),
