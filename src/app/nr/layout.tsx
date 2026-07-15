@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 /* Private wedding area — never indexed. */
 export const metadata: Metadata = {
-  title: { absolute: 'Neil & Riley — October 9th, 2026' },
+  title: { absolute: 'Neil & Riley — September 14th, 2026' },
   description: 'A private wedding invitation.',
   robots: { index: false, follow: false },
 };

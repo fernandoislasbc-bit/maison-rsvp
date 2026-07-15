@@ -107,7 +107,7 @@ export default function AdminClient() {
         <div style={{ flex: 1, minWidth: 200 }}>
           <p style={{ ...micro, color: GOLD, marginBottom: '.3rem' }}>Maison RSVP — Couple dashboard</p>
           <p style={{ ...serif, fontSize: 'clamp(1.05rem,2.5vw,1.4rem)' }}>Neil &amp; Riley</p>
-          <p style={{ ...italic, fontSize: '.8rem', color: '#8B8578' }}>Saturday, October 9th, 2026 · The Rosewood Conservatory, Vancouver</p>
+          <p style={{ ...italic, fontSize: '.8rem', color: '#8B8578' }}>Saturday, September 14th, 2026 · Acquafarina, Vancouver</p>
         </div>
         <div style={{ display: 'flex', gap: '.6rem', flexWrap: 'wrap' }}>
           <Link href="/nr/checkin" style={{ ...btn(true), textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>Open check-in scanner</Link>

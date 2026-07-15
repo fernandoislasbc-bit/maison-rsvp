@@ -34,7 +34,7 @@ const STEPS: {
   {
     n: 'I',
     title: 'Open a guest invitation',
-    body: 'Every guest receives a private access code. Enter this one and you become Claire Beaumont — read the note the couple wrote just for her, then accept the invitation. Watch your personal QR entrance pass appear the moment you reply.',
+    body: 'Every guest receives a private access code. Enter this one and you become Claire Beaumont — the full cinematic invitation opens: the velvet envelope film, their story, the venue. At the end, the reply is addressed to you. Accept, and your personal QR entrance pass appears on the spot.',
     cred: { label: 'Guest access code', value: 'BMONT1' },
     href: '/nr', cta: 'Open the invitation',
     tip: 'Save or screenshot the QR pass — you’ll scan it in step IV.',
@@ -76,7 +76,7 @@ export default function GuideClient() {
         </h1>
         <p style={{ ...nrItalic, fontSize: 'clamp(.98rem,2vw,1.15rem)', color: NR.mist, maxWidth: '54ch', margin: '0 auto', lineHeight: 1.85 }}>
           This is the real platform behind every commission, running live for a demonstration wedding —
-          Neil &amp; Riley, October 2026. Walk the whole journey yourself: guest, couple, and the door.
+          Neil &amp; Riley, September 2026. Walk the whole journey yourself: guest, couple, and the door.
           Everything you do here actually works.
         </p>
       </header>

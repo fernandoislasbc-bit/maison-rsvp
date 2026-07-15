@@ -16,16 +16,17 @@ const DB_PATH = path.join(NR_DATA_DIR, 'db.json');
 
 export const NR_EVENT = {
   couple: 'Neil & Riley',
-  date: 'Saturday, October 9th, 2026',
+  date: 'Saturday, September 14th, 2026',
   time: 'Four o’clock in the afternoon',
-  venue: 'The Rosewood Conservatory',
-  city: 'Vancouver, Canada',
-  dress: 'Black tie, autumn palette — burgundy, ivory, and gold warmly encouraged.',
+  venue: 'Acquafarina',
+  city: 'Vancouver, British Columbia',
+  dress: 'Black tie optional — formal attire encouraged.',
   schedule: [
-    { t: '4:00 PM', title: 'Ceremony', line: 'Under the glass dome, among the maples.' },
-    { t: '5:30 PM', title: 'Golden Hour Reception', line: 'Champagne and quartet on the terrace.' },
-    { t: '7:00 PM', title: 'Dinner', line: 'A long-table autumn dinner by candlelight.' },
-    { t: '9:30 PM', title: 'First Dance & Celebration', line: 'Until the last song.' },
+    { t: '3:30 PM', title: 'Doors Open', line: 'Guests arrive and are welcomed.' },
+    { t: '4:00 PM', title: 'Ceremony', line: 'The vows are exchanged.' },
+    { t: '5:00 PM', title: 'Cocktail Hour', line: 'Champagne and canapés.' },
+    { t: '6:00 PM', title: 'Dinner', line: 'Fine dining at Acquafarina.' },
+    { t: '8:00 PM', title: 'Celebration', line: 'Dancing and festivities begin.' },
   ],
   meals: ['Roasted duck, cherry jus', 'Wild salmon, brown butter', 'Autumn vegetable Wellington'],
 };

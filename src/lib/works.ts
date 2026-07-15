@@ -107,6 +107,7 @@ export const WORKS: Work[] = [
     title:    'Neil & Riley',
     category: 'Private Wedding',
     location: 'Vancouver, Canada',
+    experienceUrl: '/nr',
     season:   'Autumn',
     year:     '2026',
     cover:    '/assets/nr/newspaper-invitation.png',

@@ -3,11 +3,9 @@
 /* The velvet door — guests enter the access code from their card. */
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { NR, nrSerif, nrItalic, nrMicro, nrButton, nrInput, nrLabel } from './nr-theme';
 
 export default function EntryClient() {
-  const router = useRouter();
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -23,8 +21,10 @@ export default function EntryClient() {
       });
       const j = await res.json();
       if (!res.ok) throw new Error(j.error || 'Please try again.');
-      sessionStorage.setItem('nr-code', code.trim().toUpperCase());
-      router.push(`/nr/i/${encodeURIComponent(code.trim().toUpperCase())}`);
+      const clean = code.trim().toUpperCase();
+      sessionStorage.setItem('nr-code', clean);
+      // The invitation IS the cinematic experience — enter the film.
+      window.location.href = `/experiences/neil-and-riley/index.html?code=${encodeURIComponent(clean)}`;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Please try again.');
       setBusy(false);
@@ -38,7 +38,7 @@ export default function EntryClient() {
       color: NR.ivory, padding: '2rem 1.5rem', textAlign: 'center',
     }}>
       <div style={{ maxWidth: 460, width: '100%' }}>
-        <p style={{ ...nrMicro, color: NR.gold, marginBottom: '2rem' }}>Neil &amp; Riley — October 9th, 2026</p>
+        <p style={{ ...nrMicro, color: NR.gold, marginBottom: '2rem' }}>Neil &amp; Riley — September 14th, 2026</p>
 
         {/* the sealed envelope */}
         <div style={{
