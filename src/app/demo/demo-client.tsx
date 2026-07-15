@@ -217,9 +217,14 @@ export default function DemoDashboard() {
           This is a living demonstration with a fictional wedding — every button works, and your changes
           stay on this device. Each commission receives its own private dashboard exactly like this one.
         </p>
-        <Link href="/collection" style={{ ...italic, fontSize: '.95rem', color: GOLD, display: 'inline-block', marginTop: '1rem' }}>
-          Explore the Collection →
-        </Link>
+        <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center', flexWrap: 'wrap', marginTop: '1rem' }}>
+          <Link href="/nr/demo" style={{ ...italic, fontSize: '.95rem', color: GOLD }}>
+            Try the full live journey — guest to door →
+          </Link>
+          <Link href="/collection" style={{ ...italic, fontSize: '.95rem', color: GOLD }}>
+            Explore the Collection →
+          </Link>
+        </div>
       </footer>
     </div>
   );

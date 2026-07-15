@@ -149,22 +149,40 @@ function PostHeroContent({
         {[
           { stat: 'One at a time', label: 'every commission, full attention' },
           { stat: 'Zero templates', label: 'each invitation designed from scratch' },
-          { stat: 'One link', label: 'invitation, RSVP, dashboard, entrance' },
-        ].map(item => (
-          <div key={item.stat} style={{ textAlign: 'center' }}>
-            <p style={{
-              fontFamily: 'var(--font-prata), Georgia, serif',
-              fontSize: 'clamp(1.2rem,2vw,1.8rem)',
-              color: 'var(--ivory)', lineHeight: 1,
-              marginBottom: '.4rem',
-            }}>{item.stat}</p>
-            <p style={{
-              fontFamily: 'var(--font-manrope), sans-serif',
-              fontSize: '.52rem', letterSpacing: '.28em', textTransform: 'uppercase',
-              color: 'rgba(201,168,130,.55)',
-            }}>{item.label}</p>
-          </div>
-        ))}
+          { stat: 'One link', label: 'invitation, RSVP, dashboard, entrance', href: '/nr/demo', cta: 'Try it live →' },
+        ].map(item => {
+          const inner = (
+            <>
+              <p style={{
+                fontFamily: 'var(--font-prata), Georgia, serif',
+                fontSize: 'clamp(1.2rem,2vw,1.8rem)',
+                color: 'var(--ivory)', lineHeight: 1,
+                marginBottom: '.4rem',
+              }}>{item.stat}</p>
+              <p style={{
+                fontFamily: 'var(--font-manrope), sans-serif',
+                fontSize: '.52rem', letterSpacing: '.28em', textTransform: 'uppercase',
+                color: 'rgba(201,168,130,.55)',
+              }}>{item.label}</p>
+              {item.cta && (
+                <p style={{
+                  fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic',
+                  fontSize: '.85rem', color: 'var(--gold)', marginTop: '.55rem',
+                  borderBottom: '1px solid rgba(201,168,130,.35)', display: 'inline-block', paddingBottom: '.1em',
+                }}>{item.cta}</p>
+              )}
+            </>
+          );
+          return item.href ? (
+            <Link key={item.stat} href={item.href} style={{ textAlign: 'center', textDecoration: 'none' }}>
+              {inner}
+            </Link>
+          ) : (
+            <div key={item.stat} style={{ textAlign: 'center' }}>
+              {inner}
+            </div>
+          );
+        })}
         <div style={{
           borderLeft: '1px solid rgba(162,129,90,.2)',
           paddingLeft: 'clamp(2rem,4vw,4rem)',
