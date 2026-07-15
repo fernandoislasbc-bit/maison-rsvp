@@ -416,7 +416,7 @@ function PostHeroContent({
         }}>
           {[
             { n: '01', title: 'A cinematic scroll story', desc: 'Built once, for your event — motion, narrative, and pacing designed around your story, never from a template.' },
-            { n: '02', title: 'RSVP & guest management', desc: 'Guests respond directly inside the experience. You see replies, meal choices, and every detail in one private dashboard.' },
+            { n: '02', title: 'RSVP & guest management', desc: 'Guests respond directly inside the experience. You see replies, meal choices, and every detail in one private dashboard.', href: '/demo', cta: 'Explore the live demo →' },
             { n: '03', title: 'One link, every device', desc: 'Sent by text, email, or printed card. Opens flawlessly on a phone in a taxi or a desktop at home.' },
             { n: '04', title: 'Sound, motion, and detail', desc: 'Original music or atmosphere, cinematic animation, and typography composed specifically for your occasion.' },
           ].map(item => (
@@ -442,6 +442,16 @@ function PostHeroContent({
               }}>
                 {item.desc}
               </p>
+              {item.href && (
+                <Link href={item.href} style={{
+                  fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic',
+                  fontSize: '.95rem', color: 'var(--gold)', textDecoration: 'none',
+                  display: 'inline-block', marginTop: '.9rem',
+                  borderBottom: '1px solid rgba(201,168,130,.35)', paddingBottom: '.15em',
+                }}>
+                  {item.cta}
+                </Link>
+              )}
             </div>
           ))}
         </div>

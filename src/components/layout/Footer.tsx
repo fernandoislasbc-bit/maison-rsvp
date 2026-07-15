@@ -56,6 +56,7 @@ export default function Footer() {
             {[
               { href: '/collection',  label: 'The Collection' },
               { href: '/invitation-maker', label: 'Free Invitation Maker' },
+              { href: '/demo',        label: 'Platform Demo' },
               { href: '/experiences', label: 'Live Invitations' },
               { href: '/process',     label: 'Our Process' },
               { href: '/contact',     label: 'Begin a Commission' },

@@ -24,6 +24,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/work`,         lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${BASE}/journal`,      lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${BASE}/partnerships`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE}/invitation-maker`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${BASE}/invitation-maker/design`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
+    { url: `${BASE}/demo`,         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/contact`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
   ];
 
