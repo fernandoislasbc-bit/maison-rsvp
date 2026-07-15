@@ -55,6 +55,12 @@ function StaffLogin({ onDone }: { onDone: () => void }) {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
+  // From the guided tour (?demo=1): fill the public staff code so the visitor
+  // just taps to begin, while still learning the door is gated.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('demo') === '1') setCodeStr('ENTRANCE26');
+  }, []);
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true); setError('');

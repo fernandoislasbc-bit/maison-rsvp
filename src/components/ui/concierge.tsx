@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 
 /* ─────────────────────────────────────────────────────────────
    The Concierge — a guided quote composer.
@@ -135,6 +136,7 @@ const CSS = `
 `;
 
 export function Concierge() {
+  const pathname = usePathname();
   const [open, setOpen]       = useState(false);
   const [msgs, setMsgs]       = useState<Msg[]>([]);
   const [step, setStep]       = useState<Step>('intro');
@@ -267,6 +269,10 @@ export function Concierge() {
   };
 
   const showTextInput = ['date', 'location', 'name', 'email', 'notes'].includes(step);
+
+  // The sales concierge is out of place — and physically overlaps CTAs — inside
+  // the private guest / live-demo flows. Keep it to the marketing pages.
+  if (pathname?.startsWith('/nr') || pathname?.startsWith('/demo')) return null;
 
   return (
     <>

@@ -22,7 +22,10 @@ export default function MemoriesClient() {
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
 
   useEffect(() => {
-    const c = sessionStorage.getItem('nr-code');
+    // A code carried in the link (from the guided tour) wins, so the step is
+    // one tap; otherwise fall back to the code from this session.
+    const fromUrl = new URLSearchParams(window.location.search).get('code');
+    const c = fromUrl || sessionStorage.getItem('nr-code');
     if (c) verify(c);
     fetch('/api/nr/memories').then(r => r.json()).then(j => setGallery(j.memories ?? [])).catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -148,6 +148,12 @@ function Login({ onDone }: { onDone: () => void }) {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
+  // Arriving from the guided tour (?demo=1) fills the public demo password so
+  // the visitor only has to tap Enter — while still seeing that it's protected.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('demo') === '1') setPw('rosewood2026');
+  }, []);
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true); setError('');
