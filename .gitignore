@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Editions photo storage (runtime uploads)
 .editions-photos/
+
+# Neil & Riley platform data (runtime)
+.nr-data/
