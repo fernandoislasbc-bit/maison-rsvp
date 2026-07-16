@@ -24,6 +24,12 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
+      // The trends piece is refreshed yearly; its URL is now evergreen.
+      {
+        source: '/journal/2025-luxury-wedding-website-trends',
+        destination: '/journal/luxury-wedding-website-trends',
+        permanent: true,
+      },
       // Canonical host: maisonrsvp.ca (non-www). 301 everything from www.
       {
         source: '/:path*',

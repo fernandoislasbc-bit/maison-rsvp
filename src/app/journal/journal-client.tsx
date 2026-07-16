@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
 import { ARTICLES, CATEGORIES, type Article } from '@/lib/journal';
@@ -11,9 +12,13 @@ const GRAIN = `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http:
 export default function JournalPage() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
-  const featured = ARTICLES.find(a => a.featured);
+  // The newest flagged piece leads; every other article stays in the grid, so
+  // flagging a second one can never make the first disappear from the index.
+  const featured = ARTICLES
+    .filter(a => a.featured)
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date))[0];
   const gridArticles = activeCategory === 'all'
-    ? ARTICLES.filter(a => !a.featured)
+    ? ARTICLES.filter(a => a.slug !== featured?.slug)
     : ARTICLES.filter(a => a.categorySlug === activeCategory);
 
   return (
@@ -52,6 +57,7 @@ export default function JournalPage() {
               style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,480px),1fr))', gap: 0, textDecoration: 'none', color: 'inherit', borderTop: '1px solid var(--dust)' }}
             >
               <div style={{ aspectRatio: '4/3', background: 'linear-gradient(135deg, #EDE5D8 0%, #D4C9B8 100%)', position: 'relative', overflow: 'hidden', minHeight: 320 }}>
+                <Image src={featured.cover} alt={featured.title} fill priority sizes="(max-width: 900px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
                 <div aria-hidden style={{ position: 'absolute', inset: 0, backgroundImage: GRAIN, backgroundSize: '180px', opacity: .04, mixBlendMode: 'multiply' }} />
                 <div style={{ position: 'absolute', bottom: 'clamp(1.5rem,3vw,2.5rem)', left: 'clamp(1.5rem,3vw,2.5rem)' }}>
                   <span style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.56rem', letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--gold)', background: 'rgba(248,245,240,.9)', padding: '.35em .85em' }}>Featured</span>
@@ -136,6 +142,7 @@ function ArticleCard({ article }: { article: Article }) {
     <Link href={`/journal/${article.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
       <article>
         <div style={{ aspectRatio: '3/2', background: 'linear-gradient(135deg, #EDE5D8 0%, #D4C9B8 100%)', marginBottom: '1.75rem', position: 'relative', overflow: 'hidden' }}>
+          <Image src={article.cover} alt={article.title} fill sizes="(max-width: 700px) 100vw, 420px" style={{ objectFit: 'cover' }} />
           <div aria-hidden style={{ position: 'absolute', inset: 0, backgroundImage: GRAIN, backgroundSize: '180px', opacity: .04, mixBlendMode: 'multiply' }} />
         </div>
         <p style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.54rem', letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '.75rem' }}>{article.category}</p>
