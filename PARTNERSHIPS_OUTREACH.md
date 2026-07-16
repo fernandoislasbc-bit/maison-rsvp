@@ -148,7 +148,7 @@ Would you be open to a short call this month?
 Warm regards,
 Fernando Islas
 Founder, Maison RSVP
-commissions@maisonrsvp.com
+concierge@maisonrsvp.ca
 maisonrsvp.ca
 
 *If you'd prefer not to be contacted again, just reply and let me know — I'll respect that immediately.*
