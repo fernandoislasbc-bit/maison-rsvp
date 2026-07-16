@@ -294,7 +294,7 @@ export default function ContactPage() {
             <div style={{ borderTop: '1px solid var(--dust)', paddingTop: 'clamp(2rem,4vw,3.5rem)', marginBottom: 'clamp(3rem,5vw,5rem)' }}>
               <p style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.56rem', letterSpacing: '.32em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '1.5rem' }}>What to expect</p>
               {[
-                { step: '01', text: 'We review your enquiry personally within 2 business days.' },
+                { step: '01', text: 'We review your enquiry personally within two business days.' },
                 { step: '02', text: 'We respond with an initial creative assessment and suggested collection.' },
                 { step: '03', text: 'If there is a fit, we schedule a discovery conversation.' },
                 { step: '04', text: 'You decide whether to commission. There is no pressure.' },

@@ -27,7 +27,11 @@ export function buildMetadata({
   // Strip any brand suffix supplied by callers — the root layout's title
   // template appends "| Maison RSVP" exactly once.
   const bareTitle = title.replace(/\s*\|\s*Maison RSVP.*$/i, '').trim();
-  const fullTitle = `${bareTitle} | Maison RSVP`;
+  // A title that already opens with the brand ("Maison RSVP", "Maison RSVP —
+  // Bespoke…") must not get the brand appended again when shared.
+  const fullTitle = bareTitle.toLowerCase().startsWith(SITE.name.toLowerCase())
+    ? bareTitle
+    : `${bareTitle} | ${SITE.name}`;
   const canonical = `${SITE.url}${path}`;
   const ogImage   = image.startsWith('http') ? image : `${SITE.url}${image}`;
 

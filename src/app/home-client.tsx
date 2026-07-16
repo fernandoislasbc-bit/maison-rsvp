@@ -962,7 +962,7 @@ function PostHeroContent({
             },
             {
               q: 'What does it cost?',
-              a: 'Investment is discussed during your complimentary discovery call — there is no obligation, and no numbers are shared until we understand your event and what it deserves. Begin by reaching out and we will schedule a call within one business day.',
+              a: 'Investment is discussed during your complimentary discovery call — there is no obligation, and no numbers are shared until we understand your event and what it deserves. Begin by reaching out and we will schedule a call within two business days.',
             },
             {
               q: 'How many revisions are included?',
@@ -1016,7 +1016,7 @@ function PostHeroContent({
             <a href="mailto:concierge@maisonrsvp.ca" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
               concierge@maisonrsvp.ca
             </a>
-            {' '}— we respond within one business day.
+            {' '}— we respond within two business days.
           </p>
         </div>
       </section>
