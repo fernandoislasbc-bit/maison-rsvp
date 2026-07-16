@@ -296,7 +296,7 @@ function PostHeroContent({
           }}>
             Full process &rarr;
           </Link>
-          <Link href="/experiences" style={{
+          <Link href="/experiences/neil-and-riley/index.html?code=BMONT1" style={{
             fontFamily: 'var(--font-garamond), Georgia, serif',
             fontStyle: 'italic', fontSize: '.95rem',
             color: 'var(--mist)', textDecoration: 'none',

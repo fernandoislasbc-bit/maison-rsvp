@@ -277,8 +277,10 @@ export const Component = () => {
               className={`mt-10 opacity-0 ${isLoaded ? 'animate-fade-in-corner' : ''}`}
               style={{ display: 'flex', gap: 'clamp(1.5rem,3vw,2.5rem)', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}
             >
+              {/* Primary CTA opens a real cinematic invitation directly —
+                  the product itself, not a marketing page about it. */}
               <Link
-                href="/experiences"
+                href="/experiences/neil-and-riley/index.html?code=BMONT1"
                 style={{
                   fontFamily: 'var(--font-manrope), sans-serif',
                   fontSize: '.6rem', letterSpacing: '.28em', textTransform: 'uppercase',
