@@ -394,7 +394,7 @@ function PostHeroContent({
           </div>
         </div>
         <div style={{ marginTop: 'clamp(2.5rem,5vw,4.5rem)', display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <Link href="/collection" style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.58rem', letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--ink)', textDecoration: 'none', borderBottom: '1px solid rgba(14,13,11,.2)', paddingBottom: '.15em' }}>View Pricing &rarr;</Link>
+          <Link href="/collection" style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.58rem', letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--ink)', textDecoration: 'none', borderBottom: '1px solid rgba(14,13,11,.2)', paddingBottom: '.15em' }}>View the Collection &rarr;</Link>
           <Link href="/about" style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: '.95rem', color: 'var(--mist)', textDecoration: 'none' }}>Our story</Link>
         </div>
         <p style={{
@@ -434,7 +434,7 @@ function PostHeroContent({
         }}>
           {[
             { n: '01', title: 'A cinematic scroll story', desc: 'Built once, for your event — motion, narrative, and pacing designed around your story, never from a template.' },
-            { n: '02', title: 'RSVP & guest management', desc: 'Guests respond directly inside the experience. You see replies, meal choices, and every detail in one private dashboard.', href: '/demo', cta: 'Explore the live demo →' },
+            { n: '02', title: 'RSVP & guest management', desc: 'Guests respond directly inside the experience. You see replies, meal choices, and every detail in one private dashboard.', href: '/nr/demo', cta: 'See it live →' },
             { n: '03', title: 'One link, every device', desc: 'Sent by text, email, or printed card. Opens flawlessly on a phone in a taxi or a desktop at home.' },
             { n: '04', title: 'Sound, motion, and detail', desc: 'Original music or atmosphere, cinematic animation, and typography composed specifically for your occasion.' },
           ].map(item => (
@@ -528,7 +528,7 @@ function PostHeroContent({
               color: 'var(--ink)', textDecoration: 'none',
               borderBottom: '1px solid rgba(14,13,11,.2)', paddingBottom: '.15em',
             }}>
-              See full collection &amp; pricing &rarr;
+              Explore the full Collection &rarr;
             </Link>
             <Link
               href="/contact"

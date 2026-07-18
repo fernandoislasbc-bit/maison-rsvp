@@ -296,8 +296,12 @@ export const Component = () => {
               >
                 See a live invitation
               </Link>
+              {/* Secondary CTA moves the visitor from "feel" to "understand"
+                  — the whole platform in two minutes. Committing (Begin a
+                  commission) lives in the persistent top bar and the closing
+                  chapter, where a warmed visitor actually converts. */}
               <Link
-                href="/contact"
+                href="/nr/demo"
                 style={{
                   fontFamily: 'var(--font-garamond), Georgia, serif',
                   fontStyle: 'italic',
@@ -309,7 +313,7 @@ export const Component = () => {
                   minHeight: 44, display: 'inline-flex', alignItems: 'flex-end',
                 }}
               >
-                Begin a commission &rarr;
+                See how it works &rarr;
               </Link>
             </div>
           </div>
