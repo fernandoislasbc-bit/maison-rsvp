@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
-import { buildMetadata, faqSchema, breadcrumbSchema } from '@/lib/seo';
+import { buildMetadata, faqSchema, breadcrumbSchema, softwareApplicationSchema } from '@/lib/seo';
 import { EDITION_TEMPLATES, type Edition } from '@/lib/editions';
 import { EditionTemplate } from '@/components/editions/templates';
 
@@ -43,6 +43,13 @@ export default function InvitationMakerPage() {
   return (
     <>
       <Nav light />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(
+        softwareApplicationSchema({
+          name:        'Maison RSVP — Free Digital Invitation Maker',
+          description: 'Create a beautiful digital invitation free in minutes — elegant designs, gentle animation, and RSVP by email in one shareable link. No sign-up.',
+          url:         '/invitation-maker',
+        })
+      ) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(FAQ)) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(
         breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Free Invitation Maker', path: '/invitation-maker' }])
@@ -93,7 +100,7 @@ export default function InvitationMakerPage() {
                   boxShadow: '0 20px 44px -18px rgba(14,13,11,.25)',
                 }}>
                   <div style={{ width: '250%', transform: 'scale(.4)', transformOrigin: 'top left', pointerEvents: 'none' }}>
-                    <EditionTemplate data={SAMPLE[t.id]} />
+                    <EditionTemplate data={SAMPLE[t.id]} preview />
                   </div>
                 </div>
                 <div style={{ padding: '1.25rem .25rem 0' }}>

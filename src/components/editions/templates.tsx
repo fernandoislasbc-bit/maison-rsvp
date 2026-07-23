@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
    `children` renders below the invitation body (the RSVP block).
    ───────────────────────────────────────────────────────────── */
 
-type Props = { data: Edition; children?: ReactNode };
+type Props = { data: Edition; children?: ReactNode; preview?: boolean };
 
 const BASE_CSS = `
   @keyframes ed-up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
@@ -31,13 +31,16 @@ const BASE_CSS = `
   }
 `;
 
-function Names({ data, color, accentColor, amp }: { data: Edition; color: string; accentColor: string; amp?: string }) {
+function Names({ data, color, accentColor, amp, preview }: { data: Edition; color: string; accentColor: string; amp?: string; preview?: boolean }) {
+  // On the real invitation the names ARE the page's h1. In the maker's gallery
+  // previews they must not be, so the landing page keeps a single h1.
+  const Tag = preview ? 'p' : 'h1';
   return (
-    <h1 className="ed-a2" style={{
+    <Tag className="ed-a2" style={{
       fontFamily: 'var(--font-prata), Georgia, serif',
       fontSize: 'clamp(2.4rem, 9vw, 4.6rem)',
       lineHeight: 1.08, letterSpacing: '-.02em',
-      color, fontWeight: 400, textWrap: 'balance',
+      color, fontWeight: 400, textWrap: 'balance', margin: 0,
     }}>
       {data.n1}
       {data.n2 && (
@@ -46,7 +49,7 @@ function Names({ data, color, accentColor, amp }: { data: Edition; color: string
           {data.n2}
         </>
       )}
-    </h1>
+    </Tag>
   );
 }
 
@@ -69,7 +72,7 @@ function Details({ data, labelColor, textColor, ruleColor }: { data: Edition; la
 
 /* ─── The Garden — botanical ivory & sage ─── */
 
-function Garden({ data, children }: Props) {
+function Garden({ data, children, preview }: Props) {
   const SAGE = '#8A9B7C', BLUSH = '#C98F88', INK = '#3A362E', MIST = '#8B8578';
   const leaf = (flip = false) => (
     <svg className="ed-drift" viewBox="0 0 120 120" aria-hidden style={{
@@ -98,7 +101,7 @@ function Garden({ data, children }: Props) {
         <p className="ed-a" style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.6rem', letterSpacing: '.42em', textTransform: 'uppercase', color: SAGE, marginBottom: '2rem' }}>
           Together with their families
         </p>
-        <Names data={data} color={INK} accentColor={BLUSH} />
+        <Names data={data} color={INK} accentColor={BLUSH} preview={preview} />
         <p className="ed-a3" style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(1.05rem,3vw,1.3rem)', color: MIST, margin: '1.6rem 0 2.6rem' }}>
           {data.o}
         </p>
@@ -117,7 +120,7 @@ function Garden({ data, children }: Props) {
 
 /* ─── The Nocturne — ink, gold & candlelight ─── */
 
-function Nocturne({ data, children }: Props) {
+function Nocturne({ data, children, preview }: Props) {
   const GOLD = '#A2815A', IVORY = '#F8F5F0', SOFT = 'rgba(248,245,240,.55)';
   return (
     <div style={{ minHeight: '100svh', background: 'linear-gradient(170deg,#15100A 0%,#0E0D0B 55%)', position: 'relative', overflow: 'hidden', padding: 'clamp(4rem,10vw,7rem) 1.5rem' }}>
@@ -128,7 +131,7 @@ function Nocturne({ data, children }: Props) {
         <p className="ed-a" style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.58rem', letterSpacing: '.48em', textTransform: 'uppercase', color: GOLD, marginBottom: '2.2rem' }}>
           You are invited
         </p>
-        <Names data={data} color={IVORY} accentColor={GOLD} />
+        <Names data={data} color={IVORY} accentColor={GOLD} preview={preview} />
         <p className="ed-a3" style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(1.05rem,3vw,1.3rem)', color: SOFT, margin: '1.6rem 0 2.6rem' }}>
           {data.o}
         </p>
@@ -147,7 +150,7 @@ function Nocturne({ data, children }: Props) {
 
 /* ─── The Riviera — cobalt, citrus & sea light ─── */
 
-function Riviera({ data, children }: Props) {
+function Riviera({ data, children, preview }: Props) {
   const COBALT = '#1F3F8F', CITRUS = '#E9B44C', SEA = '#6B88C4', PAPER = '#FDFCF9';
   return (
     <div style={{ minHeight: '100svh', background: PAPER, position: 'relative', overflow: 'hidden', padding: 'clamp(4rem,10vw,7rem) 1.5rem' }}>
@@ -167,7 +170,7 @@ function Riviera({ data, children }: Props) {
         <p className="ed-a" style={{ fontFamily: 'var(--font-manrope), sans-serif', fontSize: '.6rem', letterSpacing: '.42em', textTransform: 'uppercase', color: SEA, marginBottom: '2rem' }}>
           With the sea as witness
         </p>
-        <Names data={data} color={COBALT} accentColor={CITRUS} amp={CITRUS} />
+        <Names data={data} color={COBALT} accentColor={CITRUS} amp={CITRUS} preview={preview} />
         <p className="ed-a3" style={{ fontFamily: 'var(--font-garamond), Georgia, serif', fontStyle: 'italic', fontSize: 'clamp(1.05rem,3vw,1.3rem)', color: SEA, margin: '1.6rem 0 2.6rem' }}>
           {data.o}
         </p>
@@ -184,10 +187,10 @@ function Riviera({ data, children }: Props) {
   );
 }
 
-export function EditionTemplate({ data, children }: Props) {
+export function EditionTemplate({ data, children, preview }: Props) {
   const map: Record<EditionTemplateId, (p: Props) => ReactNode> = {
     garden: Garden, nocturne: Nocturne, riviera: Riviera,
   };
   const Tpl = map[data.t] ?? Garden;
-  return <Tpl data={data}>{children}</Tpl>;
+  return <Tpl data={data} preview={preview}>{children}</Tpl>;
 }

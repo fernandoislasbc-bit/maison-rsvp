@@ -111,6 +111,42 @@ export function websiteSchema() {
   };
 }
 
+/** For the free browser tools — signals a genuinely free web application
+ *  (price 0, no sign-up), the exact intent behind "free invitation maker". */
+export function softwareApplicationSchema({
+  name,
+  description,
+  url,
+  category = 'DesignApplication',
+}: {
+  name: string;
+  description: string;
+  url: string;
+  category?: string;
+}) {
+  return {
+    '@context':           'https://schema.org',
+    '@type':              'WebApplication',
+    name,
+    description,
+    url:                  `${SITE.url}${url}`,
+    applicationCategory:  category,
+    operatingSystem:      'Any (web browser)',
+    browserRequirements:  'Requires JavaScript',
+    isAccessibleForFree:  true,
+    offers: {
+      '@type':        'Offer',
+      price:          '0',
+      priceCurrency:  'CAD',
+    },
+    provider: {
+      '@type': 'Organization',
+      name:    'Maison RSVP',
+      url:     SITE.url,
+    },
+  };
+}
+
 export function serviceSchema({
   name,
   description,
