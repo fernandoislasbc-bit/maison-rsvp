@@ -518,7 +518,7 @@ Expect this to accelerate rather than reverse.`,
 
 What couples want now is one link: the invitation, the reply, the details, the entrance, and the memories in the same place. Not because it is technically elegant, but because every additional system is a place where guests get lost and work lands back on the couple. It is why [tracking replies](/journal/how-to-track-wedding-rsvps) and [collecting what guests leave](/journal/wedding-qr-codes-digital-guest-book) have stopped being separate conversations.
 
-If you would like to compose something free in the meantime, [our invitation maker](/invitation-maker) is exactly that — and [a live demonstration of the full platform](/nr/demo) shows where the fragmentation goes to die.`,
+If you would like the broader view, our [wedding website design trends for 2026](/journal/wedding-website-design-trends-2026) covers the full field; to compose something free in the meantime, [our invitation maker](/invitation-maker) is exactly that — and [a live demonstration of the full platform](/nr/demo) shows where the fragmentation goes to die.`,
         },
       ],
       pullQuote: 'The template used to be a neutral choice. It now says something specific about you: that this was decided in an afternoon.',
@@ -534,6 +534,241 @@ If you would like to compose something free in the meantime, [our invitation mak
         {
           q: 'Why are couples asking for private wedding invitations?',
           a: 'The same reason they stopped posting their children publicly. Names, dates, venues, and photographs on an indexable page are readable by anyone, indefinitely. Private access — a per-guest code, a page search engines are instructed to ignore, and no public archive afterwards — has moved from a high-profile request to a mainstream one.',
+        },
+      ],
+    },
+    'wedding-website-design-trends-2026': {
+      intro: `Every January a hundred articles announce the same wedding website trends: “bold colours,” “minimalism,” “personalisation.” They are written by people who have never built one, and they age badly because they were never really about 2026 in the first place.
+
+This is a different kind of list. We design these for a living, so what follows is split honestly: the shifts that are genuinely established — observable across real weddings right now — and the ones still emerging, labelled as predictions rather than sold as fact. If a claim needs a number, we tell you where to find it rather than inventing one.`,
+      sections: [
+        {
+          heading: 'First, how to read a “trend”',
+          body: `A real trend changes what couples and guests actually do, not just how a page looks. “Terracotta is in” is a colour that will be out next year. “Guests now expect to reply, get directions, and check in from one link on their phone” is a behaviour — and behaviours are what you should design around, because they don’t reverse.
+
+So we’ve sorted the year into two buckets. Established: things you can see happening, that a luxury studio should already treat as table stakes. Emerging: things gaining momentum that are worth watching but not worth betting the whole design on yet. Everything below is tagged accordingly.`,
+        },
+        {
+          heading: 'Established · Mobile-first is the whole game now',
+          body: `The single most important fact about your wedding website is that almost no one will see it on a computer. Guests open it standing in a kitchen, on a commute, at dinner when someone says “have you replied yet?” If it is designed for a desktop and merely survives on a phone, it has already failed the people it was made for.
+
+Mobile-first is not “make it responsive.” It means the phone is the primary canvas: thumb-reachable actions, text you can read without pinching, a reply that takes fifteen seconds one-handed. Everything else — the wide hero, the elegant desktop spread — is the secondary case. Get this backwards and the most beautiful design in the world quietly loses half its guests.`,
+          image: {
+            src: '/assets/journal/online-wedding-rsvp-form-mobile.webp',
+            alt: 'A mobile-first wedding website RSVP form on a phone showing attendance and meal selection',
+            caption: 'The phone is the canvas, not the fallback — the reply should take fifteen seconds one-handed.',
+          },
+        },
+        {
+          heading: 'Established · The RSVP moved inside the invitation',
+          body: `The paper reply card is not dead, but its job has changed. In 2026 the reply increasingly happens where the invitation lives: the guest opens the link, feels something, and answers in the same breath — seats, meal per person, dietary needs, all attached to the right name.
+
+Why it matters: a reply collected this way keeps its own count. There is no transcription step where a text message, a voicemail to your mother, and a remark at dinner get lost. If you are weighing how to run this, we wrote a full [wedding RSVP website guide](/journal/wedding-rsvp-website-guide), and a piece on [keeping the count honest](/journal/how-to-track-wedding-rsvps) once replies start arriving from six directions at once.`,
+          image: {
+            src: '/assets/journal/wedding-rsvp-tracking-dashboard.webp',
+            alt: 'A wedding RSVP tracking dashboard showing attending, declined and pending counts with meal breakdown',
+            caption: 'Attending, declined, pending, and the meal breakdown your caterer will ask for — updating as guests reply.',
+          },
+        },
+        {
+          heading: 'Established · QR codes grew up',
+          body: `For a few years QR codes at weddings looked like a defeat — a black square taped to a sign. That era is over. Done with the same care as the stationery, the code has quietly become one of the most useful objects on the day: it opens the invitation, admits guests at the door, and — the part couples underestimate — collects the night itself.
+
+The strongest use in 2026 is the [digital guest book](/journal/wedding-qr-codes-digital-guest-book): a card on each table that lets guests leave a photo, a short video, or a voice note, from angles no photographer could reach. Speaking is easier than writing standing up in a queue, so people stop performing and start saying the true thing.`,
+          image: {
+            src: '/assets/journal/wedding-qr-code-digital-guest-book.webp',
+            alt: 'A wedding QR code card reading Leave a Memory beside a phone showing options to record video, voice or photos',
+            caption: 'The code grew up: it opens the invitation, admits guests at the door, and collects the night.',
+          },
+        },
+        {
+          heading: 'Established · Editorial layouts replace the template grid',
+          body: `The clearest visual shift is away from the builder template — the same hero photo, the same script font, the same countdown seen at three other weddings this year — and toward something that behaves like a piece of film or a magazine spread: a single considered scroll, one moment revealed at a time, motion used for timing rather than decoration.
+
+This is not decoration for its own sake; it is the difference between a page that answers questions and an experience that creates anticipation. We pulled that distinction apart in [wedding website versus invitation experience](/journal/the-difference-between-a-wedding-website-and-a-wedding-invitation-experience). The test for any effect is simple: if you removed it, would anything be lost? If not, remove it.`,
+          image: {
+            src: '/assets/journal/wedding-website-vs-invitation-experience.webp',
+            alt: 'An editorial cinematic wedding website layout compared with a standard template',
+            caption: 'The template no longer reads as neutral. In 2026 it reads as a decision made quickly.',
+          },
+        },
+        {
+          heading: 'Established · Privacy became a feature',
+          body: `The quiet shift almost no trend list mentions: couples increasingly do not want their names, date, venue, and photographs sitting on a page a search engine can index and a stranger can read. What used to be a request from high-profile clients has reached everyone, for the same reason people stopped posting their children.
+
+In 2026 the expectation is a private door — a per-guest code or link, a page told to stay out of search results, and no public archive of the day afterward. Treat this as a mark of care, not a technical checkbox: it tells guests the evening belongs to the people in the room.`,
+          image: {
+            src: '/assets/journal/private-wedding-invitation-access.webp',
+            alt: 'A private wedding invitation requiring a personal guest access code',
+            caption: 'A code that belongs to one guest — and a page no search engine is allowed to read.',
+          },
+        },
+        {
+          heading: 'Emerging · Where it seems to be going',
+          body: `Three things are gaining momentum but have not yet settled, so we label them predictions rather than facts.
+
+AI-assisted personalisation — tailoring what each guest sees (their name, their travel details, their table) — will become easier, and the risk is that it makes weddings feel automated. The couples who use it well will hide the machinery entirely; authenticity is the whole product. Video-led invitations, once a luxury flourish, are drifting toward the mainstream as phones shoot cinema and bandwidth stops being a constraint. And per-guest journeys — an out-of-town guest seeing travel and hotels first, a local guest seeing the schedule — are moving from bespoke commissions toward something more couples will expect. Watch these; don’t rebuild your whole plan around them yet.`,
+        },
+        {
+          heading: 'What will look dated by 2027',
+          body: `The most useful part of any trends piece is the honesty about what to avoid. Skip the animation arms race — fourteen elements fading in on scroll reads as nervous, not luxurious. Skip the generic template every guest has already seen. Skip music that autoplays with no way to stop it. And skip “clever” that costs comprehension: if a guest cannot find the date and the address in five seconds, the design has failed regardless of how it looks.
+
+Restraint is the through-line of everything above. The luxury signal in 2026 is not more; it is fewer, better decisions — which is also, not coincidentally, [the whole argument for a bespoke approach over a template](/journal/luxury-wedding-website-trends).`,
+        },
+        {
+          heading: 'See it, don’t read it',
+          body: `The problem with every wedding website trends article — including, until this line, this one — is that it describes experiences instead of letting you have one. So don’t take our word for any of the above.
+
+You can [walk a real one, end to end, in about two minutes](/nr/demo): open a live invitation as a guest, reply, receive a QR pass, and see the couple’s dashboard from the other side. Or browse [the commissions we have built](/work). Everything on those pages is the year’s trends made concrete — which is the only way to judge whether they are right for your wedding.`,
+        },
+      ],
+      pullQuote: 'The luxury signal in 2026 is not more. It is fewer, better decisions — designed around what guests actually do, not what looks current this January.',
+      faqs: [
+        {
+          q: 'What are the biggest wedding website trends in 2026?',
+          a: 'The established ones: mobile-first design as the default rather than an afterthought, digital RSVP living inside the invitation, QR codes for entry and a digital guest book, editorial and cinematic layouts replacing builder templates, and private, password-protected sites. Emerging (still predictions): AI-assisted personalisation, video-led invitations, and per-guest journeys.',
+        },
+        {
+          q: 'Do couples still need paper invitations if they have a wedding website?',
+          a: 'Many keep both, but for different jobs. Paper is the keepsake and the ceremony of receiving; the website is the working layer — details, RSVP, directions, check-in — that answers questions and keeps your guest count for you. The trend is not paper disappearing; it is paper doing less of the logistical work.',
+        },
+        {
+          q: 'What makes a wedding website look luxury rather than generic?',
+          a: 'Restraint and intention. A luxury site reads as designed from scratch: an editorial single-scroll story, bespoke typography, motion used for timing rather than decoration, and real photography rather than stock. The generic signal in 2026 is a recognisable template — the same hero and script font seen at other weddings.',
+        },
+        {
+          q: 'Should a wedding website be password-protected?',
+          a: 'Increasingly, yes. Private access — a per-guest code or link, a page kept out of search results, and no public archive afterward — has moved from a high-profile request to a mainstream expectation. It keeps your names, date, venue, and photographs from being readable by anyone.',
+        },
+        {
+          q: 'Can guests RSVP and check in from the same wedding website?',
+          a: 'Yes — and in 2026 that is the point. The same reply that confirms attendance can issue that guest a QR entrance pass, so arrival at the door is a scan rather than a search through a printed list. It also means the couple can see who has actually arrived in real time.',
+        },
+      ],
+    },
+    'wedding-rsvp-website-guide': {
+      intro: `A paper reply card collects a name, a meal choice, and occasionally a kind line, then travels back through the post to sit in a drawer while you rebuild the real number by hand. It works until about guest forty.
+
+A wedding RSVP website collects the same information — and keeps the count for you. This is a practical guide to what it should actually do, what to ask for, and how to set the deadline so you are not chasing replies the week your caterer needs the final number.`,
+      sections: [
+        {
+          heading: 'What a wedding RSVP website actually is',
+          body: `At its simplest, it is one place — reached from the invitation link — where a guest confirms whether they are coming, for how many seats, what they will eat, and anything the kitchen needs to know. The difference from a paper card is not the questions; it is that the answer arrives already structured and attached to the right guest, with no step in between where things get lost.
+
+That “no step in between” is the whole value. When the reply [lives inside the invitation itself](/journal/the-difference-between-a-wedding-website-and-a-wedding-invitation-experience), you are no longer the human integration layer between texts, emails, voicemails to your parents, and remarks at dinner.`,
+          image: {
+            src: '/assets/journal/online-wedding-rsvp-form-mobile.webp',
+            alt: 'An online wedding RSVP form on a phone showing attendance, party size and meal selection',
+            caption: 'The guest sees a simple question; you receive structured data attached to the right name.',
+          },
+        },
+        {
+          heading: 'What to collect — and what most couples forget',
+          body: `Ask for everything in the same breath as the yes, because every question you skip now becomes a second round of messages later, and second rounds have far worse response rates. Collect: who is coming and exactly how many seats (named, not “the Rossis”); meal selection per person, not per party, because caterers count plates rather than families; dietary needs and allergies in the guest’s own words; and a direct way to reach that guest, so the follow-up does not go through three relatives.
+
+Keep the form short on the surface and thorough underneath. A guest three glasses in at dinner will answer four clean questions; they will abandon a fourteen-field form. This restraint is part of [the wider shift in wedding website design this year](/journal/wedding-website-design-trends-2026): fewer, cleaner decisions.`,
+        },
+        {
+          heading: 'The deadline math',
+          body: `Set your RSVP deadline three to four weeks before your caterer and venue need the final count — never on the same day. That gap is where you chase the roughly one-third of any guest list who will not reply the first time. For destination weddings, move it earlier still: guests are booking flights and leave, so aim for two to three months out.
+
+Then make the chase specific. A note to one household gets answered; a group message to everyone is nobody’s responsibility. The single biggest advantage of a live RSVP website here is simply being able to see, at a glance, who has not replied — which turns “who is missing?” from an evening of cross-referencing into a four-second question. We go deeper on that in [how to track wedding RSVPs](/journal/how-to-track-wedding-rsvps).`,
+          image: {
+            src: '/assets/journal/wedding-rsvp-tracking-dashboard.webp',
+            alt: 'A wedding dashboard showing pending RSVPs and who has not yet replied',
+            caption: 'A list that already knows who is missing beats scrolling a spreadsheet the week the count is due.',
+          },
+        },
+        {
+          heading: 'Live vs. static — and the door',
+          body: `A static form emails you each reply; you still assemble the picture. A live RSVP website assembles it for you: totals, meal breakdown, dietary list, and an export your caterer and planner can each take in their own format without your login.
+
+The best versions close the loop at the door. The same reply that confirms attendance can issue that guest a QR entrance pass, so arrival is a scan rather than a search through a printed list — and you know who actually walked in, which is a different number from who said yes. If you would like to see the whole path — reply, pass, door, and the couple’s dashboard — you can [walk a live one in about two minutes](/nr/demo).`,
+        },
+      ],
+      pullQuote: 'A paper card collects a reply. A live RSVP website keeps the count — which is the actual job you were dreading.',
+      faqs: [
+        {
+          q: 'What should a wedding RSVP website collect?',
+          a: 'Attendance and the exact number of named seats, meal selection per person (not per party), dietary needs and allergies in the guest’s own words, and a direct way to reach that guest for follow-up. Collecting it all at once avoids a second, lower-response round of messages later.',
+        },
+        {
+          q: 'When should the wedding RSVP deadline be?',
+          a: 'Three to four weeks before your caterer and venue need the final count, not on the same day — that gap is where you chase the third of guests who don’t reply first time. For destination weddings, set it two to three months out because guests are booking travel.',
+        },
+        {
+          q: 'Is an online RSVP better than a paper reply card?',
+          a: 'For anything above about fifty guests, yes — not because paper is worse, but because paper does not count itself. An online reply arrives already structured and attached to the right guest. Many couples keep a paper card for the ritual and use the website for the count.',
+        },
+        {
+          q: 'Can a wedding RSVP website handle meal choices and check-in?',
+          a: 'A good one does both. It collects a meal per guest and a dietary note, gives you an exportable breakdown for the caterer, and can issue each attending guest a QR pass so entry on the day is a scan rather than a search through a printed list.',
+        },
+      ],
+    },
+    'digital-vs-printed-wedding-invitations': {
+      intro: `The debate is usually framed as paper versus screen, which is the wrong frame. It is really keepsake versus function — and once you see it that way, the answer for most couples stops being either/or.
+
+Here is an honest comparison from a studio that makes the digital kind but has no quarrel with beautiful paper: what each does well, what each costs you, and the hybrid most couples actually land on.`,
+      sections: [
+        {
+          heading: 'What each one is genuinely good at',
+          body: `Paper is an object. It has weight, texture, and the small ceremony of arriving in the post and being opened by hand. It becomes a keepsake, pinned to a fridge or kept in a box for decades. No screen replicates that, and pretending otherwise is dishonest.
+
+Digital is a living layer. It carries motion, sound, and story a card cannot; it updates when a detail changes; it collects the reply; and it keeps working for months as your guests’ questions arrive. Where paper is the moment of receiving, digital is [the most important design decision most couples rush](/journal/why-your-wedding-invitation-is-the-most-important-design-decision-you-will-make) — the experience that makes a guest feel the celebration has already begun.`,
+          image: {
+            src: '/assets/journal/luxury-digital-wedding-invitation.webp',
+            alt: 'A luxury digital wedding invitation opening on a phone with motion and typography',
+            caption: 'Digital carries motion, sound, and a living reply layer a printed card cannot.',
+          },
+        },
+        {
+          heading: 'The honest cost picture',
+          body: `We will not invent numbers, because real costs vary widely by scope, quantity, and studio. But the shape is worth understanding. Printed invitations carry per-unit and repeated costs: design, paper stock, printing, envelopes, calligraphy, and postage — all multiplied by your guest count, and again for save-the-dates and day-of stationery. A correction after printing means reprinting.
+
+Digital carries most of its cost once, in the design, and scales to any number of guests at little extra. A correction is an edit, not a reprint. Neither is automatically “cheaper” — a bespoke digital experience can cost more than modest paper, and mass-market paper can cost more than you’d think once postage is counted. The real question is where you want the money to go: into an object, or into an experience and the logistics it handles.`,
+        },
+        {
+          heading: 'Sustainability, said plainly',
+          body: `Digital avoids the paper, printing, and shipping of physical stationery, and for couples who care about waste that is a genuine advantage — particularly at scale, and particularly for destination weddings where paper is posted internationally.
+
+We would only caution against overclaiming. If you want to put real figures on the difference, [verify them from primary sources] rather than repeating round numbers from other blogs. The honest version is simple: fewer printed pieces mailed means less waste, and digital lets you send one beautiful thing to two hundred people without felling anything.`,
+        },
+        {
+          heading: 'The hybrid most couples actually choose',
+          body: `In practice, the interesting answer is rarely all-or-nothing. Many couples send a small run of beautiful paper — a save-the-date or a single keepsake invitation for close family — and run everything functional through digital: the full invitation experience, RSVP, directions, and check-in.
+
+This gets you the object where it matters emotionally and the living layer where it matters practically. The paper is the heirloom; the digital is [the working guest experience](/journal/the-difference-between-a-wedding-website-and-a-wedding-invitation-experience) that collects replies and answers questions for months. You can see the digital half working — invitation, RSVP, and the door — by [walking a live one](/nr/demo), or compose one yourself with our [free invitation maker](/invitation-maker).`,
+          image: {
+            src: '/assets/journal/wax-seal-digital-wedding-invitation.webp',
+            alt: 'A wax-sealed digital wedding invitation blending the feel of paper with a digital experience',
+            caption: 'The hybrid: paper as the heirloom, digital as the living layer that keeps working for months.',
+          },
+        },
+        {
+          heading: 'When paper still wins outright',
+          body: `There are cases where we would tell you to print. A very traditional, older guest list that does not live on phones. A ceremony where the physical suite is part of the ritual and the aesthetic. A couple for whom the object itself is the point, and logistics are handled elsewhere.
+
+The mistake is not choosing paper — it is choosing paper by default and then discovering, three weeks before the day, that you have no way to track two hundred replies. Decide deliberately: keepsake, function, or the hybrid that gives you both — in the context of [where wedding website design is heading in 2026](/journal/wedding-website-design-trends-2026).`,
+        },
+      ],
+      pullQuote: 'It is not paper versus screen. It is keepsake versus function — and the couples who understand that usually choose a little of both.',
+      faqs: [
+        {
+          q: 'Are digital wedding invitations cheaper than printed ones?',
+          a: 'Not automatically. Printed invitations carry repeated per-unit costs — stock, printing, envelopes, postage — multiplied by guest count. Digital carries most of its cost once, in the design, and scales to any number at little extra. But a bespoke digital experience can cost more than modest paper. The real difference is whether the money goes into an object or into an experience.',
+        },
+        {
+          q: 'Are digital invitations considered appropriate for a formal wedding?',
+          a: 'Increasingly, yes — when they are designed rather than templated. A bespoke digital invitation with editorial design, motion, and a considered RSVP reads as more thoughtful than a mass-market printed card. Formality is set by the quality of the design and language, not by the medium.',
+        },
+        {
+          q: 'Can you have both digital and printed invitations?',
+          a: 'That is what most couples choose. A small run of beautiful paper as the keepsake for close family, and digital for everything functional — the full invitation experience, RSVP, directions, and check-in. Paper becomes the heirloom; digital becomes the working layer that keeps the count.',
+        },
+        {
+          q: 'Are digital wedding invitations better for the environment?',
+          a: 'They avoid the paper, printing, and shipping of physical stationery, which for many couples is a real advantage — especially at scale and for destination weddings mailed internationally. It is best to verify any specific waste figures from primary sources rather than repeating round numbers.',
         },
       ],
     },
