@@ -171,6 +171,32 @@ export const ARTICLES: Article[] = [
     keywords:     ['digital vs printed wedding invitations', 'digital wedding invitations', 'paper vs digital invitations', 'electronic wedding invitations', 'online wedding invitations'],
     excerpt:      'It is not really paper versus screen. It is keepsake versus function \u2014 and once you see it that way, the answer for most couples stops being either/or.',
   },
+  {
+    slug:         'best-wedding-website-features',
+    title:        'The Best Wedding Website Features (and Which You Actually Need)',
+    seoTitle:     'Best Wedding Website Features \u2014 What You Need',
+    description:  'The wedding website features that genuinely matter \u2014 RSVP, QR check-in, digital guest book, travel hub, privacy \u2014 and the ones that are just decoration.',
+    category:     'Guest Experience',
+    categorySlug: 'guest-experience',
+    date:         '2026-07-24',
+    readTime:     '9 min read',
+    cover:        '/assets/journal/wedding-guest-hub-event-details.webp',
+    keywords:     ['wedding website features', 'best wedding website features', 'wedding website must haves', 'what features should a wedding website have', 'wedding website functionality'],
+    excerpt:      'Every builder lists forty features to seem generous. Your guests use about six. Here is what genuinely earns its place on a wedding website \u2014 and what is just there to pad a comparison chart.',
+  },
+  {
+    slug:         'custom-wedding-website-cost',
+    title:        'How Much Does a Custom Wedding Website Cost?',
+    seoTitle:     'How Much Does a Custom Wedding Website Cost?',
+    description:  'What drives the cost of a custom wedding website \u2014 from free builders to bespoke studios \u2014 and how to tell which level your wedding actually needs.',
+    category:     'Wedding Planning',
+    categorySlug: 'wedding-planning',
+    date:         '2026-07-26',
+    readTime:     '8 min read',
+    cover:        '/assets/journal/bespoke-wedding-invitation-design-process.webp',
+    keywords:     ['custom wedding website cost', 'how much does a wedding website cost', 'wedding website price', 'bespoke wedding website cost', 'wedding website pricing'],
+    excerpt:      'The honest answer is a range, not a number \u2014 and the range is enormous, from free to five figures. What you are really choosing between is a template you fill in and a studio that designs from scratch.',
+  },
 ];
 
 export function getArticle(slug: string): Article | undefined {

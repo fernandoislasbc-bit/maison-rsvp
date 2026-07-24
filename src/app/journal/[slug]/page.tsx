@@ -772,6 +772,138 @@ The mistake is not choosing paper — it is choosing paper by default and then d
         },
       ],
     },
+    'best-wedding-website-features': {
+      intro: `Every wedding website builder publishes a comparison chart with forty features, because forty looks more generous than six. But your guests use about six, and your own sanity depends on maybe three. The rest is padding.
+
+Here is the honest version, from a studio that builds these: the features that genuinely earn their place, the ones that quietly do the heavy lifting behind the scenes, and the ones that exist only to fill a row on a pricing page.`,
+      sections: [
+        {
+          heading: 'The features guests actually use',
+          body: `Strip everything back and a guest wants four things, fast, on a phone: when and where it is, what to wear, where to stay, and how to reply. If those are hard to find, no amount of animation saves you.
+
+So the first test of any feature is whether it serves that core. A clear event hub — date, venue, schedule, dress code, travel — is not glamorous, but it is the single most-used part of any wedding website. Build that beautifully before anything else.`,
+          image: {
+            src: '/assets/journal/wedding-guest-hub-event-details.webp',
+            alt: 'A wedding website guest hub on a phone showing event details, timing, venue and travel',
+            caption: 'The least glamorous feature is the most used: a clear hub for date, venue, schedule, and travel.',
+          },
+        },
+        {
+          heading: 'RSVP — the one that saves your sanity',
+          body: `The feature that matters most to <em>you</em> rather than your guests is a proper online RSVP: attendance, named seats, a meal choice per person, dietary notes, all attached to the right guest and counting themselves.
+
+This is non-negotiable above about fifty guests, because the alternative is you becoming the human integration layer between texts, emails, and voicemails to your parents. We wrote the full [wedding RSVP website guide](/journal/wedding-rsvp-website-guide) on exactly what it should collect and how to set the deadline. If a website’s RSVP just emails you each reply without keeping a running count, it is a form, not a feature.`,
+          image: {
+            src: '/assets/journal/wedding-rsvp-tracking-dashboard.webp',
+            alt: 'A wedding RSVP dashboard showing attending, declined and pending counts with meal breakdown',
+            caption: 'A real RSVP feature keeps the count and the meal breakdown for you — not just an inbox of replies.',
+          },
+        },
+        {
+          heading: 'QR check-in and the digital guest book',
+          body: `Two features that used to be luxuries are quietly becoming standard. A QR entrance pass turns arrival into a scan rather than a search through a printed list — and tells you who actually walked in, which is a different number from who said yes. And a [digital guest book](/journal/wedding-qr-codes-digital-guest-book) collects photos, short videos, and voice notes from the people in the room, from angles no photographer could reach.
+
+Both matter because they extend the website past the RSVP into the day itself. Most builders stop at “collect the reply.” The interesting ones keep working through the evening and the morning after.`,
+          image: {
+            src: '/assets/journal/wedding-qr-code-digital-guest-book.webp',
+            alt: 'A wedding QR code card for a digital guest book beside a phone with options to record video or photos',
+            caption: 'QR check-in and a digital guest book extend the site past the reply into the night itself.',
+          },
+        },
+        {
+          heading: 'Privacy — a feature disguised as a setting',
+          body: `Password protection is buried in most feature lists as a checkbox, but in 2026 it is one of the most requested things we build. A private door — a per-guest code or link, a page kept out of search results, no public archive afterward — keeps your names, date, venue, and photographs from being readable by anyone who searches.
+
+Treat it as a feature, not a setting. It signals to guests that the evening belongs to the people in the room, and it is part of [the wider design direction this year](/journal/wedding-website-design-trends-2026).`,
+        },
+        {
+          heading: 'The features that are mostly decoration',
+          body: `Now the honest part. Some heavily-marketed features rarely earn their place: countdown timers (charming for a week, then noise); background music that autoplays with no obvious stop; guest “fun fact” widgets no one fills in; and elaborate photo galleries that slow the page to a crawl on the exact phones your guests are using.
+
+None are evil. But if a feature costs load time or comprehension and adds no real utility, it is working against you. The luxury signal is restraint: fewer features, each doing its job perfectly.`,
+        },
+        {
+          heading: 'See them working, together',
+          body: `A feature list is abstract until you use it. Rather than trust a comparison chart, [walk a live one end to end](/nr/demo): open the invitation as a guest, reply, receive a QR pass, and see the couple’s dashboard from the other side — RSVP, check-in, and guest book in one connected flow.
+
+That connectedness is the real feature. Individually these exist on many builders; together, in one designed experience, they are rare — which is [what separates a bespoke studio from a template](/journal/the-difference-between-a-wedding-website-and-a-wedding-invitation-experience).`,
+        },
+      ],
+      pullQuote: 'Builders list forty features to look generous. Guests use six, and your sanity depends on three. Everything else is padding a comparison chart.',
+      faqs: [
+        {
+          q: 'What features should a wedding website have?',
+          a: 'The essentials guests use: a clear event hub (date, venue, schedule, dress code, travel) and a proper online RSVP with per-guest meal and dietary collection. Increasingly standard: QR check-in, a digital guest book, and password protection. Everything beyond that is optional — judge each feature by whether it adds utility without costing load time or clarity.',
+        },
+        {
+          q: 'Do I need an RSVP feature on my wedding website?',
+          a: 'Above about fifty guests, yes. A real RSVP feature collects attendance, named seats, a meal per person, and dietary needs, and keeps a running count for you. Without it you become the manual integration layer between texts, emails, and voicemails — which is the exact task the website should remove.',
+        },
+        {
+          q: 'Is QR check-in worth it for a wedding?',
+          a: 'For medium and large weddings it is genuinely useful. The same RSVP can issue each guest a QR pass, so arrival is a scan rather than a search through a printed list, and you know in real time who has actually arrived. For a very small, intimate wedding it may be more than you need.',
+        },
+        {
+          q: 'What wedding website features are overrated?',
+          a: 'Countdown timers, autoplaying background music, guest “fun fact” widgets, and heavy photo galleries that slow the page on mobile. None are harmful in themselves, but if they cost load time or comprehension without adding real utility, they work against the guests they are meant to impress.',
+        },
+      ],
+    },
+    'custom-wedding-website-cost': {
+      intro: `The honest answer to “how much does a custom wedding website cost?” is a range, not a number — and the range is enormous, from free to five figures. Anyone who quotes you a single figure without knowing your wedding is guessing.
+
+What you are really choosing between is not cheap versus expensive. It is a template you fill in yourself versus a studio that designs something from scratch. This explains what actually drives the cost at each level, so you can tell which one your wedding needs — without us inventing prices we cannot stand behind.`,
+      sections: [
+        {
+          heading: 'The three levels, honestly',
+          body: `Broadly, there are three tiers. Free builders (the big wedding platforms) cost nothing and give you a template you populate — fine for a straightforward wedding, limited in design and often carrying the platform’s branding and ads. Mid-tier: a website-builder subscription or a freelance designer working in a tool like Squarespace, which buys you more polish and a custom domain for a modest recurring or one-off fee. Premium: a bespoke studio that designs and builds an original experience for your wedding alone.
+
+We will not put figures on those tiers, because real numbers vary widely by region, scope, and provider, and quoting competitor prices we have not verified would be dishonest. If you want current market figures, gather two or three real quotes — that is the only reliable data.`,
+          image: {
+            src: '/assets/journal/bespoke-wedding-invitation-design-process.webp',
+            alt: 'The bespoke wedding website design process, from brief to finished custom experience',
+            caption: 'The real choice is not cheap versus expensive — it is a template you fill in versus a studio that designs from scratch.',
+          },
+        },
+        {
+          heading: 'What actually drives the cost',
+          body: `A custom wedding website’s price is mostly labour and originality, not hosting. The drivers: how much is designed from scratch versus adapted from a template; original photography, motion, or video; the number of connected features (RSVP, QR check-in, guest book, travel hubs) rather than static pages; the amount of bespoke copywriting and art direction; and the level of hands-on service — a concierge process costs more than a self-serve tool because a person is doing the work.
+
+Understanding this is useful even if you never go bespoke: it tells you exactly what you are paying more for, and whether your wedding needs it. A 40-guest registry-office wedding and a 200-guest destination weekend are not the same brief.`,
+        },
+        {
+          heading: 'Is bespoke worth it — and when is it not?',
+          body: `Bespoke is worth it when the guest experience is part of the event — destination weddings with real travel, design-led celebrations, weddings where the invitation itself is meant to feel like an object. It is also worth it when logistics are heavy: a studio-built RSVP and check-in system removes weeks of manual work.
+
+It is <em>not</em> worth it for a small, simple, local wedding where a free template does the job and the money is better spent elsewhere. We would tell you that plainly. If you are weighing the medium itself, our comparison of [digital versus printed invitations](/journal/digital-vs-printed-wedding-invitations) covers where each makes sense — and the broader [2026 design trends](/journal/wedding-website-design-trends-2026) show what the premium tier is actually buying.`,
+        },
+        {
+          heading: 'How Maison RSVP prices',
+          body: `For transparency about our own approach: we work by private commission, and investment is discussed during a discovery call rather than posted on a page. That is not evasion — it is because a bespoke experience is quoted to the specific event, and a number without context would mislead more than it helps.
+
+What we can tell you is what shapes it: scope, guest count, the depth of the guest-experience features, and how much is composed from scratch. You can see the range of what we build across [the collections](/collection) and [the commissions](/work), and if you want a real figure for your wedding, [a short consultation](/contact) is the honest way to get one.`,
+        },
+      ],
+      pullQuote: 'Anyone who quotes a single price for a custom wedding website without knowing your wedding is guessing. The real question is template versus studio — not cheap versus expensive.',
+      faqs: [
+        {
+          q: 'How much does a custom wedding website cost?',
+          a: 'It ranges from free (template builders) to five figures (bespoke studio experiences), because cost is driven by how much is designed from scratch, original photography and motion, the number of connected features, and the level of hands-on service. There is no single figure — for real numbers, gather two or three current quotes for your specific scope.',
+        },
+        {
+          q: 'Why are bespoke wedding websites more expensive than builders?',
+          a: 'Because you are paying for labour and originality, not hosting. A bespoke site is designed and built for your wedding alone — original art direction, copy, motion, and connected features like RSVP, QR check-in, and a guest book — with a hands-on concierge process. A template builder spreads one design across thousands of couples, which is why it can be free.',
+        },
+        {
+          q: 'Is a custom wedding website worth it?',
+          a: 'It is worth it when the guest experience is part of the event — destination weddings, design-led celebrations, or weddings with heavy logistics a built RSVP and check-in system can remove. It is not worth it for a small, simple, local wedding where a free template does the job. Match the level to the wedding.',
+        },
+        {
+          q: 'Does Maison RSVP publish its prices?',
+          a: 'No — we work by private commission and discuss investment during a discovery call. A bespoke experience is quoted to the specific event (scope, guest count, feature depth, and how much is composed from scratch), so a number without that context would mislead rather than help.',
+        },
+      ],
+    },
   };
 
   return bodies[slug] ?? {
